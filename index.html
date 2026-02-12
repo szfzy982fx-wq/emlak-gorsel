@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karacabay Emlak Stüdyosu v3.0</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #eaeff2; padding: 20px; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        
+        /* Sol Panel: Kontroller */
+        .controls { background: white; padding: 20px; border-radius: 12px; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 18px; margin-top: 0; }
+        h3 { font-size: 14px; margin-top: 15px; margin-bottom: 8px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .file-group { margin-bottom: 12px; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px dashed #ccc; }
+        .file-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        input[type="file"] { font-size: 12px; width: 100%; }
+        
+        .slider-group { margin-bottom: 10px; }
+        .slider-group label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; }
+        input[type="range"] { width: 100%; }
+
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.2s; }
+        .btn-download { background: #27ae60; color: white; }
+        .btn-download:hover { background: #219150; }
+        .btn-prompt { background: #3498db; color: white; margin-bottom: 20px; }
+        
+        /* Sağ Panel: Önizleme */
+        .preview { background: #34495e; padding: 20px; border-radius: 12px; display: flex; align-items: center; justify-content: center; min-height: 600px; }
+        canvas { box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 100%; max-height: 80vh; object-fit: contain; }
+
+        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="controls">
+        <h2>🛠️ Stüdyo Paneli</h2>
+
+        <button class="btn btn-prompt" onclick="copyPrompt()">🤖 Önce Metni Hazırla (Kopyala)</button>
+
+        <h3>1. Ana Sahne (Büyük Fon)</h3>
+        <div class="file-group" style="border-color: #3498db; background: #eaf6ff;">
+            <label>Ana Fotoğrafı Seçin:</label>
+            <input type="file" id="mainImg" accept="image/*" onchange="handleImage(this, 'main')">
+        </div>
+
+        <h3>2. Detay Pencereleri (Max 4)</h3>
+        <div class="file-group">
+            <label>Küçük Resim 1:</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'sub1')">
+        </div>
+        <div class="file-group">
+            <label>Küçük Resim 2:</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'sub2')">
+        </div>
+        <div class="file-group">
+            <label>Küçük Resim 3:</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'sub3')">
+        </div>
+        <div class="file-group">
+            <label>Küçük Resim 4:</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'sub4')">
+        </div>
+
+        <h3>3. Markalama</h3>
+        <div class="file-group" style="border-color: #e67e22; background: #fff5ea;">
+            <label>Logonuzu Seçin (PNG):</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'logo')">
+        </div>
+        
+        <div class="slider-group">
+            <label>Logo Boyutu</label>
+            <input type="range" min="5" max="50" value="20" oninput="settings.logoSize=this.value; draw();">
+        </div>
+        <div class="slider-group">
+            <label>Logo Konumu (Yatay)</label>
+            <input type="range" min="0" max="100" value="90" oninput="settings.logoX=this.value; draw();">
+        </div>
+        <div class="slider-group">
+            <label>Logo Konumu (Dikey)</label>
+            <input type="range" min="0" max="100" value="10" oninput="settings.logoY=this.value; draw();">
+        </div>
+
+        <button class="btn btn-download" onclick="downloadCanvas()">💾 Tasarımı İndir</button>
+    </div>
+
+    <div class="preview">
+        <canvas id="canvas"></canvas>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Görselleri hafızada tutacağımız obje
+    const images = {
+        main: null,
+        sub1: null,
+        sub2: null,
+        sub3: null,
+        sub4: null,
+        logo: null
+    };
+
+    // Ayarlar
+    const settings = {
+        logoSize: 20, // Yüzde
+        logoX: 90,
+        logoY: 10,
+        gap: 20 // Küçük resimler arası boşluk (px)
+    };
+
+    // Dosya Yükleme Fonksiyonu
+    function handleImage(input, key) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    images[key] = img;
+                    draw(); // Her resim yüklendiğinde yeniden çiz
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Ana Çizim Fonksiyonu (Logic Engine)
+    function draw() {
+        // Eğer ana resim yoksa çizme
+        if (!images.main) {
+            canvas.width = 800; canvas.height = 600;
+            ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0,0,800,600);
+            ctx.fillStyle = "#7f8c8d"; ctx.font = "30px Arial"; ctx.textAlign = "center";
+            ctx.fillText("Lütfen önce ANA RESİM yükleyin", 400, 300);
+            return;
+        }
+
+        // 1. Canvas boyutunu ana resme göre ayarla
+        canvas.width = images.main.width;
+        canvas.height = images.main.height;
+
+        // 2. Ana Resmi Çiz
+        ctx.drawImage(images.main, 0, 0);
+
+        // 3. Alt Resimler (Varsa)
+        // Hangi alt resimler dolu kontrol et
+        const activeSubs = [images.sub1, images.sub2, images.sub3, images.sub4].filter(img => img !== null);
+        
+        if (activeSubs.length > 0) {
+            // Alt şerit yüksekliği (Resmin %25'i kadar)
+            const stripHeight = canvas.height * 0.25;
+            const startY = canvas.height - stripHeight - (canvas.height * 0.02); // En alttan biraz boşluk
+            
+            // Her bir küçük resmin genişliği
+            const totalGap = (activeSubs.length + 1) * settings.gap; // Toplam boşluk payı
+            const singleWidth = (canvas.width - totalGap) / activeSubs.length;
+
+            // Arka plana yarı saydam siyah şerit at (Okunurluk için)
+            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillRect(0, startY - 20, canvas.width, stripHeight + 40);
+
+            // Küçük resimleri döngüyle çiz
+            activeSubs.forEach((subImg, index) => {
+                const x = settings.gap + (index * (singleWidth + settings.gap));
+                const y = startY;
+                
+                // Beyaz Çerçeve
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(x - 5, y - 5, singleWidth + 10, stripHeight + 10);
+
+                // Resmi Kırparak Çiz (Aspect Ratio Koru)
+                drawImageProp(ctx, subImg, x, y, singleWidth, stripHeight);
+            });
+        }
+
+        // 4. Logo Çizimi
+        if (images.logo) {
+            const logoW = (canvas.width * (settings.logoSize / 100));
+            const logoH = logoW * (images.logo.height / images.logo.width);
+            
+            // Konum hesapla (merkez noktasına göre değil, sol üst köşeye göre)
+            const posX = (canvas.width - logoW) * (settings.logoX / 100);
+            const posY = (canvas.height - logoH) * (settings.logoY / 100);
+
+            // Gölge ekle (Logo daha net görünsün)
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = 10;
+            ctx.drawImage(images.logo, posX, posY, logoW, logoH);
+            ctx.shadowBlur = 0; // Gölgeyi sıfırla
+        }
+    }
+
+    // Resmi orantılı sığdırma (Cover mantığı)
+    function drawImageProp(ctx, img, x, y, w, h) {
+        // Varsayılan resim oranları
+        const offsetX = 0.5;
+        const offsetY = 0.5;
+
+        const iw = img.width, ih = img.height;
+        const r = Math.min(w / iw, h / ih);
+        let nw = iw * r, nh = ih * r;
+        let cx, cy, cw, ch, ar = 1;
+
+        // Resmi kutuya "cover" (dolduracak) şekilde ayarla
+        if (nw < w) ar = w / nw;
+        if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;
+        nw *= ar;
+        nh *= ar;
+
+        cw = iw / (nw / w);
+        ch = ih / (nh / h);
+        cx = (iw - cw) * offsetX;
+        cy = (ih - ch) * offsetY;
+
+        if (cx < 0) cx = 0;
+        if (cy < 0) cy = 0;
+        if (cw > iw) cw = iw;
+        if (ch > ih) ch = ih;
+
+        ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
+    }
+
+    function downloadCanvas() {
+        if (!images.main) { alert("Lütfen en az bir ana resim yükleyin."); return; }
+        const link = document.createElement('a');
+        link.download = 'karacabay-emlak-kolaj.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.9); // Yüksek kalite JPG
+        link.click();
+    }
+
+    function copyPrompt() {
+        const text = "Gayrimenkul uzmanı olarak davran. Elimde harika bir mülk var. Bunun için 1 adet 'Ana Manşet' görseli ve 4 adet 'Detay' görselinden oluşan bir kolaj hazırladım. Buna uygun; 1. Dikkat çekici bir Instagram başlığı, 2. Her detay fotoğrafı için (Mutfak, Banyo, Manzara vb.) 1'er cümlelik açıklama, 3. Eylem çağrısı (DM/Ara) içeren bir metin yaz.";
+        navigator.clipboard.writeText(text).then(() => alert("Metin şablonu kopyalandı! Şimdi Gemini'ye yapıştırabilirsin."));
+    }
+</script>
+
+</body>
+</html>
