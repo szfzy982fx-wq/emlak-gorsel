@@ -3,92 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu v3.0</title>
+    <title>Karacabay Emlak Stüdyosu v5.0 (Pro Editör)</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #eaeff2; padding: 20px; color: #333; }
-        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; padding: 0; margin: 0; color: #333; height: 100vh; overflow: hidden; }
+        .main-wrapper { display: grid; grid-template-columns: 400px 1fr; height: 100vh; }
         
-        /* Sol Panel: Kontroller */
-        .controls { background: white; padding: 20px; border-radius: 12px; height: fit-content; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        /* SOL PANEL */
+        .controls { background: white; padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; box-sizing: border-box; }
+        
         h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 18px; margin-top: 0; }
-        h3 { font-size: 14px; margin-top: 15px; margin-bottom: 8px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .file-group { margin-bottom: 12px; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px dashed #ccc; }
-        .file-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
-        input[type="file"] { font-size: 12px; width: 100%; }
-        
-        .slider-group { margin-bottom: 10px; }
-        .slider-group label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; }
-        input[type="range"] { width: 100%; }
+        .section-title { font-size: 12px; font-weight: 800; color: #95a5a6; text-transform: uppercase; margin: 20px 0 10px 0; letter-spacing: 1px; }
 
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.2s; }
-        .btn-download { background: #27ae60; color: white; }
-        .btn-download:hover { background: #219150; }
-        .btn-prompt { background: #3498db; color: white; margin-bottom: 20px; }
-        
-        /* Sağ Panel: Önizleme */
-        .preview { background: #34495e; padding: 20px; border-radius: 12px; display: flex; align-items: center; justify-content: center; min-height: 600px; }
-        canvas { box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 100%; max-height: 80vh; object-fit: contain; }
+        /* Dosya Yükleme */
+        .file-group { margin-bottom: 8px; background: #f8f9fa; padding: 8px; border-radius: 6px; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: space-between; }
+        input[type="file"] { font-size: 11px; width: 200px; }
 
-        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+        /* YENİ METİN EKLEME ALANI */
+        .text-creator { background: #fff8e1; padding: 15px; border-radius: 8px; border: 1px solid #f1c40f; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        
+        input[type="text"], select, input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
+        .color-input { width: 100%; height: 35px; border: none; padding: 0; cursor: pointer; }
+        
+        .btn-add { background: #f39c12; color: white; border: none; padding: 10px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-add:hover { background: #d35400; }
+
+        /* EKLENEN KATMANLAR */
+        #layer-list { margin-top: 15px; }
+        .layer-item { background: #fff; border: 1px solid #e0e0e0; padding: 10px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid #3498db; }
+        .layer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        .btn-delete { background: #e74c3c; color: white; border: none; padding: 2px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; }
+        
+        .layer-controls label { font-size: 10px; color: #7f8c8d; display: block; margin-top: 5px; }
+        input[type="range"] { width: 100%; cursor: pointer; }
+
+        /* İndirme Butonu */
+        .btn-download { background: #27ae60; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 30px; margin-bottom: 50px; }
+
+        /* SAĞ PANEL: ÖNİZLEME */
+        .preview-area { background: #34495e; display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden; }
+        canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 90vh; object-fit: contain; background: white; }
+
+        @media (max-width: 900px) { .main-wrapper { grid-template-columns: 1fr; overflow-y: auto; } }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="main-wrapper">
     
     <div class="controls">
-        <h2>🛠️ Stüdyo Paneli</h2>
+        <h2>✨ Emlak Stüdyosu v5.0</h2>
 
-        <button class="btn btn-prompt" onclick="copyPrompt()">🤖 Önce Metni Hazırla (Kopyala)</button>
+        <div class="section-title">1. Ana Görseller</div>
+        <div class="file-group" style="background: #eaf6ff; border-color: #3498db;">
+            <label style="font-size:12px; font-weight:bold;">ANA RESİM:</label>
+            <input type="file" accept="image/*" onchange="handleImage(this, 'main')">
+        </div>
+        <div class="file-group"><label>Detay 1:</label><input type="file" accept="image/*" onchange="handleImage(this, 'sub1')"></div>
+        <div class="file-group"><label>Detay 2:</label><input type="file" accept="image/*" onchange="handleImage(this, 'sub2')"></div>
+        <div class="file-group"><label>Detay 3:</label><input type="file" accept="image/*" onchange="handleImage(this, 'sub3')"></div>
+        <div class="file-group"><label>Detay 4:</label><input type="file" accept="image/*" onchange="handleImage(this, 'sub4')"></div>
 
-        <h3>1. Ana Sahne (Büyük Fon)</h3>
-        <div class="file-group" style="border-color: #3498db; background: #eaf6ff;">
-            <label>Ana Fotoğrafı Seçin:</label>
-            <input type="file" id="mainImg" accept="image/*" onchange="handleImage(this, 'main')">
+        <div class="section-title">2. Metin Editörü (Sınırsız)</div>
+        <div class="text-creator">
+            <input type="text" id="newText" placeholder="Metni buraya yazın (Örn: SATILIK)">
+            
+            <div class="input-row" style="margin-top:10px;">
+                <select id="newFont">
+                    <option value="Arial">Arial (Standart)</option>
+                    <option value="Impact">Impact (Kalın)</option>
+                    <option value="Georgia">Georgia (Serif)</option>
+                    <option value="Verdana">Verdana (Modern)</option>
+                    <option value="Courier New">Courier (Daktilo)</option>
+                </select>
+                <input type="number" id="newSize" value="60" placeholder="Boyut">
+            </div>
+            
+            <div class="input-row">
+                <input type="color" id="newColor" class="color-input" value="#ffffff" title="Yazı Rengi">
+                <button class="btn-add" onclick="addTextLayer()">➕ Metni Ekle</button>
+            </div>
         </div>
 
-        <h3>2. Detay Pencereleri (Max 4)</h3>
-        <div class="file-group">
-            <label>Küçük Resim 1:</label>
-            <input type="file" accept="image/*" onchange="handleImage(this, 'sub1')">
-        </div>
-        <div class="file-group">
-            <label>Küçük Resim 2:</label>
-            <input type="file" accept="image/*" onchange="handleImage(this, 'sub2')">
-        </div>
-        <div class="file-group">
-            <label>Küçük Resim 3:</label>
-            <input type="file" accept="image/*" onchange="handleImage(this, 'sub3')">
-        </div>
-        <div class="file-group">
-            <label>Küçük Resim 4:</label>
-            <input type="file" accept="image/*" onchange="handleImage(this, 'sub4')">
-        </div>
+        <div id="layer-list">
+            </div>
 
-        <h3>3. Markalama</h3>
-        <div class="file-group" style="border-color: #e67e22; background: #fff5ea;">
-            <label>Logonuzu Seçin (PNG):</label>
+        <div class="section-title">3. Logo</div>
+        <div class="file-group">
             <input type="file" accept="image/*" onchange="handleImage(this, 'logo')">
         </div>
-        
-        <div class="slider-group">
-            <label>Logo Boyutu</label>
-            <input type="range" min="5" max="50" value="20" oninput="settings.logoSize=this.value; draw();">
-        </div>
-        <div class="slider-group">
-            <label>Logo Konumu (Yatay)</label>
-            <input type="range" min="0" max="100" value="90" oninput="settings.logoX=this.value; draw();">
-        </div>
-        <div class="slider-group">
-            <label>Logo Konumu (Dikey)</label>
-            <input type="range" min="0" max="100" value="10" oninput="settings.logoY=this.value; draw();">
-        </div>
 
-        <button class="btn btn-download" onclick="downloadCanvas()">💾 Tasarımı İndir</button>
+        <button class="btn-download" onclick="downloadCanvas()">💾 Görseli İndir (JPG)</button>
     </div>
 
-    <div class="preview">
+    <div class="preview-area">
         <canvas id="canvas"></canvas>
     </div>
 </div>
@@ -97,147 +105,191 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    // Görselleri hafızada tutacağımız obje
-    const images = {
-        main: null,
-        sub1: null,
-        sub2: null,
-        sub3: null,
-        sub4: null,
-        logo: null
+    // Durum Yönetimi
+    const state = {
+        images: { main: null, sub1: null, sub2: null, sub3: null, sub4: null, logo: null },
+        texts: [] // Eklenen metinleri tutacak dizi
     };
 
-    // Ayarlar
-    const settings = {
-        logoSize: 20, // Yüzde
-        logoX: 90,
-        logoY: 10,
-        gap: 20 // Küçük resimler arası boşluk (px)
+    // İlk Yükleme
+    window.onload = function() {
+        canvas.width = 1080; canvas.height = 1080; // Varsayılan Kare
+        draw();
     };
 
-    // Dosya Yükleme Fonksiyonu
+    // Resim Yükleme
     function handleImage(input, key) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
-                img.onload = function() {
-                    images[key] = img;
-                    draw(); // Her resim yüklendiğinde yeniden çiz
-                };
+                img.onload = function() { state.images[key] = img; draw(); };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // Ana Çizim Fonksiyonu (Logic Engine)
+    // YENİ: Metin Ekleme Fonksiyonu
+    function addTextLayer() {
+        const content = document.getElementById('newText').value;
+        const font = document.getElementById('newFont').value;
+        const size = document.getElementById('newSize').value;
+        const color = document.getElementById('newColor').value;
+
+        if (!content) { alert("Lütfen bir metin yazın!"); return; }
+
+        // Yeni metin objesi oluştur
+        const newLayer = {
+            id: Date.now(), // Benzersiz ID
+            text: content,
+            font: font,
+            size: parseInt(size),
+            color: color,
+            x: 50, // Varsayılan Konum % (Orta)
+            y: 50  // Varsayılan Konum % (Orta)
+        };
+
+        state.texts.push(newLayer);
+        renderLayerControls(); // Sol panele kontrol ekle
+        draw(); // Canvas'ı yenile
+        
+        // Giriş kutusunu temizle
+        document.getElementById('newText').value = "";
+    }
+
+    // Katman Kontrollerini Oluştur (Sol Panel)
+    function renderLayerControls() {
+        const list = document.getElementById('layer-list');
+        list.innerHTML = ""; // Temizle ve baştan yap
+
+        state.texts.forEach((layer, index) => {
+            const item = document.createElement('div');
+            item.className = 'layer-item';
+            item.innerHTML = `
+                <div class="layer-header">
+                    <span style="color:${layer.color}">${layer.text}</span>
+                    <button class="btn-delete" onclick="deleteLayer(${index})">Sil</button>
+                </div>
+                <div class="layer-controls">
+                    <label>Yatay Konum</label>
+                    <input type="range" min="0" max="100" value="${layer.x}" oninput="updateLayer(${index}, 'x', this.value)">
+                    <label>Dikey Konum</label>
+                    <input type="range" min="0" max="100" value="${layer.y}" oninput="updateLayer(${index}, 'y', this.value)">
+                </div>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    // Katman Güncelleme
+    function updateLayer(index, prop, value) {
+        state.texts[index][prop] = parseInt(value);
+        draw();
+    }
+
+    // Katman Silme
+    function deleteLayer(index) {
+        state.texts.splice(index, 1);
+        renderLayerControls();
+        draw();
+    }
+
+    // Çizim Motoru
     function draw() {
-        // Eğer ana resim yoksa çizme
-        if (!images.main) {
-            canvas.width = 800; canvas.height = 600;
-            ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0,0,800,600);
-            ctx.fillStyle = "#7f8c8d"; ctx.font = "30px Arial"; ctx.textAlign = "center";
-            ctx.fillText("Lütfen önce ANA RESİM yükleyin", 400, 300);
-            return;
+        // 1. Arkaplan
+        ctx.fillStyle = "#ecf0f1";
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        // 2. Ana Resim
+        if (state.images.main) {
+            drawImageProp(ctx, state.images.main, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = "#bdc3c7"; ctx.font = "40px Arial"; ctx.textAlign = "center";
+            ctx.fillText("Ana Resim Yükleyin", canvas.width/2, canvas.height/2);
         }
 
-        // 1. Canvas boyutunu ana resme göre ayarla
-        canvas.width = images.main.width;
-        canvas.height = images.main.height;
-
-        // 2. Ana Resmi Çiz
-        ctx.drawImage(images.main, 0, 0);
-
-        // 3. Alt Resimler (Varsa)
-        // Hangi alt resimler dolu kontrol et
-        const activeSubs = [images.sub1, images.sub2, images.sub3, images.sub4].filter(img => img !== null);
-        
+        // 3. Alt Resimler (Şerit)
+        const activeSubs = [state.images.sub1, state.images.sub2, state.images.sub3, state.images.sub4].filter(i => i);
         if (activeSubs.length > 0) {
-            // Alt şerit yüksekliği (Resmin %25'i kadar)
-            const stripHeight = canvas.height * 0.25;
-            const startY = canvas.height - stripHeight - (canvas.height * 0.02); // En alttan biraz boşluk
+            const stripH = canvas.height * 0.25;
+            const startY = canvas.height - stripH - 20;
             
-            // Her bir küçük resmin genişliği
-            const totalGap = (activeSubs.length + 1) * settings.gap; // Toplam boşluk payı
-            const singleWidth = (canvas.width - totalGap) / activeSubs.length;
-
-            // Arka plana yarı saydam siyah şerit at (Okunurluk için)
-            ctx.fillStyle = "rgba(0,0,0,0.5)";
-            ctx.fillRect(0, startY - 20, canvas.width, stripHeight + 40);
-
-            // Küçük resimleri döngüyle çiz
-            activeSubs.forEach((subImg, index) => {
-                const x = settings.gap + (index * (singleWidth + settings.gap));
-                const y = startY;
-                
-                // Beyaz Çerçeve
-                ctx.fillStyle = "#ffffff";
-                ctx.fillRect(x - 5, y - 5, singleWidth + 10, stripHeight + 10);
-
-                // Resmi Kırparak Çiz (Aspect Ratio Koru)
-                drawImageProp(ctx, subImg, x, y, singleWidth, stripHeight);
+            // Şerit Arkaplanı
+            ctx.fillStyle = "rgba(0,0,0,0.6)";
+            ctx.fillRect(0, startY - 20, canvas.width, stripH + 40);
+            
+            const gap = 20;
+            const cellW = (canvas.width - ((activeSubs.length+1)*gap)) / activeSubs.length;
+            
+            activeSubs.forEach((img, i) => {
+                const x = gap + (i * (cellW + gap));
+                drawImageProp(ctx, img, x, startY, cellW, stripH);
+                // Çerçeve
+                ctx.strokeStyle = "#fff"; ctx.lineWidth = 4;
+                ctx.strokeRect(x, startY, cellW, stripH);
             });
         }
 
-        // 4. Logo Çizimi
-        if (images.logo) {
-            const logoW = (canvas.width * (settings.logoSize / 100));
-            const logoH = logoW * (images.logo.height / images.logo.width);
-            
-            // Konum hesapla (merkez noktasına göre değil, sol üst köşeye göre)
-            const posX = (canvas.width - logoW) * (settings.logoX / 100);
-            const posY = (canvas.height - logoH) * (settings.logoY / 100);
-
-            // Gölge ekle (Logo daha net görünsün)
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 10;
-            ctx.drawImage(images.logo, posX, posY, logoW, logoH);
-            ctx.shadowBlur = 0; // Gölgeyi sıfırla
+        // 4. Logo
+        if (state.images.logo) {
+            const logoW = canvas.width * 0.2;
+            const logoH = logoW * (state.images.logo.height / state.images.logo.width);
+            ctx.drawImage(state.images.logo, canvas.width - logoW - 20, 20, logoW, logoH);
         }
+
+        // 5. METİN KATMANLARI (Loop)
+        state.texts.forEach(t => {
+            const x = canvas.width * (t.x / 100);
+            const y = canvas.height * (t.y / 100);
+
+            ctx.save();
+            ctx.font = `bold ${t.size}px ${t.font}`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            // Gölge Efekti (Okunurluk için)
+            ctx.shadowColor = "rgba(0,0,0,0.8)";
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 3;
+            ctx.shadowOffsetY = 3;
+
+            // Yazıyı Çiz
+            ctx.fillStyle = t.color;
+            ctx.fillText(t.text, x, y);
+
+            // Opsiyonel: Kontür (Stroke)
+            ctx.shadowBlur = 0; // Kontürde gölge istemiyoruz
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgba(0,0,0,0.3)";
+            ctx.strokeText(t.text, x, y);
+
+            ctx.restore();
+        });
     }
 
-    // Resmi orantılı sığdırma (Cover mantığı)
+    // Yardımcı Fonksiyon: Resmi Orantılı Sığdır
     function drawImageProp(ctx, img, x, y, w, h) {
-        // Varsayılan resim oranları
-        const offsetX = 0.5;
-        const offsetY = 0.5;
-
+        const offsetX = 0.5, offsetY = 0.5;
         const iw = img.width, ih = img.height;
         const r = Math.min(w / iw, h / ih);
         let nw = iw * r, nh = ih * r;
         let cx, cy, cw, ch, ar = 1;
-
-        // Resmi kutuya "cover" (dolduracak) şekilde ayarla
         if (nw < w) ar = w / nw;
         if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;
-        nw *= ar;
-        nh *= ar;
-
-        cw = iw / (nw / w);
-        ch = ih / (nh / h);
-        cx = (iw - cw) * offsetX;
-        cy = (ih - ch) * offsetY;
-
-        if (cx < 0) cx = 0;
-        if (cy < 0) cy = 0;
-        if (cw > iw) cw = iw;
-        if (ch > ih) ch = ih;
-
+        nw *= ar; nh *= ar;
+        cw = iw / (nw / w); ch = ih / (nh / h);
+        cx = (iw - cw) * offsetX; cy = (ih - ch) * offsetY;
+        if (cx < 0) cx = 0; if (cy < 0) cy = 0;
+        if (cw > iw) cw = iw; if (ch > ih) ch = ih;
         ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
     }
 
     function downloadCanvas() {
-        if (!images.main) { alert("Lütfen en az bir ana resim yükleyin."); return; }
         const link = document.createElement('a');
-        link.download = 'karacabay-emlak-kolaj.jpg';
-        link.href = canvas.toDataURL('image/jpeg', 0.9); // Yüksek kalite JPG
+        link.download = 'karacabay-emlak-post.jpg';
+        link.href = canvas.toDataURL('image/jpeg', 0.9);
         link.click();
-    }
-
-    function copyPrompt() {
-        const text = "Gayrimenkul uzmanı olarak davran. Elimde harika bir mülk var. Bunun için 1 adet 'Ana Manşet' görseli ve 4 adet 'Detay' görselinden oluşan bir kolaj hazırladım. Buna uygun; 1. Dikkat çekici bir Instagram başlığı, 2. Her detay fotoğrafı için (Mutfak, Banyo, Manzara vb.) 1'er cümlelik açıklama, 3. Eylem çağrısı (DM/Ara) içeren bir metin yaz.";
-        navigator.clipboard.writeText(text).then(() => alert("Metin şablonu kopyalandı! Şimdi Gemini'ye yapıştırabilirsin."));
     }
 </script>
 
