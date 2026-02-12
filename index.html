@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V9 (Ultra)</title>
+    <title>Karacabay Emlak Stüdyosu V10 (Final)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -22,15 +22,21 @@
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
         .btn-toggle.disabled { opacity: 0.5; pointer-events: none; }
 
-        /* GÖRSEL SEÇİM LİSTESİ (YENİ SİSTEM) */
+        /* GÖRSEL LİSTESİ & SİLME BUTONU */
         .img-selector-list { display: flex; flex-direction: column; gap: 4px; }
-        .img-item { display: flex; align-items: center; justify-content: space-between; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
         .img-item:hover { background: #f9f9f9; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
-        .img-item label { font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; }
-        .img-item input { width: 170px; font-size: 9px; }
+        
+        .img-label-area { flex: 1; overflow: hidden; }
+        .img-label-area label { font-size: 11px; font-weight: bold; cursor: pointer; display: block; }
+        .img-label-area input { font-size: 9px; width: 100%; margin-top: 2px; }
 
-        /* TEK MERKEZLİ KUMANDA (MASTER CONTROL) */
+        /* Silme Butonu */
+        .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
+        .btn-remove-img:hover { background: #e74c3c; color: white; }
+
+        /* TEK MERKEZLİ KUMANDA */
         .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .master-header { font-size: 10px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -41,26 +47,26 @@
         .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
         .input-text { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 5px; font-size: 13px; font-family: inherit; }
         .btn-emoji-open { width: 100%; background: #fff; border: 1px dashed #ccc; padding: 5px; margin-bottom: 5px; cursor: pointer; font-size: 11px; border-radius: 4px; }
-        .btn-emoji-open:hover { background: #fafafa; border-color: #aaa; }
         
         .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
         .btn-action.update { background: #27ae60; }
 
-        /* EMOJI POPUP (MODAL) */
+        /* EMOJI MODAL */
         .emoji-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; background: white; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999; border: 1px solid #ddd; }
-        .emoji-header { background: #f8f9fa; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; border-radius: 8px 8px 0 0; }
+        .emoji-header { background: #f8f9fa; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; }
         .emoji-body { padding: 10px; max-height: 300px; overflow-y: auto; }
         .emoji-category { font-size: 10px; color: #888; margin-top: 8px; margin-bottom: 4px; font-weight: bold; border-bottom: 1px solid #eee; }
         .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
         .emoji-btn { font-size: 18px; cursor: pointer; background: none; border: 1px solid transparent; padding: 4px; border-radius: 4px; }
-        .emoji-btn:hover { background: #eee; border-color: #ddd; }
+        .emoji-btn:hover { background: #eee; }
         .close-modal { cursor: pointer; font-size: 14px; color: #e74c3c; }
 
         /* KATMAN LİSTESİ */
         .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
         .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
-        
+        .del-btn { background: #e74c3c; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; margin-left: 5px; }
+
         /* FOOTER */
         .footer-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; }
         .footer-input { width: 100%; padding: 4px; margin-top: 4px; border: none; border-radius: 3px; box-sizing: border-box; }
@@ -76,7 +82,7 @@
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>🚀 Emlak Stüdyosu V9</h2>
+        <h2>💎 Emlak Stüdyosu V10</h2>
 
         <div class="group-title">1. Format & Düzen</div>
         <div class="btn-group">
@@ -88,58 +94,60 @@
             <div class="btn-toggle" id="btn-side" onclick="setLayout('side')">Yan Şerit</div>
         </div>
 
-        <div class="group-title">2. Görselleri Seç & Yükle</div>
-        <div class="img-selector-list">
-            <div class="img-item active" onclick="selectActiveImg('main')" id="item-main">
-                <label>⭐ Ana Vitrin</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'main')">
+        <div class="group-title">2. Görseller & Kadraj</div>
+        
+        <div class="master-controls">
+            <div class="master-header">
+                <span id="activeImgLabel">Seçili: ANA VİTRİN</span>
+                <span>Konum Ayarı</span>
             </div>
-            <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
-                <label>1. Detay</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'sub1')">
+            <div class="control-row">
+                <span>↔</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)">
             </div>
-            <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
-                <label>2. Detay</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'sub2')">
-            </div>
-            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
-                <label>3. Detay</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'sub3')">
-            </div>
-            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
-                <label>4. Detay</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'sub4')">
+            <div class="control-row">
+                <span>↕</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)">
             </div>
         </div>
 
-        <div class="master-controls">
-            <div class="master-header">
-                <span id="activeImgLabel">Seçili Resim: ANA VİTRİN</span>
-                <span>Kadraj Ayarı</span>
+        <div class="img-selector-list" style="margin-top:10px;">
+            <div class="img-item active" onclick="selectActiveImg('main')" id="item-main">
+                <div class="img-label-area">
+                    <label>⭐ Ana Vitrin</label>
+                    <input type="file" id="file-main" accept="image/*" onchange="loadImg(this, 'main')">
+                </div>
             </div>
-            <div class="control-row">
-                <span>↔</span>
-                <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)">
+
+            <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
+                <div class="img-label-area"><label>1. Detay</label><input type="file" id="file-sub1" accept="image/*" onchange="loadImg(this, 'sub1')"></div>
+                <button class="btn-remove-img" onclick="removeImg('sub1', event)" title="Resmi Kaldır">🗑️</button>
             </div>
-            <div class="control-row">
-                <span>↕</span>
-                <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)">
+            <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
+                <div class="img-label-area"><label>2. Detay</label><input type="file" id="file-sub2" accept="image/*" onchange="loadImg(this, 'sub2')"></div>
+                <button class="btn-remove-img" onclick="removeImg('sub2', event)" title="Resmi Kaldır">🗑️</button>
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
+                <div class="img-label-area"><label>3. Detay</label><input type="file" id="file-sub3" accept="image/*" onchange="loadImg(this, 'sub3')"></div>
+                <button class="btn-remove-img" onclick="removeImg('sub3', event)" title="Resmi Kaldır">🗑️</button>
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
+                <div class="img-label-area"><label>4. Detay</label><input type="file" id="file-sub4" accept="image/*" onchange="loadImg(this, 'sub4')"></div>
+                <button class="btn-remove-img" onclick="removeImg('sub4', event)" title="Resmi Kaldır">🗑️</button>
             </div>
         </div>
 
         <div class="group-title">3. Metin & Emoji</div>
         <div class="text-box">
-            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Emojileri Göster / Gizle</button>
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Emojileri Aç</button>
             <input type="text" id="tTxt" class="input-text" placeholder="Metin yazın...">
             
             <div style="display:flex; gap:5px; margin-bottom:5px;">
                 <select id="tFont" style="flex:1; font-size:11px;">
-                    <option value="Arial">Arial (Standart)</option>
-                    <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
-                    <option value="'Poppins', sans-serif">Poppins (Yuvarlak)</option>
-                    <option value="'Playfair Display', serif">Playfair (Lüks/Serif)</option>
-                    <option value="'Bebas Neue', sans-serif">Bebas (Uzun/Başlık)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Teknik)</option>
+                    <option value="Arial">Arial</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                    <option value="'Playfair Display', serif">Playfair (Lüks)</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas (Başlık)</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
                 </select>
                 <input type="number" id="tSize" value="60" style="width:40px">
                 <input type="color" id="tColor" value="#ffffff" style="width:30px; border:none;">
@@ -162,15 +170,21 @@
         <div class="group-title">4. Footer</div>
         <div class="footer-settings">
             <label><input type="checkbox" id="showFooter" onchange="draw()"> Alt Şerit Aç</label>
-            <input type="text" id="footerTel" class="footer-input" placeholder="Tel: 05XX..." oninput="draw()">
-            <input type="text" id="footerWeb" class="footer-input" placeholder="Web:..." oninput="draw()">
+            <input type="text" id="footerTel" class="footer-input" placeholder="Tel..." oninput="draw()">
+            <input type="text" id="footerWeb" class="footer-input" placeholder="Web..." oninput="draw()">
             <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px; margin-top:5px; border:none;" oninput="draw()">
         </div>
 
         <div class="group-title">5. Logo</div>
         <div class="img-item" onclick="selectActiveImg('logo')" id="item-logo">
-            <label>Logo Dosyası</label>
-            <input type="file" accept="image/*" onchange="loadImg(this, 'logo')">
+            <div class="img-label-area">
+                <label>Logo Dosyası</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'logo')">
+            </div>
+        </div>
+        <div class="control-row" style="background:#fff; padding:5px; border:1px solid #eee; margin-top:5px; border-radius:4px;">
+            <span style="width:auto; font-size:10px; font-weight:bold; margin-right:5px;">Logo Boyut:</span>
+            <input type="range" min="5" max="50" value="20" oninput="state.imgs.logo.size=this.value; draw();">
         </div>
 
         <button class="btn-download" onclick="download()">💾 İNDİR</button>
@@ -197,8 +211,7 @@
             <button class="emoji-btn" onclick="ins('🔑')">🔑</button>
             <button class="emoji-btn" onclick="ins('🚪')">🚪</button>
         </div>
-        
-        <div class="emoji-category">ÖZELLİKLER & LÜKS</div>
+        <div class="emoji-category">LÜKS & DOĞA</div>
         <div class="emoji-grid">
             <button class="emoji-btn" onclick="ins('🏊')">🏊</button>
             <button class="emoji-btn" onclick="ins('🌴')">🌴</button>
@@ -207,17 +220,13 @@
             <button class="emoji-btn" onclick="ins('🔥')">🔥</button>
             <button class="emoji-btn" onclick="ins('💎')">💎</button>
             <button class="emoji-btn" onclick="ins('🚗')">🚗</button>
-            <button class="emoji-btn" onclick="ins('🛡️')">🛡️</button>
         </div>
-
-        <div class="emoji-category">İLETİŞİM & DİKKAT</div>
+        <div class="emoji-category">İLETİŞİM</div>
         <div class="emoji-grid">
             <button class="emoji-btn" onclick="ins('📞')">📞</button>
-            <button class="emoji-btn" onclick="ins('📱')">📱</button>
             <button class="emoji-btn" onclick="ins('📍')">📍</button>
             <button class="emoji-btn" onclick="ins('📣')">📣</button>
             <button class="emoji-btn" onclick="ins('🚀')">🚀</button>
-            <button class="emoji-btn" onclick="ins('✨')">✨</button>
             <button class="emoji-btn" onclick="ins('✅')">✅</button>
             <button class="emoji-btn" onclick="ins('🔴')">🔴</button>
         </div>
@@ -231,12 +240,12 @@
     // STATE
     const state = {
         format: 'post', layout: 'bottom',
-        activeImgKey: 'main', // Şu an hangi resim kumanda ediliyor?
+        activeImgKey: 'main', 
         imgs: { 
             main: {obj:null, x:50, y:50}, 
             sub1: {obj:null, x:50, y:50}, sub2: {obj:null, x:50, y:50}, 
             sub3: {obj:null, x:50, y:50}, sub4: {obj:null, x:50, y:50}, 
-            logo: {obj:null, x:90, y:5, size:20} // Logo için özel yapı
+            logo: {obj:null, x:90, y:5, size:20} 
         },
         texts: [],
         editingId: null
@@ -249,7 +258,6 @@
         state.format = f;
         document.querySelectorAll('#btn-post, #btn-story').forEach(b => b.classList.remove('active'));
         document.getElementById('btn-' + f).classList.add('active');
-        
         const sideBtn = document.getElementById('btn-side');
         if(f === 'story') { setLayout('bottom'); sideBtn.classList.add('disabled'); }
         else { sideBtn.classList.remove('disabled'); }
@@ -262,29 +270,17 @@
         draw();
     }
 
-    // 2. RESİM SEÇİMİ VE YÜKLEME
+    // 2. RESİM YÖNETİMİ
     function selectActiveImg(key) {
         state.activeImgKey = key;
-        
-        // UI Güncelle (Hangi satır seçili?)
         document.querySelectorAll('.img-item').forEach(el => el.classList.remove('active'));
         document.getElementById('item-' + key).classList.add('active');
 
-        // Master Kumanda Başlığını Güncelle
-        let label = "Bilinmiyor";
-        if(key === 'main') label = "ANA VİTRİN";
-        else if(key === 'logo') label = "LOGO";
-        else label = key.toUpperCase().replace('SUB', 'DETAY ');
-        document.getElementById('activeImgLabel').innerText = "Seçili Resim: " + label;
+        let label = key === 'main' ? "ANA VİTRİN" : (key === 'logo' ? "LOGO" : key.toUpperCase().replace('SUB', 'DETAY '));
+        document.getElementById('activeImgLabel').innerText = "Seçili: " + label;
 
-        // Sliderları o resmin mevcut konumuna getir
-        if(key === 'logo') {
-            document.getElementById('masterX').value = state.imgs.logo.x;
-            document.getElementById('masterY').value = state.imgs.logo.y;
-        } else {
-            document.getElementById('masterX').value = state.imgs[key].x;
-            document.getElementById('masterY').value = state.imgs[key].y;
-        }
+        document.getElementById('masterX').value = state.imgs[key].x;
+        document.getElementById('masterY').value = state.imgs[key].y;
     }
 
     function loadImg(input, key) {
@@ -294,7 +290,6 @@
                 const i = new Image();
                 i.onload = () => {
                     state.imgs[key].obj = i;
-                    // Yüklenen resmi otomatik seç
                     selectActiveImg(key);
                     draw();
                 };
@@ -304,10 +299,16 @@
         }
     }
 
-    // MASTER SLIDER (TEK KUMANDA)
+    // YENİ: RESİM SİLME FONKSİYONU
+    function removeImg(key, event) {
+        event.stopPropagation(); // Seçim tetiklemesini engelle
+        state.imgs[key].obj = null; // Hafızadan sil
+        document.getElementById('file-' + key).value = ""; // Inputu temizle
+        draw(); // Yeniden çiz (Boşlukları kapatır)
+    }
+
     function updateMasterPos(axis, val) {
-        const key = state.activeImgKey;
-        state.imgs[key][axis] = val;
+        state.imgs[state.activeImgKey][axis] = val;
         draw();
     }
 
@@ -318,7 +319,7 @@
     }
     function ins(char) {
         document.getElementById('tTxt').value += char + " ";
-        toggleEmojiModal(); // Seçince kapat
+        toggleEmojiModal(); 
     }
 
     function handleTextAction() {
@@ -345,7 +346,7 @@
         if(!txt) return;
         state.editingId = id;
         document.getElementById('tTxt').value = txt.text;
-        document.getElementById('tFont').value = txt.font; // Fontu seç
+        document.getElementById('tFont').value = txt.font;
         document.getElementById('tSize').value = txt.size;
         document.getElementById('tColor').value = txt.color;
         document.getElementById('btnAction').innerText = "GÜNCELLE ↻";
@@ -402,7 +403,8 @@
         if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
         else { ctx.fillStyle="#bdc3c7"; ctx.font="40px sans-serif"; ctx.textAlign="center"; ctx.fillText("Ana Resim Bekleniyor...", canvas.width/2, canvas.height/2); }
 
-        // 2. Alt Resimler
+        // 2. Alt Resimler (Dinamik Filtreleme)
+        // Sadece dolu olanları al. Sırayı korur.
         const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         const hasFooter = document.getElementById('showFooter').checked;
         const fH = state.format==='story'?120:100;
@@ -413,13 +415,38 @@
                 const sH = canvas.height*0.3;
                 const sY = canvas.height - sH - 50 - fOff;
                 ctx.fillStyle="rgba(0,0,0,0.7)"; ctx.fillRect(0, sY, canvas.width, sH+200);
-                const gap=20, cw=(canvas.width-gap*3)/2, ch=(sH-gap)/2;
-                subs.forEach((img,i)=>{ if(i>3)return;
-                    const col=i%2, row=Math.floor(i/2);
-                    const x=gap+col*(cw+gap), y=sY+gap+row*(ch+gap);
-                    ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10);
-                    drawCropped(ctx, img, x,y,cw,ch);
-                });
+                
+                // Resim sayısına göre genişlik ayarla (En fazla 4)
+                const count = subs.length;
+                const gap=20;
+                
+                // Story modu için özel grid mantığı:
+                // 1 resim: Tam genişlik
+                // 2 resim: Yan yana
+                // 3-4 resim: 2x2 Grid (Veya 3 yan yana, ama 2x2 daha iyi)
+                
+                if(count <= 2) {
+                   // Yan yana diz
+                   const cw = (canvas.width - gap*(count+1))/count;
+                   const ch = sH - gap; // Tek satır yüksekliği
+                   subs.forEach((img, i) => {
+                       const x = gap + i*(cw+gap);
+                       const y = sY + gap;
+                       ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10);
+                       drawCropped(ctx, img, x, y, cw, ch);
+                   });
+                } else {
+                   // Grid (2x2)
+                   const cw=(canvas.width-gap*3)/2; 
+                   const ch=(sH-gap)/2;
+                   subs.forEach((img,i)=>{
+                       const col=i%2, row=Math.floor(i/2);
+                       const x=gap+col*(cw+gap), y=sY+gap+row*(ch+gap);
+                       ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10);
+                       drawCropped(ctx, img, x,y,cw,ch);
+                   });
+                }
+
             } else if(state.layout === 'side') {
                 const sw = canvas.width*0.28, sx = canvas.width-sw;
                 ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.fillRect(sx,0,sw,canvas.height);
@@ -439,11 +466,11 @@
             }
         }
 
-        // 3. Logo (Logo için boyut slider'ı olmadığından şimdilik sabit oranda ama konumu master'dan alır)
+        // 3. Logo (Boyut Ayarlı)
         if(state.imgs.logo.obj) {
             const img=state.imgs.logo.obj;
-            // Logo boyutu için hala özel bir slider ekleyebiliriz ama şimdilik sabit %20
-            const lw=canvas.width*0.2; 
+            // state.imgs.logo.size'ı kullan (Yüzde)
+            const lw=canvas.width*(state.imgs.logo.size/100); 
             const lh=lw*(img.height/img.width);
             const lx=(canvas.width-lw)*(state.imgs.logo.x/100);
             const ly=(canvas.height-lh)*(state.imgs.logo.y/100);
@@ -473,7 +500,7 @@
         state.texts.forEach(t => {
             const x=canvas.width*(t.x/100), y=canvas.height*(t.y/100);
             ctx.save();
-            ctx.font = `bold ${t.size}px ${t.font}`; // Font ailesi burada uygulanır
+            ctx.font = `bold ${t.size}px ${t.font}`;
             ctx.textAlign="center"; ctx.textBaseline="middle";
             ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=8;
             ctx.fillStyle=t.color;
@@ -497,7 +524,7 @@
         ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h);
     }
     function download() {
-        const a=document.createElement('a'); a.download='karacabay-v9.jpg';
+        const a=document.createElement('a'); a.download='karacabay-v10.jpg';
         a.href=canvas.toDataURL('image/jpeg',0.95); a.click();
     }
 </script>
