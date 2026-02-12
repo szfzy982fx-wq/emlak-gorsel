@@ -3,68 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V8 (Master)</title>
+    <title>Karacabay Emlak Stüdyosu V9 (Ultra)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
-        .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
+        .wrapper { display: grid; grid-template-columns: 360px 1fr; height: 100vh; }
         
         /* SOL PANEL */
-        .sidebar { background: white; padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; }
+        .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
         h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 16px; margin-top: 0; }
-        .group-title { font-size: 11px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+        .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 12px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
 
-        /* Buton Grupları */
+        /* Butonlar */
         .btn-group { display: flex; gap: 5px; margin-bottom: 5px; }
-        .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
+        .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; transition: 0.2s; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
-        .btn-toggle.disabled { opacity: 0.5; cursor: not-allowed; background: #eee; }
+        .btn-toggle.disabled { opacity: 0.5; pointer-events: none; }
 
-        /* Dosya Yükleme */
-        .img-card { background: #fdfdfd; border: 1px solid #eee; padding: 6px; border-radius: 6px; margin-bottom: 5px; }
-        .img-card label { font-size: 10px; font-weight: bold; display: block; margin-bottom: 2px; color: #2c3e50; }
-        input[type="file"] { font-size: 10px; width: 100%; }
-        
-        /* Sliderlar */
-        .pos-controls { display: flex; gap: 5px; align-items: center; margin-top: 2px; }
-        .pos-controls span { font-size: 9px; color: #999; width: 10px; }
-        input[type="range"] { flex: 1; height: 4px; cursor: pointer; }
+        /* GÖRSEL SEÇİM LİSTESİ (YENİ SİSTEM) */
+        .img-selector-list { display: flex; flex-direction: column; gap: 4px; }
+        .img-item { display: flex; align-items: center; justify-content: space-between; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .img-item:hover { background: #f9f9f9; }
+        .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
+        .img-item label { font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; }
+        .img-item input { width: 170px; font-size: 9px; }
 
-        /* Metin Editörü & Emoji */
+        /* TEK MERKEZLİ KUMANDA (MASTER CONTROL) */
+        .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .master-header { font-size: 10px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .control-row span { font-size: 12px; width: 15px; }
+        .control-row input { flex: 1; cursor: pointer; }
+
+        /* METİN VE EMOJI */
         .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
-        .input-text { width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 5px; font-size: 12px; }
-        .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-action.update { background: #27ae60; } /* Güncelleme modunda yeşil */
+        .input-text { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 5px; font-size: 13px; font-family: inherit; }
+        .btn-emoji-open { width: 100%; background: #fff; border: 1px dashed #ccc; padding: 5px; margin-bottom: 5px; cursor: pointer; font-size: 11px; border-radius: 4px; }
+        .btn-emoji-open:hover { background: #fafafa; border-color: #aaa; }
+        
+        .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-action.update { background: #27ae60; }
 
-        .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; margin-bottom: 5px; }
-        .emoji-btn { background: white; border: 1px solid #ddd; cursor: pointer; font-size: 16px; padding: 2px; border-radius: 4px; }
-        .emoji-btn:hover { background: #eee; }
+        /* EMOJI POPUP (MODAL) */
+        .emoji-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; background: white; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999; border: 1px solid #ddd; }
+        .emoji-header { background: #f8f9fa; padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; border-radius: 8px 8px 0 0; }
+        .emoji-body { padding: 10px; max-height: 300px; overflow-y: auto; }
+        .emoji-category { font-size: 10px; color: #888; margin-top: 8px; margin-bottom: 4px; font-weight: bold; border-bottom: 1px solid #eee; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+        .emoji-btn { font-size: 18px; cursor: pointer; background: none; border: 1px solid transparent; padding: 4px; border-radius: 4px; }
+        .emoji-btn:hover { background: #eee; border-color: #ddd; }
+        .close-modal { cursor: pointer; font-size: 14px; color: #e74c3c; }
 
-        /* Katman Listesi */
-        .layer-list { margin-top: 5px; border: 1px solid #eee; border-radius: 4px; background: #fafafa; max-height: 150px; overflow-y: auto; }
-        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 6px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
-        .layer-row:hover { background: #f0f0f0; }
+        /* KATMAN LİSTESİ */
+        .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
+        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
         .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
-        .del-btn { background: #e74c3c; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; margin-left: 5px; }
+        
+        /* FOOTER */
+        .footer-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; }
+        .footer-input { width: 100%; padding: 4px; margin-top: 4px; border: none; border-radius: 3px; box-sizing: border-box; }
 
-        /* Footer Ayarları */
-        .footer-settings { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; }
-        .footer-input { width: 100%; padding: 5px; margin-bottom: 5px; font-size: 11px; border: none; border-radius: 3px; }
-
-        .btn-download { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .btn-download { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px; }
 
         /* SAĞ PANEL */
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        canvas { box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
-
-        @media (max-width: 900px) { .wrapper { grid-template-columns: 1fr; overflow-y: auto; } }
+        canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>💎 Emlak Stüdyosu V8 (Master)</h2>
+        <h2>🚀 Emlak Stüdyosu V9</h2>
 
         <div class="group-title">1. Format & Düzen</div>
         <div class="btn-group">
@@ -76,85 +88,139 @@
             <div class="btn-toggle" id="btn-side" onclick="setLayout('side')">Yan Şerit</div>
         </div>
 
-        <div class="group-title">2. Görseller & Kadraj</div>
-        <div class="img-card" style="border-left: 3px solid #e74c3c;">
-            <label>ANA RESİM</label>
-            <input type="file" accept="image/*" onchange="loadImg(this, 'main')">
-            <div class="pos-controls">
-                <span>↔</span> <input type="range" min="0" max="100" value="50" oninput="setPos('main', 'x', this.value)">
-                <span>↕</span> <input type="range" min="0" max="100" value="50" oninput="setPos('main', 'y', this.value)">
+        <div class="group-title">2. Görselleri Seç & Yükle</div>
+        <div class="img-selector-list">
+            <div class="img-item active" onclick="selectActiveImg('main')" id="item-main">
+                <label>⭐ Ana Vitrin</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'main')">
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
+                <label>1. Detay</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'sub1')">
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
+                <label>2. Detay</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'sub2')">
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
+                <label>3. Detay</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'sub3')">
+            </div>
+            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
+                <label>4. Detay</label>
+                <input type="file" accept="image/*" onchange="loadImg(this, 'sub4')">
             </div>
         </div>
-        <div class="img-card"><label>Detaylar (Mutfak, Banyo...)</label>
-            <input type="file" accept="image/*" onchange="loadImg(this, 'sub1')">
-            <input type="file" accept="image/*" onchange="loadImg(this, 'sub2')">
-            <input type="file" accept="image/*" onchange="loadImg(this, 'sub3')">
-            <input type="file" accept="image/*" onchange="loadImg(this, 'sub4')">
+
+        <div class="master-controls">
+            <div class="master-header">
+                <span id="activeImgLabel">Seçili Resim: ANA VİTRİN</span>
+                <span>Kadraj Ayarı</span>
             </div>
+            <div class="control-row">
+                <span>↔</span>
+                <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)">
+            </div>
+            <div class="control-row">
+                <span>↕</span>
+                <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)">
+            </div>
+        </div>
 
         <div class="group-title">3. Metin & Emoji</div>
         <div class="text-box">
-            <div class="emoji-grid">
-                <button class="emoji-btn" onclick="addEmoji('📍')">📍</button>
-                <button class="emoji-btn" onclick="addEmoji('📞')">📞</button>
-                <button class="emoji-btn" onclick="addEmoji('🏠')">🏠</button>
-                <button class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
-                <button class="emoji-btn" onclick="addEmoji('🔑')">🔑</button>
-                <button class="emoji-btn" onclick="addEmoji('🏊')">🏊</button>
-            </div>
-
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Emojileri Göster / Gizle</button>
             <input type="text" id="tTxt" class="input-text" placeholder="Metin yazın...">
+            
             <div style="display:flex; gap:5px; margin-bottom:5px;">
-                <select id="tFont" style="flex:1"><option value="Arial">Arial</option><option value="Impact">Impact</option><option value="Georgia">Georgia</option></select>
-                <input type="number" id="tSize" value="60" style="width:50px">
+                <select id="tFont" style="flex:1; font-size:11px;">
+                    <option value="Arial">Arial (Standart)</option>
+                    <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                    <option value="'Poppins', sans-serif">Poppins (Yuvarlak)</option>
+                    <option value="'Playfair Display', serif">Playfair (Lüks/Serif)</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas (Uzun/Başlık)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Teknik)</option>
+                </select>
+                <input type="number" id="tSize" value="60" style="width:40px">
                 <input type="color" id="tColor" value="#ffffff" style="width:30px; border:none;">
             </div>
-            
+
             <button id="btnAction" class="btn-action" onclick="handleTextAction()">➕ EKLE</button>
             <button id="btnCancel" onclick="cancelEdit()" style="display:none; width:100%; margin-top:5px; font-size:10px; cursor:pointer;">İptal</button>
         </div>
 
         <div id="layerList" class="layer-list"></div>
         
-        <div id="textPosControls" style="display:none; margin-top:5px;">
-            <label style="font-size:10px;">Seçili Metni Kaydır:</label>
-            <div class="pos-controls">
-                <span>↔</span> <input type="range" id="txtX" min="0" max="100" oninput="moveSelected('x', this.value)">
-            </div>
-            <div class="pos-controls">
-                <span>↕</span> <input type="range" id="txtY" min="0" max="100" oninput="moveSelected('y', this.value)">
+        <div id="textPosControls" style="display:none; margin-top:5px; padding:5px; background:#fff8e1; border:1px solid #f1c40f; border-radius:4px;">
+            <label style="font-size:10px; font-weight:bold;">Seçili Metni Kaydır:</label>
+            <div class="control-row" style="margin-bottom:0;">
+                <input type="range" id="txtX" min="0" max="100" oninput="moveSelected('x', this.value)">
+                <input type="range" id="txtY" min="0" max="100" oninput="moveSelected('y', this.value)">
             </div>
         </div>
 
-        <div class="group-title">4. Kurumsal Footer</div>
+        <div class="group-title">4. Footer</div>
         <div class="footer-settings">
-            <label style="font-size:10px; display:flex; align-items:center; gap:5px; margin-bottom:5px;">
-                <input type="checkbox" id="showFooter" onchange="draw()"> Footer Şeridi Göster
-            </label>
-            <input type="text" id="footerTel" class="footer-input" placeholder="Tel: 0532 000 00 00" oninput="draw()">
-            <input type="text" id="footerWeb" class="footer-input" placeholder="Web: www.karacabay.com" oninput="draw()">
-            <label style="font-size:10px;">Şerit Rengi:</label>
-            <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px;" oninput="draw()">
+            <label><input type="checkbox" id="showFooter" onchange="draw()"> Alt Şerit Aç</label>
+            <input type="text" id="footerTel" class="footer-input" placeholder="Tel: 05XX..." oninput="draw()">
+            <input type="text" id="footerWeb" class="footer-input" placeholder="Web:..." oninput="draw()">
+            <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px; margin-top:5px; border:none;" oninput="draw()">
         </div>
 
         <div class="group-title">5. Logo</div>
-        <div class="img-card">
+        <div class="img-item" onclick="selectActiveImg('logo')" id="item-logo">
+            <label>Logo Dosyası</label>
             <input type="file" accept="image/*" onchange="loadImg(this, 'logo')">
-            <div class="pos-controls">
-                <span style="font-size:9px">Boy</span> <input type="range" min="5" max="50" value="20" oninput="state.logoSize=this.value; draw();">
-            </div>
-            <div class="pos-controls">
-                <span>X</span> <input type="range" min="0" max="100" value="90" oninput="state.logoX=this.value; draw();">
-                <span>Y</span> <input type="range" min="0" max="100" value="5" oninput="state.logoY=this.value; draw();">
-            </div>
         </div>
 
-        <button class="btn-download" onclick="download()">💾 GÖRSELİ İNDİR</button>
+        <button class="btn-download" onclick="download()">💾 İNDİR</button>
         <div style="height:50px"></div>
     </div>
 
     <div class="canvas-area">
         <canvas id="canvas"></canvas>
+    </div>
+</div>
+
+<div class="emoji-modal" id="emojiModal">
+    <div class="emoji-header">
+        <span>Emoji Kütüphanesi</span>
+        <span class="close-modal" onclick="toggleEmojiModal()">✖</span>
+    </div>
+    <div class="emoji-body">
+        <div class="emoji-category">EMLAK & YAPI</div>
+        <div class="emoji-grid">
+            <button class="emoji-btn" onclick="ins('🏠')">🏠</button>
+            <button class="emoji-btn" onclick="ins('🏡')">🏡</button>
+            <button class="emoji-btn" onclick="ins('🏢')">🏢</button>
+            <button class="emoji-btn" onclick="ins('🏗️')">🏗️</button>
+            <button class="emoji-btn" onclick="ins('🔑')">🔑</button>
+            <button class="emoji-btn" onclick="ins('🚪')">🚪</button>
+        </div>
+        
+        <div class="emoji-category">ÖZELLİKLER & LÜKS</div>
+        <div class="emoji-grid">
+            <button class="emoji-btn" onclick="ins('🏊')">🏊</button>
+            <button class="emoji-btn" onclick="ins('🌴')">🌴</button>
+            <button class="emoji-btn" onclick="ins('☀️')">☀️</button>
+            <button class="emoji-btn" onclick="ins('🌊')">🌊</button>
+            <button class="emoji-btn" onclick="ins('🔥')">🔥</button>
+            <button class="emoji-btn" onclick="ins('💎')">💎</button>
+            <button class="emoji-btn" onclick="ins('🚗')">🚗</button>
+            <button class="emoji-btn" onclick="ins('🛡️')">🛡️</button>
+        </div>
+
+        <div class="emoji-category">İLETİŞİM & DİKKAT</div>
+        <div class="emoji-grid">
+            <button class="emoji-btn" onclick="ins('📞')">📞</button>
+            <button class="emoji-btn" onclick="ins('📱')">📱</button>
+            <button class="emoji-btn" onclick="ins('📍')">📍</button>
+            <button class="emoji-btn" onclick="ins('📣')">📣</button>
+            <button class="emoji-btn" onclick="ins('🚀')">🚀</button>
+            <button class="emoji-btn" onclick="ins('✨')">✨</button>
+            <button class="emoji-btn" onclick="ins('✅')">✅</button>
+            <button class="emoji-btn" onclick="ins('🔴')">🔴</button>
+        </div>
     </div>
 </div>
 
@@ -165,33 +231,30 @@
     // STATE
     const state = {
         format: 'post', layout: 'bottom',
-        logoSize: 20, logoX: 90, logoY: 5,
-        imgs: { main: {obj:null, x:50, y:50}, sub1: null, sub2: null, sub3: null, sub4: null, logo: null },
+        activeImgKey: 'main', // Şu an hangi resim kumanda ediliyor?
+        imgs: { 
+            main: {obj:null, x:50, y:50}, 
+            sub1: {obj:null, x:50, y:50}, sub2: {obj:null, x:50, y:50}, 
+            sub3: {obj:null, x:50, y:50}, sub4: {obj:null, x:50, y:50}, 
+            logo: {obj:null, x:90, y:5, size:20} // Logo için özel yapı
+        },
         texts: [],
-        editingId: null // Hangi metni düzenliyoruz?
+        editingId: null
     };
 
-    window.onload = () => draw();
+    window.onload = () => { draw(); };
 
-    // 1. FORMAT AYARLARI
+    // 1. FORMAT & LAYOUT
     function setFormat(f) {
         state.format = f;
         document.querySelectorAll('#btn-post, #btn-story').forEach(b => b.classList.remove('active'));
         document.getElementById('btn-' + f).classList.add('active');
-
-        // STORY MODUNDA YAN ŞERİT KAPATILIR
+        
         const sideBtn = document.getElementById('btn-side');
-        if (f === 'story') {
-            setLayout('bottom');
-            sideBtn.classList.add('disabled');
-            sideBtn.onclick = null; // Tıklamayı engelle
-        } else {
-            sideBtn.classList.remove('disabled');
-            sideBtn.onclick = function(){ setLayout('side') };
-        }
+        if(f === 'story') { setLayout('bottom'); sideBtn.classList.add('disabled'); }
+        else { sideBtn.classList.remove('disabled'); }
         draw();
     }
-
     function setLayout(l) {
         state.layout = l;
         document.querySelectorAll('#btn-btm, #btn-side').forEach(b => b.classList.remove('active'));
@@ -199,16 +262,40 @@
         draw();
     }
 
-    // 2. RESİM YÜKLEME
+    // 2. RESİM SEÇİMİ VE YÜKLEME
+    function selectActiveImg(key) {
+        state.activeImgKey = key;
+        
+        // UI Güncelle (Hangi satır seçili?)
+        document.querySelectorAll('.img-item').forEach(el => el.classList.remove('active'));
+        document.getElementById('item-' + key).classList.add('active');
+
+        // Master Kumanda Başlığını Güncelle
+        let label = "Bilinmiyor";
+        if(key === 'main') label = "ANA VİTRİN";
+        else if(key === 'logo') label = "LOGO";
+        else label = key.toUpperCase().replace('SUB', 'DETAY ');
+        document.getElementById('activeImgLabel').innerText = "Seçili Resim: " + label;
+
+        // Sliderları o resmin mevcut konumuna getir
+        if(key === 'logo') {
+            document.getElementById('masterX').value = state.imgs.logo.x;
+            document.getElementById('masterY').value = state.imgs.logo.y;
+        } else {
+            document.getElementById('masterX').value = state.imgs[key].x;
+            document.getElementById('masterY').value = state.imgs[key].y;
+        }
+    }
+
     function loadImg(input, key) {
         if(input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = e => {
                 const i = new Image();
                 i.onload = () => {
-                    if(key === 'logo') state.imgs.logo = i;
-                    else if(key.startsWith('sub')) state.imgs[key] = i;
-                    else state.imgs[key].obj = i;
+                    state.imgs[key].obj = i;
+                    // Yüklenen resmi otomatik seç
+                    selectActiveImg(key);
                     draw();
                 };
                 i.src = e.target.result;
@@ -216,68 +303,60 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    
-    function setPos(key, axis, val) {
+
+    // MASTER SLIDER (TEK KUMANDA)
+    function updateMasterPos(axis, val) {
+        const key = state.activeImgKey;
         state.imgs[key][axis] = val;
         draw();
     }
 
-    // 3. METİN & EMOJI İŞLEMLERİ (GELİŞMİŞ)
-    function addEmoji(char) {
+    // 3. EMOJI & METİN
+    function toggleEmojiModal() {
+        const el = document.getElementById('emojiModal');
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+    function ins(char) {
         document.getElementById('tTxt').value += char + " ";
+        toggleEmojiModal(); // Seçince kapat
     }
 
     function handleTextAction() {
         const val = document.getElementById('tTxt').value;
         if(!val) return;
-
         const font = document.getElementById('tFont').value;
         const size = document.getElementById('tSize').value;
         const color = document.getElementById('tColor').value;
 
-        if (state.editingId !== null) {
-            // GÜNCELLEME
+        if(state.editingId !== null) {
             const txt = state.texts.find(t => t.id === state.editingId);
-            if(txt) {
-                txt.text = val; txt.font = font; txt.size = size; txt.color = color;
-            }
-            cancelEdit(); // Moddan çık
+            if(txt) { txt.text=val; txt.font=font; txt.size=size; txt.color=color; }
+            cancelEdit();
         } else {
-            // YENİ EKLEME
-            state.texts.push({
-                id: Date.now(), text: val, font: font, size: size, color: color, x: 50, y: 50
-            });
-            // Yeni ekleneni otomatik seç
-            loadTextToEdit(state.texts[state.texts.length-1].id);
+            const newId = Date.now();
+            state.texts.push({id:newId, text:val, font:font, size:size, color:color, x:50, y:50});
+            loadTextToEdit(newId);
         }
-        draw();
-        renderLayerList();
+        draw(); renderLayerList();
     }
 
     function loadTextToEdit(id) {
         const txt = state.texts.find(t => t.id === id);
         if(!txt) return;
-
         state.editingId = id;
-        
-        // Inputları doldur
         document.getElementById('tTxt').value = txt.text;
-        document.getElementById('tFont').value = txt.font;
+        document.getElementById('tFont').value = txt.font; // Fontu seç
         document.getElementById('tSize').value = txt.size;
         document.getElementById('tColor').value = txt.color;
-        
-        // Butonu "Güncelle" yap
-        const btn = document.getElementById('btnAction');
-        btn.innerText = "GÜNCELLE";
-        btn.classList.add('update');
+        document.getElementById('btnAction').innerText = "GÜNCELLE ↻";
+        document.getElementById('btnAction').classList.add('update');
         document.getElementById('btnCancel').style.display = 'block';
-
-        // Konum Sliderlarını Aktif Et ve Değerleri Ata
+        
         document.getElementById('textPosControls').style.display = 'block';
         document.getElementById('txtX').value = txt.x;
         document.getElementById('txtY').value = txt.y;
-
-        renderLayerList(); // Listeyi güncelle (seçili class'ı için)
+        
+        renderLayerList(); draw();
     }
 
     function cancelEdit() {
@@ -287,11 +366,11 @@
         document.getElementById('btnAction').classList.remove('update');
         document.getElementById('btnCancel').style.display = 'none';
         document.getElementById('textPosControls').style.display = 'none';
-        renderLayerList();
+        renderLayerList(); draw();
     }
 
     function moveSelected(axis, val) {
-        if (state.editingId !== null) {
+        if(state.editingId !== null) {
             const txt = state.texts.find(t => t.id === state.editingId);
             if(txt) { txt[axis] = val; draw(); }
         }
@@ -301,184 +380,125 @@
         const el = document.getElementById('layerList');
         el.innerHTML = '';
         state.texts.forEach(t => {
-            const isSelected = t.id === state.editingId;
+            const isSel = t.id === state.editingId;
             const div = document.createElement('div');
-            div.className = `layer-row ${isSelected ? 'selected' : ''}`;
-            div.innerHTML = `
-                <span onclick="loadTextToEdit(${t.id})" style="flex:1;">${t.text}</span>
-                <button class="del-btn" onclick="delTx(${t.id})">Sil</button>
-            `;
+            div.className = `layer-row ${isSel?'selected':''}`;
+            div.innerHTML = `<span onclick="loadTextToEdit(${t.id})" style="flex:1">${t.text}</span> <button class="del-btn" onclick="delTx(${t.id})">✖</button>`;
             el.appendChild(div);
         });
     }
-
     function delTx(id) {
         state.texts = state.texts.filter(t => t.id !== id);
-        if (state.editingId === id) cancelEdit();
-        renderLayerList();
-        draw();
+        if(state.editingId === id) cancelEdit();
+        renderLayerList(); draw();
     }
 
     // --- ÇİZİM MOTORU ---
     function draw() {
-        canvas.width = 1080;
-        canvas.height = state.format === 'post' ? 1080 : 1920;
-        
-        // Arkaplan
-        ctx.fillStyle = "#ecf0f1";
-        ctx.fillRect(0,0, canvas.width, canvas.height);
+        canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
+        ctx.fillStyle="#ecf0f1"; ctx.fillRect(0,0,canvas.width,canvas.height);
 
         // 1. Ana Resim
-        if(state.imgs.main.obj) {
-            drawCropped(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
-        } else {
-            ctx.fillStyle="#ccc"; ctx.font="40px Arial"; ctx.textAlign="center";
-            ctx.fillText("Ana Resim Yükleyin", canvas.width/2, canvas.height/2);
-        }
+        if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
+        else { ctx.fillStyle="#bdc3c7"; ctx.font="40px sans-serif"; ctx.textAlign="center"; ctx.fillText("Ana Resim Bekleniyor...", canvas.width/2, canvas.height/2); }
 
         // 2. Alt Resimler
-        const activeSubs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i);
-        if(activeSubs.length > 0) {
+        const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
+        const hasFooter = document.getElementById('showFooter').checked;
+        const fH = state.format==='story'?120:100;
+        const fOff = hasFooter?fH:0;
+
+        if(subs.length > 0) {
             if(state.format === 'story') {
-                // Story Modu (Her zaman alt şerit)
-                const stripH = canvas.height * 0.3;
-                // Footer varsa biraz daha yukarı kaydır
-                const footerOffset = document.getElementById('showFooter').checked ? 100 : 0;
-                const startY = canvas.height - stripH - 100 - footerOffset;
-
-                ctx.fillStyle="rgba(0,0,0,0.6)"; ctx.fillRect(0, startY, canvas.width, stripH + 200);
-
-                const gap=20; 
-                const cw=(canvas.width - gap*3)/2; 
-                const ch=(stripH - gap)/2;
-
-                activeSubs.forEach((img, i)=>{
-                    if(i>3) return;
-                    const col=i%2; const row=Math.floor(i/2);
-                    const x=gap + col*(cw+gap);
-                    const y=startY + gap + row*(ch+gap);
-                    ctx.fillStyle="#fff"; ctx.fillRect(x-5, y-5, cw+10, ch+10);
-                    drawImageCover(ctx, img, x, y, cw, ch);
+                const sH = canvas.height*0.3;
+                const sY = canvas.height - sH - 50 - fOff;
+                ctx.fillStyle="rgba(0,0,0,0.7)"; ctx.fillRect(0, sY, canvas.width, sH+200);
+                const gap=20, cw=(canvas.width-gap*3)/2, ch=(sH-gap)/2;
+                subs.forEach((img,i)=>{ if(i>3)return;
+                    const col=i%2, row=Math.floor(i/2);
+                    const x=gap+col*(cw+gap), y=sY+gap+row*(ch+gap);
+                    ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10);
+                    drawCropped(ctx, img, x,y,cw,ch);
                 });
-
             } else if(state.layout === 'side') {
-                // Yan Şerit
-                const sw = canvas.width * 0.28;
-                const sx = canvas.width - sw;
-                ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.fillRect(sx, 0, sw, canvas.height);
-                
-                const ch = (canvas.height - (activeSubs.length+1)*10) / activeSubs.length;
-                activeSubs.forEach((img, i)=>{
-                    const y = 10 + i*(ch+10);
-                    drawImageCover(ctx, img, sx+10, y, sw-20, ch);
+                const sw = canvas.width*0.28, sx = canvas.width-sw;
+                ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.fillRect(sx,0,sw,canvas.height);
+                const ch = (canvas.height-(subs.length+1)*10 - fOff)/subs.length;
+                subs.forEach((img,i)=>{
+                    drawCropped(ctx, img, sx+10, 10+i*(ch+10), sw-20, ch);
                 });
             } else {
-                // Alt Şerit (Post)
-                const stripH = canvas.height * 0.25;
-                const footerOffset = document.getElementById('showFooter').checked ? 80 : 0;
-                const startY = canvas.height - stripH - 20 - footerOffset;
-                
-                ctx.fillStyle="rgba(0,0,0,0.6)"; ctx.fillRect(0, startY-20, canvas.width, stripH+40);
-                
-                const gap=20;
-                const cw=(canvas.width - (activeSubs.length+1)*gap)/activeSubs.length;
-                activeSubs.forEach((img, i)=>{
-                    const x=gap + i*(cw+gap);
-                    ctx.fillStyle="#fff"; ctx.fillRect(x-5, startY-5, cw+10, stripH+10);
-                    drawImageCover(ctx, img, x, startY, cw, stripH);
+                const sH = canvas.height*0.25, sY = canvas.height - sH - 20 - fOff;
+                ctx.fillStyle="rgba(0,0,0,0.6)"; ctx.fillRect(0, sY-20, canvas.width, sH+40);
+                const gap=20, cw=(canvas.width-(subs.length+1)*gap)/subs.length;
+                subs.forEach((img,i)=>{
+                    const x=gap+i*(cw+gap);
+                    ctx.fillStyle="#fff"; ctx.fillRect(x-5,sY-5,cw+10,sH+10);
+                    drawCropped(ctx, img, x,sY,cw,sH);
                 });
             }
         }
 
-        // 3. Logo
-        if(state.imgs.logo) {
-            const img=state.imgs.logo;
-            const lw=canvas.width*(state.logoSize/100);
+        // 3. Logo (Logo için boyut slider'ı olmadığından şimdilik sabit oranda ama konumu master'dan alır)
+        if(state.imgs.logo.obj) {
+            const img=state.imgs.logo.obj;
+            // Logo boyutu için hala özel bir slider ekleyebiliriz ama şimdilik sabit %20
+            const lw=canvas.width*0.2; 
             const lh=lw*(img.height/img.width);
-            const lx=(canvas.width-lw)*(state.logoX/100);
-            const ly=(canvas.height-lh)*(state.logoY/100);
+            const lx=(canvas.width-lw)*(state.imgs.logo.x/100);
+            const ly=(canvas.height-lh)*(state.imgs.logo.y/100);
             ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=10;
             ctx.drawImage(img, lx, ly, lw, lh);
             ctx.shadowBlur=0;
         }
 
-        // 4. FOOTER ŞERİDİ (EN ÜST KATMAN)
-        if (document.getElementById('showFooter').checked) {
-            const footerH = state.format === 'story' ? 120 : 100; // Story'de daha büyük
-            const footerY = canvas.height - footerH;
-            
-            // Şerit
-            ctx.fillStyle = document.getElementById('footerColor').value;
-            ctx.fillRect(0, footerY, canvas.width, footerH);
-
-            // Metinler
-            ctx.fillStyle = "#ffffff";
-            ctx.font = `bold ${state.format==='story'?40:35}px Arial`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-
-            const tel = document.getElementById('footerTel').value;
-            const web = document.getElementById('footerWeb').value;
-
-            // Eğer ikisi de varsa alt alta veya yan yana
-            if (tel && web) {
-                ctx.fillText(tel, canvas.width/2, footerY + (footerH*0.35));
-                ctx.font = `${state.format==='story'?30:25}px Arial`;
-                ctx.fillText(web, canvas.width/2, footerY + (footerH*0.75));
+        // 4. Footer
+        if(hasFooter) {
+            const fY = canvas.height - fH;
+            ctx.fillStyle=document.getElementById('footerColor').value;
+            ctx.fillRect(0, fY, canvas.width, fH);
+            ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle";
+            const tel=document.getElementById('footerTel').value;
+            const web=document.getElementById('footerWeb').value;
+            const bf=state.format==='story'?40:32;
+            if(tel&&web) {
+                ctx.font=`bold ${bf}px 'Montserrat'`; ctx.fillText(tel, canvas.width/2, fY+fH*0.35);
+                ctx.font=`${bf-5}px 'Montserrat'`; ctx.fillText(web, canvas.width/2, fY+fH*0.75);
             } else {
-                // Tek bilgi varsa ortala
-                ctx.fillText(tel || web, canvas.width/2, footerY + (footerH/2));
+                ctx.font=`bold ${bf}px 'Montserrat'`; ctx.fillText(tel||web, canvas.width/2, fY+fH/2);
             }
         }
 
-        // 5. METİNLER
+        // 5. Metinler
         state.texts.forEach(t => {
-            const x = canvas.width * (t.x/100);
-            const y = canvas.height * (t.y/100);
+            const x=canvas.width*(t.x/100), y=canvas.height*(t.y/100);
             ctx.save();
-            ctx.font = `bold ${t.size}px ${t.font}`;
-            ctx.textAlign = "center"; ctx.textBaseline = "middle";
+            ctx.font = `bold ${t.size}px ${t.font}`; // Font ailesi burada uygulanır
+            ctx.textAlign="center"; ctx.textBaseline="middle";
             ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=8;
-            ctx.fillStyle = t.color;
+            ctx.fillStyle=t.color;
             ctx.fillText(t.text, x, y);
-            // Seçiliyse etrafına kesik çizgi at (Edit modunda olduğunu anlamak için)
-            if (t.id === state.editingId) {
-                ctx.strokeStyle = "red"; ctx.lineWidth = 2; ctx.setLineDash([5, 5]);
-                const m = ctx.measureText(t.text);
-                ctx.strokeRect(x - m.width/2 - 10, y - t.size/2 - 5, m.width + 20, t.size*1.2);
+            if(t.id===state.editingId) {
+                ctx.shadowBlur=0; ctx.strokeStyle="#e74c3c"; ctx.lineWidth=3; ctx.setLineDash([10,5]);
+                const m=ctx.measureText(t.text);
+                const h=parseInt(t.size);
+                ctx.strokeRect(x-m.width/2-10, y-h/2-10, m.width+20, h+20);
             }
             ctx.restore();
         });
     }
 
-    // YARDIMCILAR
-    function drawCropped(ctx, imgData, x, y, w, h) {
-        const img = imgData.obj;
-        const rBox = w/h; const rImg = img.width/img.height;
-        let sw, sh, sx, sy;
-        if(rImg > rBox) { sh = img.height; sw = sh * rBox; } 
-        else { sw = img.width; sh = sw / rBox; }
-        const px = imgData.x/100; const py = imgData.y/100;
-        sx = (img.width - sw) * px; sy = (img.height - sh) * py;
-        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+    function drawCropped(ctx, imgData, x,y,w,h) {
+        const img=imgData.obj;
+        const rBox=w/h, rImg=img.width/img.height;
+        let sw,sh,sx,sy;
+        if(rImg>rBox) { sh=img.height; sw=sh*rBox; } else { sw=img.width; sh=sw/rBox; }
+        sx=(img.width-sw)*(imgData.x/100); sy=(img.height-sh)*(imgData.y/100);
+        ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h);
     }
-
-    function drawImageCover(ctx, img, x, y, w, h) {
-        const r = Math.min(w/img.width, h/img.height);
-        let nw=img.width*r, nh=img.height*r;
-        let ar=1; if(nw<w) ar=w/nw; if(Math.abs(ar-1)<1e-14 && nh<h) ar=h/nh;
-        nw*=ar; nh*=ar;
-        let cx=(img.width - (w/(nw/img.width))) * 0.5;
-        let cy=(img.height - (h/(nh/img.height))) * 0.5;
-        let cw=img.width-2*cx, ch=img.height-2*cy;
-        ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
-    }
-
     function download() {
-        const a = document.createElement('a');
-        a.download = 'karacabay-master-design.jpg';
-        a.href = canvas.toDataURL('image/jpeg', 0.95);
-        a.click();
+        const a=document.createElement('a'); a.download='karacabay-v9.jpg';
+        a.href=canvas.toDataURL('image/jpeg',0.95); a.click();
     }
 </script>
 
