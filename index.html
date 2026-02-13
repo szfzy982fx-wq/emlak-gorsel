@@ -3,71 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V24 (Professional Edition)</title>
+    <title>Emlak Stüdyosu V25 (Enterprise)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
         
-        /* SOL PANEL */
-        .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
+        /* SIDEBAR TASARIMI */
+        .sidebar { background: white; padding: 15px; border-right: 2px solid #d1d8e0; overflow-y: auto; height: 100%; position: relative; }
         
-        /* LOGO ALANI */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
         .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
-        .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+        /* BELİRGİN BÖLÜM BAŞLIKLARI (FORMAL) */
+        .group-title { 
+            font-size: 11px; font-weight: 900; color: #2c3e50; text-transform: uppercase; 
+            margin: 20px 0 10px 0; background: #f1f4f8; padding: 8px 12px; 
+            border-left: 4px solid #34495e; border-radius: 0 4px 4px 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
 
-        /* PROJE BUTONLARI (İSTENEN DÜZEN) */
+        /* PROJE BUTONLARI */
         .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .btn-undo { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; margin-bottom: 5px; }
-        .btn-save { background: #34495e; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .btn-load { background: #7f8c8d; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .btn-new { background: #8e44ad; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; }
-        
-        .active-project-name { font-size: 10px; color: #27ae60; font-weight: bold; text-align: center; grid-column: span 2; margin-top: 5px; }
+        .btn-save { background: #2c3e50; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-load { background: #34495e; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-new { background: #8e44ad; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; transition: 0.3s; }
+        .btn-new:hover { background: #9b59b6; }
+        .active-project-name { font-size: 10px; color: #27ae60; font-weight: bold; text-align: center; grid-column: span 2; margin-top: 5px; background: #eafaf1; padding: 4px; border-radius: 4px; }
 
-        /* FORMAT VE GALERİ */
-        .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
-        .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
-
-        /* GÖRSEL LİSTESİ VE İSİMLER */
-        .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; margin-bottom: 4px; }
-        .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
-        .img-label-area { flex: 1; overflow: hidden; }
-        .img-label-area label { font-size: 11px; font-weight: bold; display: block; }
-        .file-name-display { font-size: 9px; color: #7f8c8d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 2px; }
-
-        /* KUMANDA PANELİ */
-        .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; position: sticky; top: 0; z-index: 10; }
-        .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-        .control-row span { font-size: 11px; width: 45px; text-align: right; opacity: 0.8; }
-        .control-row input { flex: 1; cursor: pointer; }
+        /* GÖRSEL ÖĞELERİ VE DOSYA İSİMLERİ */
+        .img-item { display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.2s; position: relative; margin-bottom: 6px; background: #fff; }
+        .img-item:hover { border-color: #3498db; background: #f7fbff; }
+        .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 5px solid #3498db; }
+        .img-label-area { flex: 1; overflow: hidden; pointer-events: none; }
+        .img-label-area label { font-size: 11px; font-weight: 800; display: block; color: #2c3e50; }
+        .file-name-display { font-size: 10px; color: #3498db; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 3px; font-style: italic; }
+        .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 5px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; }
+        .btn-remove-img:hover { background: #e74c3c; color: white; }
 
         /* AYAR PANELLERİ */
-        .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
-        .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
-        .hf-input { width: 100%; padding: 5px; margin-top: 2px; border: none; border-radius: 3px; box-sizing: border-box; }
-        .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
-        .f-mode-btn.active { background:white; color:#333; }
+        .master-controls { background: #2c3e50; color: white; padding: 12px; border-radius: 8px; margin-top: 10px; position: sticky; top: 0; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .control-row span { font-size: 11px; width: 50px; text-align: right; opacity: 0.9; font-weight: bold; }
+        .control-row input { flex: 1; cursor: pointer; }
 
-        .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
-        .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
-        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
-        .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
+        .hf-settings { background: #34495e; color: white; padding: 12px; border-radius: 8px; font-size: 11px; margin-bottom: 10px; }
+        .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 5px; }
+        .hf-input { width: 100%; padding: 6px; margin-top: 2px; border: none; border-radius: 4px; box-sizing: border-box; font-size: 12px; }
 
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
+        canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; border: 5px solid #fff; }
         
-        /* MODAL TASARIMI */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 998; backdrop-filter: blur(2px); }
-        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; box-shadow: 0 15px 50px rgba(0,0,0,0.4); z-index: 999; width: 550px; }
-        .modal-header { background: #f8f9fa; padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 16px; border-radius: 12px 12px 0 0; }
-        .modal-body { padding: 20px; }
-        .form-section-title { font-size: 11px; font-weight: 800; color: #3498db; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #eaf6ff; padding-bottom: 5px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; backdrop-filter: blur(4px); }
+        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); z-index: 999; width: 580px; }
+        .modal-header { background: #2c3e50; color: white; padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 16px; border-radius: 12px 12px 0 0; }
+        .modal-body { padding: 25px; }
     </style>
 </head>
 <body>
@@ -78,37 +72,38 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V24 PROFESYONEL</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V25 ENTERPRISE</span></div>
         </div>
 
+        <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
             <button class="btn-undo" onclick="undo()">↩ Yaptığım İşlemi Geri Al</button>
             <button class="btn-save" onclick="saveProject()">💾 Kaydet</button>
             <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
-            <button class="btn-new" onclick="resetProject()">✨ YENİ PROJE BAŞLAT</button>
-            <div class="active-project-name" id="projectNameLabel">Proje: Yeni Proje</div>
+            <button class="btn-new" onclick="resetProject()">✨ SIFIRLA VE YENİ PROJE BAŞLAT</button>
+            <div class="active-project-name" id="projectNameLabel">Aktif Proje: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
 
-        <div class="group-title">1. Format & Galeri</div>
-        <div style="display:flex; gap:5px; margin-bottom:5px;">
-            <button class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare</button>
+        <div class="group-title">2. Format & Galeri Pozisyonu</div>
+        <div style="display:flex; gap:5px; margin-bottom:8px;">
+            <button class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare Post</button>
             <button class="btn-toggle" id="btn-story" onclick="setFormat('story')">Hikaye</button>
         </div>
         <div class="hf-settings" style="background: #27ae60;">
-            <div class="control-row"><span>En</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
-            <div class="control-row"><span>Boy</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
-            <div class="control-row"><span>X</span> <input type="range" id="galX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('x', this.value)"></div>
-            <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
+            <div class="control-row"><span>Genişlik</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
+            <div class="control-row"><span>Yükseklik</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
+            <div class="control-row"><span>Yatay X</span> <input type="range" id="galX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('x', this.value)"></div>
+            <div class="control-row"><span>Dikey Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
         </div>
 
-        <div class="group-title">2. Görseller & Kumanda</div>
+        <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
             </div>
-            <div class="control-row"><span>Yatay</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
-            <div class="control-row"><span>Dikey</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
+            <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
+            <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
             <div class="control-row" id="masterSizeRow" style="display:none; border-top:1px solid #ffffff33; padding-top:5px; margin-top:5px;">
                 <span>Boyut</span> <input type="range" id="masterSize" min="5" max="100" value="20" onmousedown="saveState()" oninput="updateMasterPos('size', this.value)">
             </div>
@@ -116,112 +111,139 @@
 
         <div class="img-selector-list" style="margin-top:10px;">
             <div class="img-item active" onclick="selectActiveImg('main')" id="item-main">
-                <div class="img-label-area"><label>⭐ Ana Vitrin</label><span class="file-name-display" id="name-main">Dosya seçilmedi</span><input type="file" onchange="loadImg(this, 'main')"></div>
+                <div class="img-label-area"><label>⭐ Ana Vitrin</label><span class="file-name-display" id="name-main">Dosya seçilmedi</span></div>
+                <input type="file" id="file-main" style="display:none" onchange="loadImg(this, 'main')">
+                <button class="btn-remove-img" onclick="document.getElementById('file-main').click(); event.stopPropagation();">📂</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
-                <div class="img-label-area"><label>Detay 1</label><span class="file-name-display" id="name-sub1">Dosya seçilmedi</span><input type="file" onchange="loadImg(this, 'sub1')"></div><button class="btn-remove-img" onclick="removeImg('sub1', event)">✖</button>
+                <div class="img-label-area"><label>Detay 1</label><span class="file-name-display" id="name-sub1">Dosya seçilmedi</span></div>
+                <input type="file" id="file-sub1" style="display:none" onchange="loadImg(this, 'sub1')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub1').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('sub1', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
-                <div class="img-label-area"><label>Detay 2</label><span class="file-name-display" id="name-sub2">Dosya seçilmedi</span><input type="file" onchange="loadImg(this, 'sub2')"></div><button class="btn-remove-img" onclick="removeImg('sub2', event)">✖</button>
+                <div class="img-label-area"><label>Detay 2</label><span class="file-name-display" id="name-sub2">Dosya seçilmedi</span></div>
+                <input type="file" id="file-sub2" style="display:none" onchange="loadImg(this, 'sub2')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub2').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('sub2', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
-                <div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Dosya seçilmedi</span><input type="file" onchange="loadImg(this, 'sub3')"></div><button class="btn-remove-img" onclick="removeImg('sub3', event)">✖</button>
+                <div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Dosya seçilmedi</span></div>
+                <input type="file" id="file-sub3" style="display:none" onchange="loadImg(this, 'sub3')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub3').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('sub3', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
-                <div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Dosya seçilmedi</span><input type="file" onchange="loadImg(this, 'sub4')"></div><button class="btn-remove-img" onclick="removeImg('sub4', event)">✖</button>
+                <div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Dosya seçilmedi</span></div>
+                <input type="file" id="file-sub4" style="display:none" onchange="loadImg(this, 'sub4')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub4').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('sub4', event)">✖</button>
             </div>
-            <div class="group-title">Logolar</div>
+            
+            <div class="group-title" style="margin-top:15px; background:#eaf6ff;">LOGOLAR</div>
             <div class="img-item" onclick="selectActiveImg('logo1')" id="item-logo1">
-                <div class="img-label-area"><label>Logo 1</label><span class="file-name-display" id="name-logo1">Seçilmedi</span><input type="file" onchange="loadImg(this, 'logo1')"></div>
+                <div class="img-label-area"><label>Logo 1</label><span class="file-name-display" id="name-logo1">Seçilmedi</span></div>
+                <input type="file" id="file-logo1" style="display:none" onchange="loadImg(this, 'logo1')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-logo1').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('logo1', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('logo2')" id="item-logo2">
-                <div class="img-label-area"><label>Logo 2</label><span class="file-name-display" id="name-logo2">Seçilmedi</span><input type="file" onchange="loadImg(this, 'logo2')"></div>
+                <div class="img-label-area"><label>Logo 2</label><span class="file-name-display" id="name-logo2">Seçilmedi</span></div>
+                <input type="file" id="file-logo2" style="display:none" onchange="loadImg(this, 'logo2')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-logo2').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('logo2', event)">✖</button>
+            </div>
+            <div class="img-item" onclick="selectActiveImg('logo3')" id="item-logo3">
+                <div class="img-label-area"><label>Logo 3</label><span class="file-name-display" id="name-logo3">Seçilmedi</span></div>
+                <input type="file" id="file-logo3" style="display:none" onchange="loadImg(this, 'logo3')">
+                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-logo3').click(); event.stopPropagation();">📂</button>
+                <button class="btn-remove-img" onclick="removeImg('logo3', event)">✖</button>
             </div>
         </div>
 
-        <div class="group-title">3. Pro Header (V19 Stil)</div>
+        <div class="group-title">4. Pro Header (Üst Şerit)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showHeader" onchange="saveState(); draw()"> Başlığı Göster</label>
-            <div style="margin-top:5px; border-top:1px solid #ffffff33; padding-top:5px;">
-                <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı" onmousedown="saveState()" oninput="draw()">
-                <div class="control-row"><span>Yükseklik</span> <input type="range" id="headerHeight" min="50" max="300" value="80" onmousedown="saveState()" oninput="draw()"></div>
+            <label style="cursor:pointer; font-weight:bold;"><input type="checkbox" id="showHeader" onchange="saveState(); draw()"> Başlığı Aktif Et</label>
+            <div style="margin-top:8px; border-top:1px solid #ffffff33; padding-top:8px;">
+                <input type="text" id="headerText" class="hf-input" placeholder="Kurum/İlan Adı Yazın..." onmousedown="saveState()" oninput="draw()">
+                <div class="control-row" style="margin-top:5px;"><span>Yükseklik</span> <input type="range" id="headerHeight" min="50" max="300" value="80" onmousedown="saveState()" oninput="draw()"></div>
                 <div class="hf-row">
-                    <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option><option value="'Playfair Display'">Lüks</option></select>
+                    <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern (Montserrat)</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü (Bebas)</option><option value="'Playfair Display'">Lüks (Playfair)</option></select>
                     <input type="number" id="headerFontSize" class="hf-input" style="width:50px" value="40" oninput="draw()">
                     <label style="font-size:10px;"><input type="checkbox" id="headerItalic" onchange="saveState(); draw()"> İtalik</label>
                 </div>
-                <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="saveState(); draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="saveState(); draw()"></div>
+                <div class="hf-row"><span>Zemin</span> <input type="color" id="headerBg" value="#ffffff" onchange="saveState(); draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="saveState(); draw()"></div>
             </div>
         </div>
 
-        <div class="group-title">4. Alt Şerit (Footer)</div>
+        <div class="group-title">5. Alt Şerit (Footer) Bilgileri</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showFooter" checked onchange="saveState(); draw()"> Footer Aktif</label>
-            <div style="display:flex; gap:5px; margin:5px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
+            <label style="cursor:pointer; font-weight:bold;"><input type="checkbox" id="showFooter" checked onchange="saveState(); draw()"> Footer Aktif Et</label>
+            <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit Mod</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin Modu</button></div>
             <div id="simpleFooterSettings">
-                <input type="text" id="footerTel" class="hf-input" placeholder="Telefon" oninput="draw()">
-                <input type="text" id="footerWeb" class="hf-input" placeholder="Web Sitesi" oninput="draw()">
+                <input type="text" id="footerTel" class="hf-input" placeholder="GSM / Ofis Tel..." onmousedown="saveState()" oninput="draw()">
+                <input type="text" id="footerWeb" class="hf-input" placeholder="Web Sitesi veya Adres..." onmousedown="saveState()" oninput="draw()">
             </div>
             <div id="vitrinFooterSettings" style="display:none;">
                 <div class="control-row"><span>Yükseklik</span> <input type="range" id="footerHeight" min="100" max="450" value="200" onmousedown="saveState()" oninput="draw()"></div>
-                <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ KURUMSAL İÇERİĞİ DÜZENLE</button>
+                <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:6px; font-weight:bold;">✏️ KURUMSAL DANIŞMAN PANELİNİ AÇ</button>
             </div>
-            <div class="hf-row" style="margin-top:5px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="saveState(); draw()"></div>
+            <div class="hf-row" style="margin-top:8px;"><span>Zemin Rengi</span> <input type="color" id="footerColor" value="#000000" onchange="saveState(); draw()"></div>
         </div>
 
-        <div class="group-title">5. Metin & Katmanlar</div>
+        <div class="group-title">6. Serbest Metin & Katmanlar</div>
         <div class="text-box">
-            <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:5px; margin-bottom:5px; cursor:pointer;">😊 Emojiler</button>
-            <input type="text" id="tTxt" class="input-text" placeholder="Yazı ekle...">
-            <div style="display:flex; gap:5px; margin-bottom:5px;">
-                <select id="tFont" class="hf-input"><option value="Arial">Arial</option><option value="'Montserrat'">Montserrat</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:40px">
-                <input type="color" id="tColor" value="#ffffff">
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:6px; margin-bottom:8px; cursor:pointer; font-size:11px; font-weight:bold;">😊 EMOJİ EKLE</button>
+            <input type="text" id="tTxt" class="input-text" style="width:100%; padding:8px; box-sizing:border-box; border-radius:4px; border:1px solid #ddd;" placeholder="Yazı yazın...">
+            <div style="display:flex; gap:5px; margin:8px 0;">
+                <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd;"><option value="Arial">Arial</option><option value="'Montserrat'">Montserrat</option><option value="'Dancing Script'">El Yazısı</option></select>
+                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px;">
+                <input type="color" id="tColor" value="#ffffff" style="width:35px; border:none; background:none;">
             </div>
-            <button id="btnAction" class="btn-action" onclick="handleTextAction()">➕ EKLE</button>
-            <div id="textPosSettings" style="margin-top:10px;">
+            <button id="btnAction" class="btn-action" style="width:100%; padding:10px; background:#f39c12; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="handleTextAction()">➕ KATMAN OLARAK EKLE</button>
+            <div id="textPosSettings" style="margin-top:12px; display:none;">
                 <div class="control-row"><span>Yatay</span><input type="range" id="txtX" min="0" max="100" onmousedown="saveState()" oninput="moveText('x', this.value)"></div>
                 <div class="control-row"><span>Dikey</span><input type="range" id="txtY" min="0" max="100" onmousedown="saveState()" oninput="moveText('y', this.value)"></div>
             </div>
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <button class="btn-download" onclick="download()">💾 GÖRSELİ İNDİR (JPG)</button>
-        <div style="height:50px"></div>
+        <button class="btn-download" onclick="download()">💾 GÖRSELİ JPG OLARAK İNDİR</button>
+        <div style="height:60px"></div>
     </div>
 
     <div class="canvas-area"><canvas id="canvas"></canvas></div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-box" id="emojiModal" style="display:none; width:250px;">
-        <div class="modal-header"><span>Seçilmiş Emojiler</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
-        <div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:24px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:24px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:24px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:24px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:24px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:24px; cursor:pointer">⭐</button><button onclick="ins('🔑')" style="font-size:24px; cursor:pointer">🔑</button><button onclick="ins('💎')" style="font-size:24px; cursor:pointer">💎</button></div></div>
+    <div class="modal-box" id="emojiModal" style="display:none; width:260px;">
+        <div class="modal-header"><span>Hızlı Emojiler</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;"><button onclick="ins('🏠')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">🏠</button><button onclick="ins('📍')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">📍</button><button onclick="ins('📞')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">📞</button><button onclick="ins('🔥')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">🔥</button><button onclick="ins('✅')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">✅</button><button onclick="ins('⭐')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">⭐</button><button onclick="ins('💎')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">💎</button><button onclick="ins('🔑')" style="font-size:26px; cursor:pointer; border:1px solid #eee; background:none; border-radius:6px;">🔑</button></div></div>
     </div>
     <div class="modal-box" id="footerModal" style="display:none;">
-        <div class="modal-header"><span>Kurumsal Footer Düzenleyici</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-header"><span>🏢 Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div class="modal-body">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px;">
                 <div>
-                    <div class="form-section-title">Danışman Bilgileri</div>
-                    <input type="text" id="agentName" placeholder="Ad Soyad" class="input-text">
-                    <input type="text" id="agentTitle" placeholder="Unvan (Örn: Gayrimenkul Danışmanı)" class="input-text">
-                    <input type="text" id="agentExtra" placeholder="3. Bilgi (Örn: 05xx xxx xx xx)" class="input-text">
-                    <div style="margin-top:10px;"><label style="font-size:10px; font-weight:bold;">Profil Fotoğrafı:</label><input type="file" onchange="loadAgentImg(this)"></div>
+                    <div style="font-size:11px; font-weight:800; color:#3498db; text-transform:uppercase; margin-bottom:12px; border-bottom:2px solid #eaf6ff; padding-bottom:5px;">👤 DANIŞMAN BİLGİLERİ</div>
+                    <input type="text" id="agentName" placeholder="Danışman Adı Soyadı" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                    <input type="text" id="agentTitle" placeholder="Ünvan (Örn: Gayrimenkul Yatırım Danışmanı)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                    <input type="text" id="agentExtra" placeholder="3. Bilgi (GSM, Ofis veya Şirket)" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px;">
+                    <div style="margin-top:10px; background:#f8f9fa; padding:10px; border-radius:8px;"><label style="font-size:11px; font-weight:bold; display:block; margin-bottom:5px;">DANIŞMAN FOTOĞRAFI:</label><input type="file" onchange="loadAgentImg(this)"></div>
                 </div>
                 <div>
-                    <div class="form-section-title">Gayrimenkul Özellikleri (6 Adet)</div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
-                        <input type="text" id="feat1" placeholder="Özellik 1" class="input-text">
-                        <input type="text" id="feat2" placeholder="Özellik 2" class="input-text">
-                        <input type="text" id="feat3" placeholder="Özellik 3" class="input-text">
-                        <input type="text" id="feat4" placeholder="Özellik 4" class="input-text">
-                        <input type="text" id="feat5" placeholder="Özellik 5" class="input-text">
-                        <input type="text" id="feat6" placeholder="Özellik 6" class="input-text">
+                    <div style="font-size:11px; font-weight:800; color:#3498db; text-transform:uppercase; margin-bottom:12px; border-bottom:2px solid #eaf6ff; padding-bottom:5px;">📋 İLAN ÖZELLİKLERİ (6 ADET)</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <input type="text" id="feat1" placeholder="Özellik 1" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <input type="text" id="feat2" placeholder="Özellik 2" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <input type="text" id="feat3" placeholder="Özellik 3" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <input type="text" id="feat4" placeholder="Özellik 4" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <input type="text" id="feat5" placeholder="Özellik 5" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <input type="text" id="feat6" placeholder="Özellik 6" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
                     </div>
                 </div>
             </div>
-            <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:20px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">DEĞİŞİKLİKLERİ UYGULA</button>
+            <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:25px; padding:15px; background:#27ae60; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; box-shadow:0 4px 10px rgba(39,174,96,0.3);">KAYDET VE GÜNCELLE</button>
         </div>
     </div>
 </div>
@@ -231,12 +253,12 @@
     const ctx = canvas.getContext('2d');
 
     let state = {
-        format: 'post', activeImgKey: 'main', projectName: "Yeni Proje",
+        format: 'post', activeImgKey: 'main', projectName: "Yeni İlan",
         imgs: { 
-            main: {obj:null, src:null, x:50, y:50, fileName: ""}, 
-            sub1: {obj:null, src:null, x:50, y:50, fileName: ""}, sub2: {obj:null, src:null, x:50, y:50, fileName: ""}, 
-            sub3: {obj:null, src:null, x:50, y:50, fileName: ""}, sub4: {obj:null, src:null, x:50, y:50, fileName: ""}, 
-            logo1: {obj:null, src:null, x:10, y:5, size:15, fileName: ""}, logo2: {obj:null, src:null, x:50, y:5, size:15, fileName: ""}, logo3: {obj:null, src:null, x:90, y:5, size:15, fileName: ""} 
+            main: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
+            sub1: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, sub2: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
+            sub3: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, sub4: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
+            logo1: {obj:null, src:null, x:10, y:5, size:15, fileName: "Seçilmedi"}, logo2: {obj:null, src:null, x:50, y:5, size:15, fileName: "Seçilmedi"}, logo3: {obj:null, src:null, x:90, y:5, size:15, fileName: "Seçilmedi"} 
         },
         footer: { mode: 'simple', agentImg: null, agentImgSrc: null },
         gallery: { w: 95, h: 25, x: 50, y: 70 },
@@ -282,7 +304,7 @@
         for(let k in state.imgs) {
             state.imgs[k].x = last[k].x; state.imgs[k].y = last[k].y; state.imgs[k].size = last[k].size;
             state.imgs[k].fileName = last[k].fileName;
-            document.getElementById('name-'+k).innerText = last[k].fileName || "Seçilmedi";
+            document.getElementById('name-'+k).innerText = state.imgs[k].fileName;
             if(last[k].src !== state.imgs[k].src) {
                 state.imgs[k].src = last[k].src;
                 if(state.imgs[k].src) { const i=new Image(); i.src=state.imgs[k].src; i.onload=()=>{state.imgs[k].obj=i; draw();}; } else state.imgs[k].obj=null;
@@ -290,20 +312,17 @@
         }
         state.footer.agentImgSrc = last.footerImg;
         if(state.footer.agentImgSrc) { const i=new Image(); i.src=state.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } else state.footer.agentImg=null;
-        
         setFooterMode(state.footer.mode); renderLayerList(); draw();
     }
 
     function draw() {
         canvas.width = 1080; canvas.height = state.format === 'post' ? 1080 : 1920;
         ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
         if (state.imgs.main.obj) drawCr(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
 
         const hH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
         if (hH > 0) {
-            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH);
-            ctx.fillStyle = document.getElementById('headerColor').value;
+            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH); ctx.fillStyle = document.getElementById('headerColor').value;
             ctx.font = `${document.getElementById('headerItalic').checked?'italic ':''}bold ${document.getElementById('headerFontSize').value}px ${document.getElementById('headerFont').value}`;
             ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, hH/2);
         }
@@ -312,24 +331,16 @@
         if (fH > 0) {
             const fY = canvas.height - fH; ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, fH);
             if (state.footer.mode === 'simple') {
-                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font="bold 36px Montserrat";
-                ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+fH*0.4);
+                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font="bold 36px Montserrat"; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+fH*0.4);
                 ctx.font="24px Montserrat"; ctx.fillText(document.getElementById('footerWeb').value, canvas.width/2, fY+fH*0.75);
             } else {
                 const p=fH*0.1, is=fH*0.7;
                 if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); }
-                ctx.fillStyle="#fff"; ctx.textAlign="left"; 
-                ctx.font=`bold ${fH*0.13}px Montserrat`; ctx.fillText(document.getElementById('agentName').value, p+is+20, fY+fH*0.35);
+                ctx.fillStyle="#fff"; ctx.textAlign="left"; ctx.font=`bold ${fH*0.13}px Montserrat`; ctx.fillText(document.getElementById('agentName').value, p+is+20, fY+fH*0.35);
                 ctx.font=`${fH*0.09}px Montserrat`; ctx.fillText(document.getElementById('agentTitle').value.toUpperCase(), p+is+20, fY+fH*0.55);
                 ctx.font=`bold ${fH*0.09}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value, p+is+20, fY+fH*0.75);
-                
                 const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value).filter(v=>v);
-                fs.forEach((f,i)=>{ 
-                    const col = i % 2, row = Math.floor(i/2);
-                    const fx=canvas.width*0.58 + (col*220), fy=fY+p+(row*fH*0.25); 
-                    ctx.fillStyle="#f1c40f"; ctx.font="bold 22px Arial"; ctx.fillText("✓", fx-30, fy+20); 
-                    ctx.fillStyle="#fff"; ctx.font="bold 20px Arial"; ctx.fillText(f, fx, fy+20); 
-                });
+                fs.forEach((f,i)=>{ const col = i % 2, row = Math.floor(i/2); const fx=canvas.width*0.58 + (col*220), fy=fY+p+(row*fH*0.25); ctx.fillStyle="#f1c40f"; ctx.font="bold 22px Arial"; ctx.fillText("✓", fx-30, fy+20); ctx.fillStyle="#fff"; ctx.font="bold 20px Arial"; ctx.fillText(f, fx, fy+20); });
             }
         }
 
@@ -347,9 +358,7 @@
             ctx.fillText(t.text, canvas.width*(t.x/100), canvas.height*(t.y/100)); ctx.restore();
         });
 
-        ['logo1','logo2','logo3'].forEach(k=>{
-            if(state.imgs[k].obj) { const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100), lh=lw*(i.height/i.width); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height-lh)*(state.imgs[k].y/100), lw, lh); }
-        });
+        ['logo1','logo2','logo3'].forEach(k=>{ if(state.imgs[k].obj) { const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100), lh=lw*(i.height/i.width); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height-lh)*(state.imgs[k].y/100), lw, lh); } });
     }
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
@@ -359,19 +368,16 @@
     
     function loadImg(inp,k){ 
         if(inp.files[0]){ 
-            saveState(); 
-            const fName = inp.files[0].name;
-            state.imgs[k].fileName = fName;
-            document.getElementById('name-'+k).innerText = fName;
+            saveState(); const fName = inp.files[0].name; state.imgs[k].fileName = fName; document.getElementById('name-'+k).innerText = fName;
             const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.src=e.target.result; i.onload=()=>{state.imgs[k].obj=i; state.imgs[k].src=e.target.result; draw();}; }; r.readAsDataURL(inp.files[0]); 
         } 
     }
-    function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName = ""; document.getElementById('name-'+k).innerText = "Seçilmedi"; draw(); }
+    function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName = "Seçilmedi"; document.getElementById('name-'+k).innerText = "Seçilmedi"; draw(); }
     
     function handleTextAction(){ const v=document.getElementById('tTxt').value; if(!v)return; saveState(); const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value, i=document.getElementById('tItalic').checked; if(state.editingId!==null){ const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; t.italic=i; cancelEdit(); } else { const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:i, x:50, y:50}); loadTextToEdit(id); } draw(); renderLayerList(); }
     function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('tItalic').checked=t.italic; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; renderLayerList(); draw(); }
     function moveText(a,v){ if(state.editingId){ state.texts.find(x=>x.id===state.editingId)[a]=v; draw(); } }
-    function cancelEdit(){ state.editingId=null; document.getElementById('tTxt').value=""; document.getElementById('textPosSettings').style.display='none'; document.getElementById('btnAction').innerText="➕ EKLE"; renderLayerList(); draw(); }
+    function cancelEdit(){ state.editingId=null; document.getElementById('tTxt').value=""; document.getElementById('textPosSettings').style.display='none'; document.getElementById('btnAction').innerText="➕ KATMAN EKLE"; renderLayerList(); draw(); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
     function renderLayerList(){ const l=document.getElementById('layerList'); l.innerHTML=''; state.texts.forEach(t=>{ const d=document.createElement('div'); d.className=`layer-row ${t.id===state.editingId?'selected':''}`; d.onclick=()=>loadTextToEdit(t.id); d.innerHTML=`<span style="flex:1">${t.text}</span><button style="background:red; color:white; border:none; border-radius:3px; cursor:pointer;" onclick="delTx(${t.id},event)">✖</button>`; l.appendChild(d); }); }
     
@@ -383,18 +389,16 @@
     function ins(c){ document.getElementById('tTxt').value+=c+" "; }
     function loadAgentImg(i){ if(i.files[0]){ saveState(); const r=new FileReader(); r.onload=e=>{ const img=new Image(); img.src=e.target.result; img.onload=()=>{state.footer.agentImg=img; state.footer.agentImgSrc=e.target.result; draw();}; }; r.readAsDataURL(i.files[0]); } }
     function download(){ const a=document.createElement('a'); a.download='ilan.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
-    function resetProject(){ if(confirm('Tüm ayarlar sıfırlansın mı?')) location.reload(); }
+    function resetProject(){ if(confirm('Tüm ilan ayarları sıfırlanacaktır. Emin misiniz?')) location.reload(); }
 
     function saveProject() {
         const data = {
             projectName: state.projectName, format: state.format, texts: state.texts, gallery: state.gallery,
             footer: { 
-                show: document.getElementById('showFooter').checked, mode: state.footer.mode, 
-                agentImgSrc: state.footer.agentImgSrc, tel: document.getElementById('footerTel').value,
-                web: document.getElementById('footerWeb').value, h: document.getElementById('footerHeight').value,
-                c: document.getElementById('footerColor').value, name: document.getElementById('agentName').value,
-                title: document.getElementById('agentTitle').value, extra: document.getElementById('agentExtra').value,
-                fts: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value)
+                show: document.getElementById('showFooter').checked, mode: state.footer.mode, agentImgSrc: state.footer.agentImgSrc, 
+                tel: document.getElementById('footerTel').value, web: document.getElementById('footerWeb').value, 
+                h: document.getElementById('footerHeight').value, c: document.getElementById('footerColor').value, 
+                name: document.getElementById('agentName').value, title: document.getElementById('agentTitle').value, extra: document.getElementById('agentExtra').value, fts: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value)
             },
             header: { 
                 show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, 
@@ -412,14 +416,12 @@
     function loadProject(input) {
         if(!input.files[0]) return;
         const fName = input.files[0].name.replace('.json','');
-        state.projectName = fName;
-        document.getElementById('projectNameLabel').innerText = "Proje: " + fName;
+        state.projectName = fName; document.getElementById('projectNameLabel').innerText = "Aktif Proje: " + fName;
         const reader = new FileReader();
         reader.onload = function(e) {
             const d = JSON.parse(e.target.result);
             state.format = d.format || 'post'; state.texts = d.texts || [];
-            if(!d.gallery) state.gallery = { w: 95, h: 25, x: 50, y: 70 }; else state.gallery = d.gallery;
-
+            state.gallery = d.gallery || { w: 95, h: 25, x: 50, y: 70 };
             if(d.header) {
                 document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text || "";
                 document.getElementById('headerHeight').value = d.header.h || 80; document.getElementById('headerFont').value = d.header.f || "'Montserrat'";
@@ -427,20 +429,16 @@
                 document.getElementById('headerBg').value = d.header.bg || "#ffffff"; document.getElementById('headerColor').value = d.header.c || "#003399";
             }
             if(d.footer) {
-                const f = d.footer;
-                document.getElementById('showFooter').checked = f.show !== undefined ? f.show : true;
-                state.footer.mode = f.mode || 'simple';
+                const f = d.footer; document.getElementById('showFooter').checked = f.show !== undefined ? f.show : true; state.footer.mode = f.mode || 'simple';
                 document.getElementById('footerTel').value = f.tel || ""; document.getElementById('footerWeb').value = f.web || "";
                 document.getElementById('footerHeight').value = f.h || 200; document.getElementById('footerColor').value = f.c || "#000000";
-                document.getElementById('agentName').value = f.name || ""; document.getElementById('agentTitle').value = f.title || "";
-                document.getElementById('agentExtra').value = f.extra || "";
+                document.getElementById('agentName').value = f.name || ""; document.getElementById('agentTitle').value = f.title || ""; document.getElementById('agentExtra').value = f.extra || "";
                 if(f.fts) f.fts.forEach((val, i) => { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = val; });
                 if(f.agentImgSrc) { state.footer.agentImgSrc = f.agentImgSrc; const img = new Image(); img.src = f.agentImgSrc; img.onload = () => { state.footer.agentImg = img; draw(); }; }
             }
             for(let k in d.imgs) {
                 state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y; state.imgs[k].size = d.imgs[k].size || 15;
-                state.imgs[k].fileName = d.imgs[k].fileName || "Bilinmiyor";
-                document.getElementById('name-'+k).innerText = state.imgs[k].fileName;
+                state.imgs[k].fileName = d.imgs[k].fileName || "Bilinmiyor"; document.getElementById('name-'+k).innerText = state.imgs[k].fileName;
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
             }
