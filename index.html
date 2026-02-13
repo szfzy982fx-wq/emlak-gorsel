@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V17 (Brand Edition)</title>
+    <title>Emlak Stüdyosu V18 (Vizör)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -13,11 +13,12 @@
         /* SOL PANEL */
         .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        /* LOGO ALANI (YENİ) */
-        .brand-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
-        .brand-logo-svg { width: 40px; height: 40px; }
-        .brand-text h1 { margin: 0; font-size: 18px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; letter-spacing: -0.5px; }
-        .brand-text span { font-size: 11px; color: #3498db; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        /* YENİ LOGO ALANI: VİZÖR & VİTRİN KONSEPTİ */
+        .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
+        .brand-logo-svg { width: 44px; height: 44px; }
+        .brand-text { display: flex; flex-direction: column; justify-content: center; }
+        .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; letter-spacing: -0.5px; }
+        .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
 
         .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
 
@@ -62,7 +63,7 @@
         #textPosSettings { display: none; background: #fff3cd; padding: 8px; border: 1px solid #ffeeba; border-radius: 4px; margin-top: 5px; }
         #textPosSettings label { display: block; font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #856404; }
 
-        /* KATMAN LİSTESİ (Text) */
+        /* KATMAN LİSTESİ */
         .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
         .layer-row:hover { background: #eee; }
@@ -103,18 +104,19 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 10L10 40V90H50V10Z" fill="#2c3e50"/>
-                <rect x="55" y="40" width="15" height="15" fill="#3498db" opacity="0.8"/>
-                <rect x="75" y="40" width="15" height="15" fill="#3498db" opacity="0.6"/>
-                <rect x="55" y="60" width="15" height="15" fill="#3498db" opacity="0.9"/>
-                <rect x="75" y="60" width="15" height="15" fill="#3498db" opacity="0.7"/>
-                <rect x="55" y="80" width="15" height="10" fill="#3498db" opacity="1"/>
-                <rect x="75" y="80" width="15" height="10" fill="#3498db" opacity="0.8"/>
-                <path d="M50 10L90 40H50V10Z" fill="#3498db" opacity="0.5"/>
+                <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                
+                <path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/>
+                
+                <circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
             <div class="brand-text">
-                <h1>KARACABAY</h1>
-                <span>EMLAK STÜDYOSU V17</span>
+                <h1>EMLAK</h1>
+                <h1 style="color:#2c3e50">STÜDYOSU</h1>
+                <span>V18 VİZÖR EDITION</span>
             </div>
         </div>
 
@@ -464,7 +466,7 @@
             const json = JSON.stringify(data);
             const blob = new Blob([json], {type: "application/json"});
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.href = url; a.download = "karacabay-proje.json"; 
+            const a = document.createElement('a'); a.href = url; a.download = "emlak-studyo-proje.json"; 
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
         } catch(err) { alert("Hata: " + err); }
     }
@@ -597,10 +599,8 @@
         state.texts.forEach(t => {
             const x=canvas.width*(t.x/100), y=canvas.height*(t.y/100);
             ctx.save(); 
-            // Font Stili
             const style = t.italic ? "italic " : "";
             ctx.font = `${style}bold ${t.size}px ${t.font}`;
-            
             ctx.textAlign="center"; ctx.textBaseline="middle";
             ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=8; ctx.fillStyle=t.color;
             ctx.fillText(t.text, x, y);
