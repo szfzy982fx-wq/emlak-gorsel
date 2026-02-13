@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V19 (Undo Edition)</title>
+    <title>Emlak Stüdyosu V19 (Pro Header)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -23,27 +23,29 @@
         .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
 
         /* PROJE BUTONLARI */
-        .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; }
-        .btn-new { background: #8e44ad; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
-        .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-undo { background: #e67e22; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; grid-column: span 2; margin-top: 5px;}
-        
+        .project-actions { display: flex; gap: 5px; margin-bottom: 15px; }
+        .btn-new { background: #8e44ad; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 0.6; cursor: pointer; font-weight: bold; }
+        .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-new:hover { background: #9b59b6; } .btn-save:hover { background: #2c3e50; } .btn-load:hover { background: #95a5a6; }
+
         /* FORMAT BUTONLARI */
         .btn-group { display: flex; gap: 5px; margin-bottom: 5px; }
         .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; transition: 0.2s; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
+        .btn-toggle.disabled { opacity: 0.5; pointer-events: none; }
 
         /* GÖRSEL LİSTESİ */
         .img-selector-list { display: flex; flex-direction: column; gap: 4px; }
         .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
+        .img-item:hover { background: #f9f9f9; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
         .img-label-area { flex: 1; overflow: hidden; }
         .img-label-area label { font-size: 11px; font-weight: bold; cursor: pointer; display: block; }
         .img-label-area input { font-size: 9px; width: 100%; margin-top: 2px; }
         .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
 
-        /* KUMANDA PANELİ */
+        /* KUMANDA PANELİ (MASTER) */
         .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10; }
         .master-header { font-size: 10px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -55,14 +57,18 @@
         .input-text { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 5px; font-size: 13px; }
         .btn-emoji-open { width: 100%; background: #fff; border: 1px dashed #ccc; padding: 5px; margin-bottom: 5px; cursor: pointer; font-size: 11px; border-radius: 4px; }
         .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-action.update { background: #27ae60; }
         
+        /* METİN KONUM PANELİ */
         #textPosSettings { display: none; background: #fff3cd; padding: 8px; border: 1px solid #ffeeba; border-radius: 4px; margin-top: 5px; }
+        #textPosSettings label { display: block; font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #856404; }
 
         /* KATMAN LİSTESİ */
         .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
+        .layer-row:hover { background: #eee; }
         .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
-        .del-btn { background: #e74c3c; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; }
+        .del-btn { background: #e74c3c; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; margin-left: 5px; }
 
         /* HEADER & FOOTER AYARLARI */
         .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
@@ -72,6 +78,7 @@
         .footer-mode-select { display:flex; gap:5px; margin-bottom:5px; background:#2c3e50; padding:3px; border-radius:4px; }
         .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
         .f-mode-btn.active { background:white; color:#333; }
+        .btn-edit-footer { background: #e67e22; color: white; width: 100%; padding: 8px; border: none; border-radius: 4px; margin-top: 5px; cursor: pointer; font-weight: bold; }
 
         .btn-download { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px; }
 
@@ -81,8 +88,11 @@
         .emoji-modal { width: 250px; }
         .footer-modal { width: 500px; padding: 0; }
         .modal-header { background: #f8f9fa; padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; border-radius: 8px 8px 0 0; }
-        .emoji-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 15px;}
+        .modal-body { padding: 15px; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .emoji-btn { font-size: 20px; cursor: pointer; background: none; border: 1px solid transparent; padding: 4px; border-radius: 4px; }
+        .emoji-btn:hover { background: #eee; }
+        .close-modal { cursor: pointer; font-size: 16px; color: #e74c3c; }
 
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
@@ -104,7 +114,7 @@
             <div class="brand-text">
                 <h1>EMLAK</h1>
                 <h1 style="color:#2c3e50">STÜDYOSU</h1>
-                <span>V19 UNDO ENABLED</span>
+                <span>V19 PRO HEADER</span>
             </div>
         </div>
 
@@ -112,7 +122,6 @@
             <button class="btn-new" onclick="resetProject()">✨ YENİ</button>
             <button class="btn-save" onclick="saveProject()">💾 Kaydet</button>
             <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
-            <button class="btn-undo" onclick="undo()">↩️ GERİ AL (UNDO)</button>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
 
@@ -130,13 +139,13 @@
         <div class="master-controls">
             <div class="master-header"><span id="activeImgLabel">Seçili: ANA VİTRİN</span><span>AYARLAR</span></div>
             <div class="control-row">
-                <span>Yatay ↔</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)" onchange="pushHistory()">
+                <span>Yatay ↔</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)">
             </div>
             <div class="control-row">
-                <span>Dikey ↕</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)" onchange="pushHistory()">
+                <span>Dikey ↕</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)">
             </div>
             <div class="control-row" id="masterSizeRow" style="display:none; border-top:1px solid #ffffff33; padding-top:5px; margin-top:5px;">
-                <span>Boyut 🔍</span> <input type="range" id="masterSize" min="5" max="100" value="20" oninput="updateMasterPos('size', this.value)" onchange="pushHistory()">
+                <span>Boyut 🔍</span> <input type="range" id="masterSize" min="5" max="100" value="20" oninput="updateMasterPos('size', this.value)">
             </div>
         </div>
 
@@ -157,71 +166,94 @@
 
         <div class="group-title">3. Kurumsal Başlık (Üst Panel)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showHeader" onchange="pushHistory(); draw()"> Başlığı Göster</label>
+            <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlığı Göster</label>
             <div style="margin-top:5px; padding-top:5px; border-top:1px solid #ffffff33;">
-                <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı..." onchange="pushHistory(); draw()" oninput="draw()">
+                <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı (Örn: TURYAP)" oninput="draw()">
+                
                 <div class="control-row" style="margin-top:5px;">
                     <span style="width:auto; font-size:10px;">Yükseklik:</span>
-                    <input type="range" id="headerHeight" min="50" max="250" value="80" oninput="draw()" onchange="pushHistory()">
+                    <input type="range" id="headerHeight" min="50" max="250" value="80" oninput="draw()">
                 </div>
-                <div class="hf-row">
-                    <select id="headerFont" class="hf-input" onchange="pushHistory(); draw()">
-                        <option value="'Montserrat', sans-serif">Montserrat</option>
-                        <option value="'Playfair Display', serif">Playfair</option>
-                        <option value="'Bebas Neue', sans-serif">Bebas</option>
+
+                <div class="hf-row" style="margin-top:5px;">
+                    <select id="headerFont" class="hf-input" style="flex:2;" onchange="draw()">
+                        <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                        <option value="'Playfair Display', serif">Playfair (Lüks)</option>
+                        <option value="'Bebas Neue', sans-serif">Bebas (Güçlü)</option>
                         <option value="'Dancing Script', cursive">El Yazısı</option>
+                        <option value="Arial">Arial</option>
                     </select>
-                    <input type="number" id="headerFontSize" class="hf-input" style="width:50px;" value="40" onchange="pushHistory(); draw()">
+                    <input type="number" id="headerFontSize" class="hf-input" style="flex:1;" value="40" title="Punto" oninput="draw()">
+                </div>
+                
+                <div class="hf-row">
+                    <label style="font-size:10px; display:flex; align-items:center; gap:3px;">
+                        <input type="checkbox" id="headerItalic" onchange="draw()"> İtalik
+                    </label>
                 </div>
                 <div class="hf-row">
-                    <label><input type="checkbox" id="headerItalic" onchange="pushHistory(); draw()"> İtalik</label>
-                    <input type="color" id="headerBg" value="#ffffff" onchange="pushHistory(); draw()">
-                    <input type="color" id="headerColor" value="#003399" onchange="pushHistory(); draw()">
+                    <span>Arkaplan:</span> <input type="color" id="headerBg" value="#ffffff" oninput="draw()">
+                    <span>Yazı:</span> <input type="color" id="headerColor" value="#003399" oninput="draw()">
                 </div>
             </div>
         </div>
 
         <div class="group-title">4. Footer (Alt Panel)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showFooter" checked onchange="pushHistory(); draw()"> Alt Şerit Aç</label>
-            <div class="footer-mode-select" style="margin-top:5px;">
-                <button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">BASİT</button>
-                <button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">VİTRİN</button>
+            <label><input type="checkbox" id="showFooter" checked onchange="draw()"> Alt Şerit Aç</label>
+            <div style="margin-top:8px; border-top:1px solid #ffffff33; padding-top:8px;">
+                <label style="font-size:10px; opacity:0.8;">Footer Modu:</label>
+                <div class="footer-mode-select">
+                    <button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">BASİT</button>
+                    <button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">VİTRİN</button>
+                </div>
             </div>
             <div id="simpleFooterSettings">
-                <input type="text" id="footerTel" class="hf-input" placeholder="Tel..." onchange="pushHistory(); draw()">
-                <input type="text" id="footerWeb" class="hf-input" placeholder="Web..." onchange="pushHistory(); draw()">
+                <input type="text" id="footerTel" class="hf-input" placeholder="Tel..." oninput="draw()">
+                <input type="text" id="footerWeb" class="hf-input" placeholder="Web..." oninput="draw()">
             </div>
             <div id="vitrinFooterSettings" style="display:none;">
-                <button class="btn-action" style="font-size:10px; padding:5px;" onclick="toggleFooterModal()">✏️ İçeriği Düzenle</button>
+                <div class="control-row" style="margin-top:5px;">
+                    <span style="width:auto; font-size:10px;">Yükseklik:</span>
+                    <input type="range" id="footerHeight" min="100" max="400" value="200" oninput="draw()">
+                </div>
+                <button class="btn-edit-footer" onclick="toggleFooterModal()">✏️ İçeriği Düzenle</button>
             </div>
-            <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px; margin-top:5px;" onchange="pushHistory(); draw()">
+             <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px; margin-top:5px; border:none;" oninput="draw()">
         </div>
 
         <div class="group-title">5. Metin Ekle</div>
         <div class="text-box">
-            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Emojiler</button>
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Az & Öz Emojiler</button>
             <input type="text" id="tTxt" class="input-text" placeholder="Metin yazın...">
             <div style="display:flex; gap:5px; margin-bottom:5px;">
-                <select id="tFont" style="flex:1;">
+                <select id="tFont" style="flex:1; font-size:11px;">
                     <option value="Arial">Arial</option>
                     <option value="'Montserrat', sans-serif">Montserrat</option>
-                    <option value="'Bebas Neue', sans-serif">Bebas</option>
+                    <option value="'Dancing Script', cursive">El Yazısı (İmza)</option>
+                    <option value="'Playfair Display', serif">Playfair (Lüks)</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas (Başlık)</option>
                 </select>
                 <input type="number" id="tSize" value="60" style="width:40px">
-                <input type="color" id="tColor" value="#ffffff">
+                <input type="color" id="tColor" value="#ffffff" style="width:30px; border:none;">
             </div>
+            <div style="display:flex; align-items:center; gap:5px; margin-bottom:5px;">
+                <input type="checkbox" id="tItalic"> <label for="tItalic" style="font-size:11px; cursor:pointer;">Yana Yatık (İtalik)</label>
+            </div>
+            
             <button id="btnAction" class="btn-action" onclick="handleTextAction()">➕ EKLE</button>
+            <button id="btnCancel" onclick="cancelEdit()" style="display:none; width:100%; margin-top:5px; font-size:10px; cursor:pointer; background:#eee; border:1px solid #ccc; padding:5px;">Vazgeç</button>
             
             <div id="textPosSettings">
+                <label>SEÇİLİ YAZIYI KAYDIR:</label>
                 <div class="control-row">
-                    <span>X</span> <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" onchange="pushHistory()">
+                    <span>Yatay</span> <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)">
                 </div>
                 <div class="control-row">
-                    <span>Y</span> <input type="range" id="txtY" min="0" max="100" oninput="moveText('y', this.value)" onchange="pushHistory()">
+                    <span>Dikey</span> <input type="range" id="txtY" min="0" max="100" oninput="moveText('y', this.value)">
                 </div>
-                <button onclick="cancelEdit()" style="width:100%; font-size:9px; margin-top:5px;">Vazgeç</button>
             </div>
+
         </div>
         <div id="layerList" class="layer-list"></div>
 
@@ -236,25 +268,45 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box emoji-modal" id="emojiModal" style="display:none;">
-        <div class="modal-header"><span>Emojiler</span><span style="cursor:pointer" onclick="closeAllModals()">✖</span></div>
-        <div class="emoji-grid">
-            <button class="emoji-btn" onclick="ins('🏠')">🏠</button><button class="emoji-btn" onclick="ins('📍')">📍</button>
-            <button class="emoji-btn" onclick="ins('📞')">📞</button><button class="emoji-btn" onclick="ins('🔥')">🔥</button>
-            <button class="emoji-btn" onclick="ins('✅')">✅</button><button class="emoji-btn" onclick="ins('⭐')">⭐</button>
-            <button class="emoji-btn" onclick="ins('🔑')">🔑</button><button class="emoji-btn" onclick="ins('📣')">📣</button>
+        <div class="modal-header"><span>Seçilmiş Emojiler</span><span class="close-modal" onclick="closeAllModals()">✖</span></div>
+        <div class="modal-body">
+            <div class="emoji-grid">
+                <button class="emoji-btn" onclick="ins('🏠')">🏠</button>
+                <button class="emoji-btn" onclick="ins('📍')">📍</button>
+                <button class="emoji-btn" onclick="ins('📞')">📞</button>
+                <button class="emoji-btn" onclick="ins('🔥')">🔥</button>
+                <button class="emoji-btn" onclick="ins('✅')">✅</button>
+                <button class="emoji-btn" onclick="ins('⭐')">⭐</button>
+                <button class="emoji-btn" onclick="ins('🔑')">🔑</button>
+                <button class="emoji-btn" onclick="ins('🏊')">🏊</button>
+                <button class="emoji-btn" onclick="ins('🌳')">🌳</button>
+                <button class="emoji-btn" onclick="ins('🚗')">🚗</button>
+                <button class="emoji-btn" onclick="ins('💎')">💎</button>
+                <button class="emoji-btn" onclick="ins('📣')">📣</button>
+            </div>
         </div>
     </div>
-
     <div class="modal-box footer-modal" id="footerModal" style="display:none;">
-        <div class="modal-header"><span>Vitrin Detayları</span><span style="cursor:pointer" onclick="closeAllModals()">✖</span></div>
-        <div style="padding:15px;">
-            <input type="text" id="agentName" placeholder="Danışman Adı" class="input-text">
-            <input type="text" id="agentTitle" placeholder="Unvan" class="input-text">
-            <input type="file" onchange="loadAgentImg(this)">
-            <hr>
-            <input type="text" id="feat1" placeholder="Özellik 1" class="input-text"><input type="text" id="feat2" placeholder="Özellik 2" class="input-text">
-            <input type="text" id="feat3" placeholder="Özellik 3" class="input-text"><input type="text" id="feat4" placeholder="Özellik 4" class="input-text">
-            <button class="btn-action" onclick="pushHistory(); draw(); closeAllModals()">UYGULA</button>
+        <div class="modal-header"><span>Vitrin Bilgileri</span><span class="close-modal" onclick="closeAllModals()">✖</span></div>
+        <div class="modal-body">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div style="background:#f8f9fa; padding:10px; border-radius:6px;">
+                    <label style="font-weight:bold; font-size:12px;">Danışman</label>
+                    <input type="text" id="agentName" placeholder="Ad Soyad" class="input-text" oninput="draw()">
+                    <input type="text" id="agentTitle" placeholder="Unvan" class="input-text" oninput="draw()">
+                    <div style="margin-top:5px;"><label style="font-size:10px;">Fotoğraf:</label><input type="file" accept="image/*" onchange="loadAgentImg(this)"></div>
+                </div>
+                <div style="background:#f8f9fa; padding:10px; border-radius:6px;">
+                    <label style="font-weight:bold; font-size:12px;">Özellikler</label>
+                    <input type="text" id="feat1" placeholder="Özellik 1" class="input-text" oninput="draw()">
+                    <input type="text" id="feat2" placeholder="Özellik 2" class="input-text" oninput="draw()">
+                    <input type="text" id="feat3" placeholder="Özellik 3" class="input-text" oninput="draw()">
+                    <input type="text" id="feat4" placeholder="Özellik 4" class="input-text" oninput="draw()">
+                    <input type="text" id="feat5" placeholder="Özellik 5" class="input-text" oninput="draw()">
+                    <input type="text" id="feat6" placeholder="Özellik 6" class="input-text" oninput="draw()">
+                </div>
+            </div>
+            <button class="btn-download" style="margin-top:10px;" onclick="closeAllModals()">Tamamla</button>
         </div>
     </div>
 </div>
@@ -263,6 +315,7 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
+    // STATE
     const state = {
         format: 'post', layout: 'bottom',
         activeImgKey: 'main', 
@@ -270,194 +323,375 @@
             main: {obj:null, src:null, x:50, y:50}, 
             sub1: {obj:null, src:null, x:50, y:50}, sub2: {obj:null, src:null, x:50, y:50}, 
             sub3: {obj:null, src:null, x:50, y:50}, sub4: {obj:null, src:null, x:50, y:50}, 
-            logo1: {obj:null, src:null, x:10, y:5, size:15}, logo2: {obj:null, src:null, x:50, y:5, size:15}, logo3: {obj:null, src:null, x:90, y:5, size:15}
+            logo1: {obj:null, src:null, x:10, y:5, size:15},
+            logo2: {obj:null, src:null, x:50, y:5, size:15},
+            logo3: {obj:null, src:null, x:90, y:5, size:15}
         },
         footer: { mode: 'simple', agentImg: null, agentImgSrc: null },
-        texts: [], editingId: null,
-        history: []
+        texts: [],
+        editingId: null
     };
 
-    // --- UNDO ENGINE ---
-    function pushHistory() {
-        const snapshot = JSON.stringify({
-            format: state.format, layout: state.layout,
-            imgs: Object.keys(state.imgs).reduce((a, k) => { a[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size}; return a; }, {}),
-            texts: state.texts,
-            footerMode: state.footer.mode,
-            footerAgentSrc: state.footer.agentImgSrc,
-            ui: {
-                showHeader: document.getElementById('showHeader').checked,
-                headerText: document.getElementById('headerText').value,
-                headerBg: document.getElementById('headerBg').value,
-                headerColor: document.getElementById('headerColor').value,
-                headerHeight: document.getElementById('headerHeight').value,
-                headerFontSize: document.getElementById('headerFontSize').value,
-                headerFont: document.getElementById('headerFont').value,
-                headerItalic: document.getElementById('headerItalic').checked,
-                showFooter: document.getElementById('showFooter').checked,
-                footerTel: document.getElementById('footerTel').value,
-                footerWeb: document.getElementById('footerWeb').value,
-                footerColor: document.getElementById('footerColor').value,
-                agentName: document.getElementById('agentName').value,
-                agentTitle: document.getElementById('agentTitle').value,
-                feats: [1,2,3,4].map(n => document.getElementById('feat'+n).value)
-            }
-        });
-        if (state.history.length > 25) state.history.shift();
-        state.history.push(snapshot);
+    window.onload = () => { draw(); };
+
+    // --- SEÇİM & KUMANDA ---
+    function selectActiveImg(key) {
+        state.activeImgKey = key;
+        document.querySelectorAll('.img-item').forEach(e => e.classList.remove('active'));
+        document.getElementById('item-' + key).classList.add('active');
+
+        let label = "ANA VİTRİN";
+        if(key.startsWith('sub')) label = "DETAY " + key.replace('sub','');
+        if(key.startsWith('logo')) label = key.toUpperCase();
+        document.getElementById('activeImgLabel').innerText = "Seçili: " + label;
+
+        document.getElementById('masterX').value = state.imgs[key].x;
+        document.getElementById('masterY').value = state.imgs[key].y;
+
+        if(key.startsWith('logo')) {
+            document.getElementById('masterSizeRow').style.display = 'flex';
+            document.getElementById('masterSize').value = state.imgs[key].size;
+        } else {
+            document.getElementById('masterSizeRow').style.display = 'none';
+        }
     }
 
-    function undo() {
-        if (state.history.length <= 1) return;
-        state.history.pop(); // Remove current
-        const last = JSON.parse(state.history[state.history.length - 1]);
-        
-        state.format = last.format; state.layout = last.layout;
-        state.texts = last.texts; state.footer.mode = last.footerMode;
-        
-        // UI Restore
-        document.getElementById('showHeader').checked = last.ui.showHeader;
-        document.getElementById('headerText').value = last.ui.headerText;
-        document.getElementById('headerBg').value = last.ui.headerBg;
-        document.getElementById('headerColor').value = last.ui.headerColor;
-        document.getElementById('headerHeight').value = last.ui.headerHeight;
-        document.getElementById('headerFontSize').value = last.ui.headerFontSize;
-        document.getElementById('headerFont').value = last.ui.headerFont;
-        document.getElementById('headerItalic').checked = last.ui.headerItalic;
-        document.getElementById('showFooter').checked = last.ui.showFooter;
-        document.getElementById('footerTel').value = last.ui.footerTel;
-        document.getElementById('footerWeb').value = last.ui.footerWeb;
-        document.getElementById('footerColor').value = last.ui.footerColor;
-        document.getElementById('agentName').value = last.ui.agentName;
-        document.getElementById('agentTitle').value = last.ui.agentTitle;
-        last.ui.feats.forEach((f, i) => document.getElementById('feat' + (i+1)).value = f);
+    function updateMasterPos(axis, val) {
+        state.imgs[state.activeImgKey][axis] = val;
+        draw();
+    }
 
-        // Img Restore
-        for(let k in last.imgs) {
-            state.imgs[k].x = last.imgs[k].x; state.imgs[k].y = last.imgs[k].y; state.imgs[k].size = last.imgs[k].size;
-            if(state.imgs[k].src !== last.imgs[k].src) {
-                state.imgs[k].src = last.imgs[k].src;
-                if(last.imgs[k].src) {
-                    const img = new Image(); img.onload = draw; img.src = last.imgs[k].src; state.imgs[k].obj = img;
-                } else { state.imgs[k].obj = null; }
+    // --- TEXT EDIT ---
+    function handleTextAction() {
+        const val = document.getElementById('tTxt').value;
+        if(!val) return;
+        const font = document.getElementById('tFont').value;
+        const size = document.getElementById('tSize').value;
+        const color = document.getElementById('tColor').value;
+        const isItalic = document.getElementById('tItalic').checked;
+
+        if (state.editingId !== null) {
+            const txt = state.texts.find(t => t.id === state.editingId);
+            if(txt) { 
+                txt.text = val; txt.font = font; txt.size = size; 
+                txt.color = color; txt.italic = isItalic;
             }
+            cancelEdit();
+        } else {
+            const newId = Date.now();
+            state.texts.push({
+                id:newId, text:val, font:font, size:size, color:color, 
+                italic:isItalic, x:50, y:50
+            });
+            loadTextToEdit(newId);
         }
-        if(state.footer.agentImgSrc !== last.footerAgentSrc) {
-            state.footer.agentImgSrc = last.footerAgentSrc;
-            if(last.footerAgentSrc) {
-                const img = new Image(); img.onload = draw; img.src = last.footerAgentSrc; state.footer.agentImg = img;
-            } else { state.footer.agentImg = null; }
-        }
-        
         draw(); renderLayerList();
     }
 
-    // --- CORE ---
-    function draw() {
-        canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
-        ctx.fillStyle="#f4f4f4"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    function loadTextToEdit(id) {
+        const txt = state.texts.find(t => t.id === id);
+        if(!txt) return;
+        state.editingId = id;
+        
+        document.getElementById('tTxt').value = txt.text;
+        document.getElementById('tFont').value = txt.font;
+        document.getElementById('tSize').value = txt.size;
+        document.getElementById('tColor').value = txt.color;
+        document.getElementById('tItalic').checked = txt.italic || false;
+        
+        document.getElementById('textPosSettings').style.display = 'block';
+        document.getElementById('txtX').value = txt.x;
+        document.getElementById('txtY').value = txt.y;
 
-        const headerH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
-        const showF = document.getElementById('showFooter').checked;
-        const footerH = showF ? (state.footer.mode==='simple'?100:250) : 0;
+        const btn = document.getElementById('btnAction');
+        btn.innerText = "GÜNCELLE ✅";
+        btn.classList.add('update');
+        document.getElementById('btnCancel').style.display = 'block';
 
-        if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
-
-        if(headerH > 0) {
-            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,headerH);
-            ctx.fillStyle = document.getElementById('headerColor').value;
-            const hFont = document.getElementById('headerFont').value;
-            ctx.font = `${document.getElementById('headerItalic').checked?'italic ':''}bold ${document.getElementById('headerFontSize').value}px ${hFont}`;
-            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, headerH/2);
-        }
-
-        const subs = ['sub1','sub2','sub3','sub4'].map(k=>state.imgs[k]).filter(i=>i.obj);
-        if(subs.length > 0) {
-            const sH = 250, sY = canvas.height - footerH - sH - 20;
-            if(state.layout === 'side') {
-                const sw = 300, sx = canvas.width-sw;
-                ctx.fillStyle="rgba(255,255,255,0.9)"; ctx.fillRect(sx, headerH, sw, canvas.height-headerH-footerH);
-                subs.forEach((img,i)=> drawCropped(ctx, img, sx+10, headerH+10+i*260, sw-20, 250));
-            } else {
-                ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(0, sY-10, canvas.width, sH+20);
-                subs.forEach((img,i)=> drawCropped(ctx, img, 20+i*260, sY, 240, 250));
-            }
-        }
-
-        if(showF) {
-            const fY = canvas.height - footerH;
-            ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, footerH);
-            ctx.fillStyle = "#fff"; ctx.textAlign="center";
-            if(state.footer.mode === 'simple') {
-                ctx.font="bold 35px Montserrat"; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+45);
-                ctx.font="25px Montserrat"; ctx.fillText(document.getElementById('footerWeb').value, canvas.width/2, fY+80);
-            } else {
-                if(state.footer.agentImg) ctx.drawImage(state.footer.agentImg, 20, fY+20, 210, 210);
-                ctx.textAlign="left"; ctx.font="bold 40px Montserrat"; ctx.fillText(document.getElementById('agentName').value, 250, fY+80);
-                ctx.font="25px Montserrat"; ctx.fillText(document.getElementById('agentTitle').value, 250, fY+120);
-            }
-        }
-
-        state.texts.forEach(t => {
-            ctx.save();
-            ctx.font = `bold ${t.size}px ${t.font}`; ctx.textAlign="center"; ctx.fillStyle=t.color;
-            ctx.shadowColor="black"; ctx.shadowBlur=10;
-            ctx.fillText(t.text, canvas.width*(t.x/100), canvas.height*(t.y/100));
-            ctx.restore();
-        });
-
-        ['logo1','logo2','logo3'].forEach(k => {
-            const d = state.imgs[k];
-            if(d.obj) {
-                const w = canvas.width*(d.size/100), h = w*(d.obj.height/d.obj.width);
-                ctx.drawImage(d.obj, (canvas.width-w)*(d.x/100), (canvas.height-h)*(d.y/100), w, h);
-            }
-        });
+        renderLayerList(); draw();
     }
 
-    // --- ACTIONS ---
-    function handleTextAction() {
-        const val = document.getElementById('tTxt').value; if(!val) return;
-        state.texts.push({ id:Date.now(), text:val, font:document.getElementById('tFont').value, size:document.getElementById('tSize').value, color:document.getElementById('tColor').value, x:50, y:50 });
-        pushHistory(); draw(); renderLayerList();
+    function moveText(axis, val) {
+        if(state.editingId !== null) {
+            const txt = state.texts.find(t => t.id === state.editingId);
+            if(txt) {
+                txt[axis] = val;
+                draw();
+            }
+        }
     }
-    function selectActiveImg(k) {
-        state.activeImgKey = k;
-        document.querySelectorAll('.img-item').forEach(e => e.classList.remove('active'));
-        document.getElementById('item-' + k).classList.add('active');
-        document.getElementById('masterX').value = state.imgs[k].x; document.getElementById('masterY').value = state.imgs[k].y;
-        document.getElementById('masterSizeRow').style.display = k.startsWith('logo') ? 'flex' : 'none';
-        if(k.startsWith('logo')) document.getElementById('masterSize').value = state.imgs[k].size;
+
+    function cancelEdit() {
+        state.editingId = null;
+        document.getElementById('tTxt').value = "";
+        document.getElementById('tItalic').checked = false;
+        document.getElementById('textPosSettings').style.display = 'none';
+        
+        const btn = document.getElementById('btnAction');
+        btn.innerText = "➕ EKLE";
+        btn.classList.remove('update');
+        document.getElementById('btnCancel').style.display = 'none';
+        renderLayerList(); draw();
     }
-    function updateMasterPos(axis, val) { state.imgs[state.activeImgKey][axis] = val; draw(); }
-    function moveText(axis, val) { if(state.editingId) { state.texts.find(t=>t.id===state.editingId)[axis] = val; draw(); } }
-    function loadImg(inp, k) { if(inp.files[0]) { const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ state.imgs[k].obj=i; state.imgs[k].src=e.target.result; pushHistory(); draw(); }; i.src=e.target.result; }; r.readAsDataURL(inp.files[0]); } }
-    function loadAgentImg(inp) { if(inp.files[0]) { const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ state.footer.agentImg=i; state.footer.agentImgSrc=e.target.result; draw(); }; i.src=e.target.result; }; r.readAsDataURL(inp.files[0]); } }
-    function setFormat(f) { state.format=f; pushHistory(); draw(); document.getElementById('btn-post').classList.toggle('active', f==='post'); document.getElementById('btn-story').classList.toggle('active', f==='story'); }
-    function setLayout(l) { state.layout=l; pushHistory(); draw(); document.getElementById('btn-btm').classList.toggle('active', l==='bottom'); document.getElementById('btn-side').classList.toggle('active', l==='side'); }
-    function setFooterMode(m) { state.footer.mode=m; pushHistory(); draw(); document.getElementById('fModeSimple').classList.toggle('active', m==='simple'); document.getElementById('fModeVitrin').classList.toggle('active', m==='vitrin'); document.getElementById('simpleFooterSettings').style.display = m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display = m==='vitrin'?'block':'none'; }
+
     function renderLayerList() {
-        const el = document.getElementById('layerList'); el.innerHTML = '';
+        const el = document.getElementById('layerList');
+        el.innerHTML = '';
         state.texts.forEach(t => {
-            const div = document.createElement('div'); div.className = `layer-row ${t.id===state.editingId?'selected':''}`;
-            div.innerHTML = `<span>${t.text}</span> <button class="del-btn" onclick="delTx(${t.id})">✖</button>`;
-            div.onclick = () => { state.editingId = t.id; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; renderLayerList(); };
+            const isSel = t.id === state.editingId;
+            const div = document.createElement('div');
+            div.className = `layer-row ${isSel?'selected':''}`;
+            div.onclick = () => loadTextToEdit(t.id);
+            div.innerHTML = `<span style="flex:1; font-style:${t.italic?'italic':'normal'}">${t.text}</span><button class="del-btn" onclick="delTx(${t.id}, event)">✖</button>`;
             el.appendChild(div);
         });
     }
-    function delTx(id) { state.texts = state.texts.filter(t=>t.id!==id); pushHistory(); draw(); renderLayerList(); }
-    function cancelEdit() { state.editingId = null; document.getElementById('textPosSettings').style.display='none'; renderLayerList(); }
-    function drawCropped(ctx, imgData, x,y,w,h) { const img=imgData.obj; const rB=w/h, rI=img.width/img.height; let sw,sh,sx,sy; if(rI>rB){sh=img.height; sw=sh*rB;}else{sw=img.width; sh=sw/rB;} sx=(img.width-sw)*(imgData.x/100); sy=(img.height-sh)*(imgData.y/100); ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h); }
-    function toggleEmojiModal() { document.getElementById('modalOverlay').style.display='block'; document.getElementById('emojiModal').style.display='block'; }
-    function toggleFooterModal() { document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; }
-    function closeAllModals() { document.getElementById('modalOverlay').style.display='none'; document.getElementById('emojiModal').style.display='none'; document.getElementById('footerModal').style.display='none'; }
-    function ins(e) { document.getElementById('tTxt').value += e; closeAllModals(); }
-    function download() { const a=document.createElement('a'); a.download='ilan.jpg'; a.href=canvas.toDataURL('image/jpeg', 0.95); a.click(); }
-    function resetProject() { if(confirm('Sıfırla?')) location.reload(); }
-    function saveProject() { const json = JSON.stringify(state); const blob = new Blob([json], {type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="proje.json"; a.click(); }
-    function loadProject(inp) { const r=new FileReader(); r.onload=e=>{ const d=JSON.parse(e.target.result); Object.assign(state, d); for(let k in state.imgs) if(state.imgs[k].src) { const i=new Image(); i.onload=draw; i.src=state.imgs[k].src; state.imgs[k].obj=i; } draw(); renderLayerList(); }; r.readAsText(inp.files[0]); }
-    
-    window.onload = () => { pushHistory(); draw(); };
+
+    function delTx(id, e) {
+        e.stopPropagation();
+        state.texts = state.texts.filter(t => t.id !== id);
+        if(state.editingId === id) cancelEdit();
+        renderLayerList(); draw();
+    }
+
+    // --- PROJE KAYDET ---
+    function saveProject() {
+        try {
+            const data = {
+                format: state.format, layout: state.layout, texts: state.texts,
+                footer: {
+                    show: document.getElementById('showFooter').checked,
+                    mode: state.footer.mode, agentImgSrc: state.footer.agentImgSrc,
+                    settings: {
+                        tel: document.getElementById('footerTel').value,
+                        web: document.getElementById('footerWeb').value,
+                        height: document.getElementById('footerHeight').value,
+                        color: document.getElementById('footerColor').value,
+                        agentName: document.getElementById('agentName').value,
+                        agentTitle: document.getElementById('agentTitle').value,
+                        feats: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value)
+                    }
+                },
+                header: {
+                    show: document.getElementById('showHeader').checked,
+                    text: document.getElementById('headerText').value,
+                    bg: document.getElementById('headerBg').value,
+                    color: document.getElementById('headerColor').value,
+                    height: document.getElementById('headerHeight').value, // YENİ
+                    font: document.getElementById('headerFont').value, // YENİ
+                    fontSize: document.getElementById('headerFontSize').value, // YENİ
+                    italic: document.getElementById('headerItalic').checked // YENİ
+                },
+                imgs: {}
+            };
+            for(const[k,v] of Object.entries(state.imgs)) {
+                if(v.src) data.imgs[k] = {src:v.src, x:v.x, y:v.y, size:v.size};
+            }
+            const json = JSON.stringify(data);
+            const blob = new Blob([json], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = "emlak-studyo-proje.json"; 
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        } catch(err) { alert("Hata: " + err); }
+    }
+
+    // --- PROJE YÜKLE ---
+    function loadProject(input) {
+        if(!input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const d = JSON.parse(e.target.result);
+                setFormat(d.format); setLayout(d.layout);
+                state.texts = d.texts || []; renderLayerList();
+                if(d.header) {
+                    document.getElementById('showHeader').checked = d.header.show;
+                    document.getElementById('headerText').value = d.header.text;
+                    document.getElementById('headerBg').value = d.header.bg;
+                    document.getElementById('headerColor').value = d.header.color;
+                    
+                    // YENİ ÖZELLİKLERİ GERİ YÜKLE
+                    if(d.header.height) document.getElementById('headerHeight').value = d.header.height;
+                    if(d.header.font) document.getElementById('headerFont').value = d.header.font;
+                    if(d.header.fontSize) document.getElementById('headerFontSize').value = d.header.fontSize;
+                    if(d.header.italic !== undefined) document.getElementById('headerItalic').checked = d.header.italic;
+                }
+                if(d.footer) {
+                    document.getElementById('showFooter').checked = d.footer.show;
+                    setFooterMode(d.footer.mode);
+                    if(d.footer.settings) {
+                        document.getElementById('footerTel').value = d.footer.settings.tel;
+                        document.getElementById('footerWeb').value = d.footer.settings.web;
+                        document.getElementById('footerHeight').value = d.footer.settings.height;
+                        document.getElementById('footerColor').value = d.footer.settings.color;
+                        document.getElementById('agentName').value = d.footer.settings.agentName;
+                        document.getElementById('agentTitle').value = d.footer.settings.agentTitle;
+                        if(d.footer.settings.feats) d.footer.settings.feats.forEach((f,i) => { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = f; });
+                    }
+                    if(d.footer.agentImgSrc) {
+                        const img = new Image(); img.src = d.footer.agentImgSrc;
+                        img.onload = () => { state.footer.agentImg = img; state.footer.agentImgSrc = d.footer.agentImgSrc; draw(); };
+                    }
+                }
+                if(d.imgs) {
+                    for(const[k,v] of Object.entries(d.imgs)) {
+                        const img = new Image(); img.src = v.src;
+                        img.onload = () => {
+                            state.imgs[k].obj = img; state.imgs[k].src = v.src; state.imgs[k].x = v.x; state.imgs[k].y = v.y;
+                            if(v.size) state.imgs[k].size = v.size; draw();
+                        };
+                    }
+                }
+            } catch(err) { alert("Hata: " + err); }
+        };
+        reader.readAsText(input.files[0]);
+    }
+
+    // --- ÇİZİM MOTORU ---
+    function draw() {
+        canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
+        ctx.fillStyle="#ecf0f1"; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+        // HEADER HESABI (YENİ: Slider'dan alınıyor)
+        // Eğer kapalıysa 0, açıksa slider değeri
+        const headerH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
+        
+        const showFooter = document.getElementById('showFooter').checked;
+        let footerH = 0;
+        if(showFooter) {
+            footerH = state.footer.mode === 'simple' ? (state.format==='story'?120:100) : parseInt(document.getElementById('footerHeight').value);
+        }
+
+        // 1. Ana Resim
+        if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
+        else { ctx.fillStyle="#bdc3c7"; ctx.font="40px sans-serif"; ctx.textAlign="center"; ctx.fillText("Görsel Bekleniyor...", canvas.width/2, canvas.height/2); }
+
+        // 2. Header (YENİLENMİŞ ÇİZİM)
+        if(headerH > 0) {
+            ctx.fillStyle = document.getElementById('headerBg').value; 
+            ctx.fillRect(0, 0, canvas.width, headerH);
+            
+            ctx.fillStyle = document.getElementById('headerColor').value;
+            
+            // Kullanıcı ayarlarını al
+            const hFont = document.getElementById('headerFont').value;
+            const hSize = document.getElementById('headerFontSize').value;
+            const hItalic = document.getElementById('headerItalic').checked ? "italic " : "";
+            
+            ctx.font = `${hItalic}bold ${hSize}px ${hFont}`;
+            ctx.textAlign = "center"; 
+            ctx.textBaseline = "middle"; 
+            ctx.fillText(document.getElementById('headerText').value, canvas.width/2, headerH/2);
+        }
+
+        // 3. Alt Resimler (DİKKAT: HeaderH yüksekliğine göre aşağı kaymalı)
+        // Ama biz tasarımda ana resmi tam ekran yapıp üzerine bindiriyoruz.
+        // Ancak Side Bar (Yan Şerit) varsa header'ın altından başlamalı.
+        const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
+        if(subs.length > 0) {
+            const sH = canvas.height*0.25; 
+            const sY = canvas.height - footerH - sH - (showFooter?20:0);
+            
+            if(state.format === 'story') {
+                const gridH = canvas.height * 0.3; const gridY = canvas.height - footerH - gridH - 50;
+                ctx.fillStyle="rgba(0,0,0,0.7)"; ctx.fillRect(0, gridY, canvas.width, gridH + 100);
+                const gap=20, cw=(canvas.width-gap*3)/2, ch=(gridH-gap)/2;
+                subs.forEach((img,i)=>{ if(i>3)return;
+                    const col=i%2, row=Math.floor(i/2); const x=gap+col*(cw+gap), y=gridY+gap+row*(ch+gap);
+                    ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10); drawCropped(ctx, img, x,y,cw,ch);
+                });
+            } else if(state.layout === 'side') {
+                const sw = canvas.width*0.28, sx = canvas.width-sw;
+                // Side bar header'ın altından başlar, footer'ın üstünde biter
+                ctx.fillStyle="rgba(255,255,255,0.95)"; 
+                ctx.fillRect(sx, headerH, sw, canvas.height - headerH - footerH);
+                
+                const availH = canvas.height - headerH - footerH; 
+                const ch = (availH-(subs.length+1)*10)/subs.length;
+                subs.forEach((img,i)=>{ 
+                    // Y koordinatı: Header yüksekliği + boşluk + sıra
+                    drawCropped(ctx, img, sx+10, headerH+10+i*(ch+10), sw-20, ch); 
+                });
+            } else {
+                ctx.fillStyle="rgba(0,0,0,0.6)"; ctx.fillRect(0, sY-20, canvas.width, sH+40);
+                const gap=20, cw=(canvas.width-(subs.length+1)*gap)/subs.length;
+                subs.forEach((img,i)=>{ const x=gap+i*(cw+gap); ctx.fillStyle="#fff"; ctx.fillRect(x-5,sY-5,cw+10,sH+10); drawCropped(ctx, img, x,sY,cw,sH); });
+            }
+        }
+
+        // 4. Footer
+        if(showFooter) {
+            const fY = canvas.height - footerH;
+            ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, footerH);
+            if(state.footer.mode === 'simple') {
+                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.textBaseline="middle";
+                const tel=document.getElementById('footerTel').value; const web=document.getElementById('footerWeb').value; const bf=state.format==='story'?40:32;
+                if(tel&&web) { ctx.font=`bold ${bf}px 'Montserrat'`; ctx.fillText(tel, canvas.width/2, fY+footerH*0.35); ctx.font=`${bf-5}px 'Montserrat'`; ctx.fillText(web, canvas.width/2, fY+footerH*0.75); } 
+                else { ctx.font=`bold ${bf}px 'Montserrat'`; ctx.fillText(tel||web, canvas.width/2, fY+footerH/2); }
+            } else {
+                const pad = footerH*0.1; const imgSize = footerH*0.7;
+                if(state.footer.agentImg) {
+                    ctx.save(); ctx.beginPath(); ctx.arc(pad+imgSize/2, fY+footerH/2, imgSize/2, 0, Math.PI*2); ctx.clip();
+                    drawCropped(ctx, {obj:state.footer.agentImg, x:50, y:50}, pad, fY+(footerH-imgSize)/2, imgSize, imgSize); ctx.restore();
+                    ctx.beginPath(); ctx.arc(pad+imgSize/2, fY+footerH/2, imgSize/2, 0, Math.PI*2); ctx.lineWidth=5; ctx.strokeStyle="#fff"; ctx.stroke();
+                }
+                ctx.fillStyle="#fff"; ctx.textAlign="left"; const textX = pad + imgSize + 20;
+                ctx.font=`bold ${footerH*0.15}px 'Montserrat'`; ctx.fillText(document.getElementById('agentName').value, textX, fY+footerH*0.4);
+                ctx.font=`${footerH*0.10}px 'Montserrat'`; ctx.fillText(document.getElementById('agentTitle').value.toUpperCase(), textX, fY+footerH*0.6);
+                const feats = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value).filter(f=>f);
+                if(feats.length>0) {
+                    const startX = canvas.width*0.55; const colW = (canvas.width-startX-pad)/2; const rowH = footerH/4;
+                    ctx.font=`bold ${footerH*0.12}px 'Roboto'`;
+                    feats.forEach((f,i)=>{
+                        const col=i%2, row=Math.floor(i/2); const fx=startX+col*colW, fy=fY+pad+row*rowH+rowH/2;
+                        ctx.fillStyle="#f1c40f"; ctx.fillText("✓", fx, fy); ctx.fillStyle="#fff"; ctx.fillText(f, fx+25, fy);
+                    });
+                }
+            }
+        }
+
+        // 5. Metinler
+        state.texts.forEach(t => {
+            const x=canvas.width*(t.x/100), y=canvas.height*(t.y/100);
+            ctx.save(); 
+            const style = t.italic ? "italic " : "";
+            ctx.font = `${style}bold ${t.size}px ${t.font}`;
+            ctx.textAlign="center"; ctx.textBaseline="middle";
+            ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=8; ctx.fillStyle=t.color;
+            ctx.fillText(t.text, x, y);
+            if(t.id===state.editingId) { ctx.shadowBlur=0; ctx.strokeStyle="#e74c3c"; ctx.lineWidth=3; ctx.setLineDash([10,5]); ctx.strokeRect(x-100,y-20,200,40); }
+            ctx.restore();
+        });
+
+        // 6. Logolar
+        ['logo1', 'logo2', 'logo3'].forEach(key => {
+            if(state.imgs[key].obj) {
+                const img=state.imgs[key].obj; const lw=canvas.width*(state.imgs[key].size/100); const lh=lw*(img.height/img.width);
+                const lx=(canvas.width-lw)*(state.imgs[key].x/100); const ly=(canvas.height-lh)*(state.imgs[key].y/100);
+                ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=10; ctx.drawImage(img, lx, ly, lw, lh); ctx.shadowBlur=0;
+            }
+        });
+    }
+
+    // YARDIMCILAR
+    function drawCropped(ctx, imgData, x,y,w,h) {
+        const img=imgData.obj; const rBox=w/h, rImg=img.width/img.height;
+        let sw,sh,sx,sy; if(rImg>rBox) { sh=img.height; sw=sh*rBox; } else { sw=img.width; sh=sw/rBox; }
+        sx=(img.width-sw)*(imgData.x/100); sy=(img.height-sh)*(imgData.y/100);
+        ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h);
+    }
+    function loadImg(inp,k){ if(inp.files[0]){ const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{state.imgs[k].obj=i;state.imgs[k].src=e.target.result;selectActiveImg(k);draw();}; i.src=e.target.result;}; r.readAsDataURL(inp.files[0]); } }
+    function removeImg(k,e){ e.stopPropagation(); state.imgs[k].obj=null; state.imgs[k].src=null; document.getElementById('file-'+k).value=''; draw(); }
+    function setFormat(f){ state.format=f; draw(); }
+    function setLayout(l){ state.layout=l; draw(); }
+    function download(){ const a=document.createElement('a'); a.download='vitrin.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
+    function toggleEmojiModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('emojiModal').style.display='block'; document.getElementById('footerModal').style.display='none'; }
+    function toggleFooterModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; document.getElementById('emojiModal').style.display='none'; }
+    function closeAllModals(){ document.getElementById('modalOverlay').style.display='none'; document.getElementById('emojiModal').style.display='none'; document.getElementById('footerModal').style.display='none'; }
+    function ins(c){ document.getElementById('tTxt').value+=c+" "; closeAllModals(); }
+    function loadAgentImg(i){ if(i.files[0]){const r=new FileReader(); r.onload=e=>{const img=new Image(); img.onload=()=>{state.footer.agentImg=img;state.footer.agentImgSrc=e.target.result;draw();}; img.src=e.target.result;}; r.readAsDataURL(i.files[0]);} }
+    function setFooterMode(m){ state.footer.mode=m; document.getElementById('fModeSimple').className=m==='simple'?'f-mode-btn active':'f-mode-btn'; document.getElementById('fModeVitrin').className=m==='vitrin'?'f-mode-btn active':'f-mode-btn'; document.getElementById('simpleFooterSettings').style.display=m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display=m==='vitrin'?'block':'none'; draw(); }
+    function resetProject(){ if(confirm('Sil?')) location.reload(); }
 </script>
 
 </body>
