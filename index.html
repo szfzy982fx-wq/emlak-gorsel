@@ -3,56 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V22 PRO (Ultra Edition)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Emlak Stüdyosu V19 (Undo Edition)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #2c3e50; --accent: #f1c40f; --success: #27ae60; --danger: #e74c3c; --sidebar-bg: #ffffff; }
-        body { font-family: 'Montserrat', sans-serif; background: #1a1a2e; margin: 0; height: 100vh; overflow: hidden; color: #333; }
-        .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
+        .wrapper { display: grid; grid-template-columns: 360px 1fr; height: 100vh; }
         
-        /* SIDEBAR TASARIMI */
-        .sidebar { background: var(--sidebar-bg); padding: 20px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
-        .brand-header { text-align: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 20px; }
-        .brand-header h1 { font-size: 22px; font-weight: 900; color: var(--primary); margin: 0; letter-spacing: -1px; }
-        .brand-header span { color: var(--accent); font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; }
-
-        /* GRUPLANDIRMA */
-        .section { background: #f8f9fa; border-radius: 8px; padding: 12px; margin-bottom: 15px; border: 1px solid #eee; }
-        .group-title { font-size: 11px; font-weight: 800; color: #95a5a6; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
-
-        /* BUTONLAR */
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        button { cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.3s; font-family: 'Montserrat'; }
-        .btn-main { background: var(--primary); color: white; padding: 10px; font-size: 11px; }
-        .btn-undo { background: #9b59b6; color: white; padding: 10px; font-size: 11px; }
-        .btn-wa { background: #25D366; color: white; padding: 12px; font-size: 14px; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-wa:hover { background: #128C7E; transform: translateY(-2px); }
-
-        /* KONTROLLER */
-        .master-panel { background: #2c3e50; color: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 11px; }
-        .control-row input[type="range"] { flex: 1; accent-color: var(--accent); }
-
-        /* GÖRSEL SEÇİCİ */
-        .img-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
-        .img-box { border: 2px solid #eee; border-radius: 5px; padding: 5px; text-align: center; cursor: pointer; font-size: 9px; font-weight: bold; }
-        .img-box.active { border-color: var(--accent); background: #fef9e7; }
-        .img-box input { display: none; }
-
-        /* METİN ALANI */
-        .text-area { background: #fff; border: 2px solid var(--accent); border-radius: 8px; padding: 10px; }
-        .input-custom { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; box-sizing: border-box; }
-
-        /* CANVAS */
-        .canvas-area { position: relative; display: flex; align-items: center; justify-content: center; overflow: auto; background: #1a1a2e; }
-        canvas { background: white; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 1px solid #333; cursor: crosshair; }
+        /* SOL PANEL */
+        .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        .safe-zone-info { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 20px; font-size: 10px; pointer-events: none; }
+        /* MARKA LOGO ALANI */
+        .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
+        .brand-logo-svg { width: 44px; height: 44px; }
+        .brand-text { display: flex; flex-direction: column; justify-content: center; }
+        .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; letter-spacing: -0.5px; }
+        .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+
+        .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+
+        /* PROJE BUTONLARI */
+        .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; }
+        .btn-new { background: #8e44ad; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-undo { background: #e67e22; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; grid-column: span 2; margin-top: 5px;}
+        
+        /* FORMAT BUTONLARI */
+        .btn-group { display: flex; gap: 5px; margin-bottom: 5px; }
+        .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; transition: 0.2s; }
+        .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
+
+        /* GÖRSEL LİSTESİ */
+        .img-selector-list { display: flex; flex-direction: column; gap: 4px; }
+        .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
+        .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
+        .img-label-area { flex: 1; overflow: hidden; }
+        .img-label-area label { font-size: 11px; font-weight: bold; cursor: pointer; display: block; }
+        .img-label-area input { font-size: 9px; width: 100%; margin-top: 2px; }
+        .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
+
+        /* KUMANDA PANELİ */
+        .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10; }
+        .master-header { font-size: 10px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .control-row span { font-size: 11px; width: 40px; text-align: right; }
+        .control-row input { flex: 1; cursor: pointer; }
+
+        /* METİN KUTUSU */
+        .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
+        .input-text { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 5px; font-size: 13px; }
+        .btn-emoji-open { width: 100%; background: #fff; border: 1px dashed #ccc; padding: 5px; margin-bottom: 5px; cursor: pointer; font-size: 11px; border-radius: 4px; }
+        .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        
+        #textPosSettings { display: none; background: #fff3cd; padding: 8px; border: 1px solid #ffeeba; border-radius: 4px; margin-top: 5px; }
+
+        /* KATMAN LİSTESİ */
+        .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
+        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
+        .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
+        .del-btn { background: #e74c3c; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; }
+
+        /* HEADER & FOOTER AYARLARI */
+        .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
+        .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
+        .hf-input { width: 100%; padding: 4px; margin-top: 2px; border: none; border-radius: 3px; box-sizing: border-box; }
+        
+        .footer-mode-select { display:flex; gap:5px; margin-bottom:5px; background:#2c3e50; padding:3px; border-radius:4px; }
+        .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
+        .f-mode-btn.active { background:white; color:#333; }
+
+        .btn-download { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px; }
 
         /* MODALLAR */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; }
-        .modal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 10px; width: 350px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 998; }
+        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999; border: 1px solid #ddd; max-height: 90vh; overflow-y: auto; }
+        .emoji-modal { width: 250px; }
+        .footer-modal { width: 500px; padding: 0; }
+        .modal-header { background: #f8f9fa; padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; border-radius: 8px 8px 0 0; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 15px;}
+        .emoji-btn { font-size: 20px; cursor: pointer; background: none; border: 1px solid transparent; padding: 4px; border-radius: 4px; }
+
+        .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
     </style>
 </head>
 <body>
@@ -60,78 +93,169 @@
 <div class="wrapper">
     <div class="sidebar">
         <div class="brand-header">
-            <h1>EMLAK STÜDYOSU</h1>
-            <span>V22 PRO DESIGNER</span>
-        </div>
-
-        <div class="btn-grid">
-            <button class="btn-undo" onclick="undo()">↩️ GERİ AL</button>
-            <button class="btn-main" onclick="location.reload()">✨ SIFIRLA</button>
-        </div>
-
-        <div class="section">
-            <div class="group-title">Şablon Sistemi</div>
-            <input type="text" id="tmpName" class="input-custom" style="padding:5px;" placeholder="Şablon adı...">
-            <button class="btn-main" style="width:100%; background:var(--success)" onclick="saveTemplate()">💾 ŞABLONU HAFIZAYA KAYDET</button>
-            <div id="templateList" style="margin-top:8px; max-height:80px; overflow-y:auto;"></div>
-        </div>
-
-        <div class="master-panel">
-            <div id="activeLabel" style="color:var(--accent); font-size:10px; margin-bottom:8px; font-weight:bold;">Seçili: Ana Vitrin</div>
-            <div class="control-row"><span>X</span> <input type="range" id="mX" min="0" max="100" oninput="updateProp('x', this.value)"></div>
-            <div class="control-row"><span>Y</span> <input type="range" id="mY" min="0" max="100" oninput="updateProp('y', this.value)"></div>
-            <div class="control-row" id="mSizeRow"><span>Boyut</span> <input type="range" id="mSize" min="5" max="100" oninput="updateProp('size', this.value)"></div>
-        </div>
-
-        <div class="section">
-            <div class="group-title">Görsel Katmanları</div>
-            <div class="img-list">
-                <div class="img-box active" id="box-main" onclick="sel('main')">Vitrin<input type="file" onchange="loadImg(this,'main')"></div>
-                <div class="img-box" id="box-sub1" onclick="sel('sub1')">Detay 1<input type="file" onchange="loadImg(this,'sub1')"></div>
-                <div class="img-box" id="box-sub2" onclick="sel('sub2')">Detay 2<input type="file" onchange="loadImg(this,'sub2')"></div>
-                <div class="img-box" id="box-logo1" onclick="sel('logo1')">Logo 1<input type="file" onchange="loadImg(this,'logo1')"></div>
-                <div class="img-box" id="box-logo2" onclick="sel('logo2')">Logo 2<input type="file" onchange="loadImg(this,'logo2')"></div>
-                <div class="img-box" style="background:#eee" onclick="openFooterModal()">Footer Düzenle</div>
+            <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
+                <path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/>
+                <circle cx="50" cy="52" r="6" fill="#f1c40f"/>
+            </svg>
+            <div class="brand-text">
+                <h1>EMLAK</h1>
+                <h1 style="color:#2c3e50">STÜDYOSU</h1>
+                <span>V19 UNDO ENABLED</span>
             </div>
         </div>
 
-        <div class="section">
-            <div class="group-title">Metin Tasarımı</div>
-            <div class="text-area">
-                <input type="text" id="tInput" class="input-custom" placeholder="Metin yazın...">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                    <label style="font-size:10px; font-weight:bold;"><input type="checkbox" id="tGlow" onchange="draw()"> 🌟 ÖNE ÇIKAR</label>
-                    <input type="color" id="tColor" value="#ffffff" oninput="draw()">
+        <div class="project-actions">
+            <button class="btn-new" onclick="resetProject()">✨ YENİ</button>
+            <button class="btn-save" onclick="saveProject()">💾 Kaydet</button>
+            <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
+            <button class="btn-undo" onclick="undo()">↩️ GERİ AL (UNDO)</button>
+            <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
+        </div>
+
+        <div class="group-title">1. Format & Düzen</div>
+        <div class="btn-group">
+            <div class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare (Post)</div>
+            <div class="btn-toggle" id="btn-story" onclick="setFormat('story')">Hikaye (Story)</div>
+        </div>
+        <div class="btn-group">
+            <div class="btn-toggle active" id="btn-btm" onclick="setLayout('bottom')">Alt Şerit</div>
+            <div class="btn-toggle" id="btn-side" onclick="setLayout('side')">Yan Şerit</div>
+        </div>
+
+        <div class="group-title">2. Görseller & Logolar</div>
+        <div class="master-controls">
+            <div class="master-header"><span id="activeImgLabel">Seçili: ANA VİTRİN</span><span>AYARLAR</span></div>
+            <div class="control-row">
+                <span>Yatay ↔</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)" onchange="pushHistory()">
+            </div>
+            <div class="control-row">
+                <span>Dikey ↕</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)" onchange="pushHistory()">
+            </div>
+            <div class="control-row" id="masterSizeRow" style="display:none; border-top:1px solid #ffffff33; padding-top:5px; margin-top:5px;">
+                <span>Boyut 🔍</span> <input type="range" id="masterSize" min="5" max="100" value="20" oninput="updateMasterPos('size', this.value)" onchange="pushHistory()">
+            </div>
+        </div>
+
+        <div class="img-selector-list" style="margin-top:10px;">
+            <div class="img-item active" onclick="selectActiveImg('main')" id="item-main"><div class="img-label-area"><label>⭐ Ana Vitrin</label><input type="file" onchange="loadImg(this, 'main')"></div></div>
+            <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1"><div class="img-label-area"><label>Detay 1</label><input type="file" id="file-sub1" onchange="loadImg(this, 'sub1')"></div><button class="btn-remove-img" onclick="removeImg('sub1', event)">🗑️</button></div>
+            <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2"><div class="img-label-area"><label>Detay 2</label><input type="file" id="file-sub2" onchange="loadImg(this, 'sub2')"></div><button class="btn-remove-img" onclick="removeImg('sub2', event)">🗑️</button></div>
+            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3"><div class="img-label-area"><label>Detay 3</label><input type="file" id="file-sub3" onchange="loadImg(this, 'sub3')"></div><button class="btn-remove-img" onclick="removeImg('sub3', event)">🗑️</button></div>
+            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4"><div class="img-label-area"><label>Detay 4</label><input type="file" id="file-sub4" onchange="loadImg(this, 'sub4')"></div><button class="btn-remove-img" onclick="removeImg('sub4', event)">🗑️</button></div>
+            
+            <div style="margin-top:10px; border-top:1px solid #eee; padding-top:5px;">
+                <label style="font-size:10px; font-weight:bold; color:#7f8c8d; margin-bottom:5px; display:block;">LOGOLAR</label>
+                <div class="img-item" onclick="selectActiveImg('logo1')" id="item-logo1"><div class="img-label-area"><label>Logo 1 (Sol)</label><input type="file" id="file-logo1" onchange="loadImg(this, 'logo1')"></div><button class="btn-remove-img" onclick="removeImg('logo1', event)">🗑️</button></div>
+                <div class="img-item" onclick="selectActiveImg('logo2')" id="item-logo2"><div class="img-label-area"><label>Logo 2 (Orta)</label><input type="file" id="file-logo2" onchange="loadImg(this, 'logo2')"></div><button class="btn-remove-img" onclick="removeImg('logo2', event)">🗑️</button></div>
+                <div class="img-item" onclick="selectActiveImg('logo3')" id="item-logo3"><div class="img-label-area"><label>Logo 3 (Sağ)</label><input type="file" id="file-logo3" onchange="loadImg(this, 'logo3')"></div><button class="btn-remove-img" onclick="removeImg('logo3', event)">🗑️</button></div>
+            </div>
+        </div>
+
+        <div class="group-title">3. Kurumsal Başlık (Üst Panel)</div>
+        <div class="hf-settings">
+            <label><input type="checkbox" id="showHeader" onchange="pushHistory(); draw()"> Başlığı Göster</label>
+            <div style="margin-top:5px; padding-top:5px; border-top:1px solid #ffffff33;">
+                <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı..." onchange="pushHistory(); draw()" oninput="draw()">
+                <div class="control-row" style="margin-top:5px;">
+                    <span style="width:auto; font-size:10px;">Yükseklik:</span>
+                    <input type="range" id="headerHeight" min="50" max="250" value="80" oninput="draw()" onchange="pushHistory()">
                 </div>
-                <button class="btn-main" style="width:100%; background:var(--success)" onclick="addText()">➕ METİN EKLE / GÜNCELLE</button>
+                <div class="hf-row">
+                    <select id="headerFont" class="hf-input" onchange="pushHistory(); draw()">
+                        <option value="'Montserrat', sans-serif">Montserrat</option>
+                        <option value="'Playfair Display', serif">Playfair</option>
+                        <option value="'Bebas Neue', sans-serif">Bebas</option>
+                        <option value="'Dancing Script', cursive">El Yazısı</option>
+                    </select>
+                    <input type="number" id="headerFontSize" class="hf-input" style="width:50px;" value="40" onchange="pushHistory(); draw()">
+                </div>
+                <div class="hf-row">
+                    <label><input type="checkbox" id="headerItalic" onchange="pushHistory(); draw()"> İtalik</label>
+                    <input type="color" id="headerBg" value="#ffffff" onchange="pushHistory(); draw()">
+                    <input type="color" id="headerColor" value="#003399" onchange="pushHistory(); draw()">
+                </div>
             </div>
-            <div id="layerList" style="margin-top:5px; max-height:80px; overflow-y:auto; font-size:10px;"></div>
         </div>
 
-        <button class="btn-wa" onclick="shareWhatsApp()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.316 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.818-.981z"/></svg>
-            WHATSAPP İLE PAYLAŞ
-        </button>
-        <button class="btn-main" style="width:100%; margin-top:5px;" onclick="download()">💾 GÖRSELİ İNDİR</button>
-        <div style="text-align:center; margin-top:10px;">
-            <label style="font-size:10px; color:#95a5a6;"><input type="checkbox" id="showSafeZone" onchange="draw()"> WhatsApp Güvenli Alanı Göster</label>
+        <div class="group-title">4. Footer (Alt Panel)</div>
+        <div class="hf-settings">
+            <label><input type="checkbox" id="showFooter" checked onchange="pushHistory(); draw()"> Alt Şerit Aç</label>
+            <div class="footer-mode-select" style="margin-top:5px;">
+                <button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">BASİT</button>
+                <button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">VİTRİN</button>
+            </div>
+            <div id="simpleFooterSettings">
+                <input type="text" id="footerTel" class="hf-input" placeholder="Tel..." onchange="pushHistory(); draw()">
+                <input type="text" id="footerWeb" class="hf-input" placeholder="Web..." onchange="pushHistory(); draw()">
+            </div>
+            <div id="vitrinFooterSettings" style="display:none;">
+                <button class="btn-action" style="font-size:10px; padding:5px;" onclick="toggleFooterModal()">✏️ İçeriği Düzenle</button>
+            </div>
+            <input type="color" id="footerColor" value="#000000" style="width:100%; height:20px; margin-top:5px;" onchange="pushHistory(); draw()">
         </div>
+
+        <div class="group-title">5. Metin Ekle</div>
+        <div class="text-box">
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()">😊 Emojiler</button>
+            <input type="text" id="tTxt" class="input-text" placeholder="Metin yazın...">
+            <div style="display:flex; gap:5px; margin-bottom:5px;">
+                <select id="tFont" style="flex:1;">
+                    <option value="Arial">Arial</option>
+                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas</option>
+                </select>
+                <input type="number" id="tSize" value="60" style="width:40px">
+                <input type="color" id="tColor" value="#ffffff">
+            </div>
+            <button id="btnAction" class="btn-action" onclick="handleTextAction()">➕ EKLE</button>
+            
+            <div id="textPosSettings">
+                <div class="control-row">
+                    <span>X</span> <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" onchange="pushHistory()">
+                </div>
+                <div class="control-row">
+                    <span>Y</span> <input type="range" id="txtY" min="0" max="100" oninput="moveText('y', this.value)" onchange="pushHistory()">
+                </div>
+                <button onclick="cancelEdit()" style="width:100%; font-size:9px; margin-top:5px;">Vazgeç</button>
+            </div>
+        </div>
+        <div id="layerList" class="layer-list"></div>
+
+        <button class="btn-download" onclick="download()">💾 GÖRSELİ İNDİR</button>
+        <div style="height:50px"></div>
     </div>
 
     <div class="canvas-area">
-        <div class="safe-zone-info">4:5 & 1:1 Smart Preview Active</div>
         <canvas id="canvas"></canvas>
     </div>
 </div>
 
-<div id="footerModal" class="modal">
-    <div class="modal-content">
-        <h3 style="margin-top:0">Footer Bilgileri</h3>
-        <input type="text" id="fTel" placeholder="Telefon" class="input-custom" oninput="draw()">
-        <input type="text" id="fWeb" placeholder="Web Sitesi" class="input-custom" oninput="draw()">
-        <input type="text" id="fName" placeholder="Danışman Adı" class="input-custom" oninput="draw()">
-        <hr>
-        <button class="btn-main" style="width:100%" onclick="closeFooterModal()">KAYDET VE KAPAT</button>
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box emoji-modal" id="emojiModal" style="display:none;">
+        <div class="modal-header"><span>Emojiler</span><span style="cursor:pointer" onclick="closeAllModals()">✖</span></div>
+        <div class="emoji-grid">
+            <button class="emoji-btn" onclick="ins('🏠')">🏠</button><button class="emoji-btn" onclick="ins('📍')">📍</button>
+            <button class="emoji-btn" onclick="ins('📞')">📞</button><button class="emoji-btn" onclick="ins('🔥')">🔥</button>
+            <button class="emoji-btn" onclick="ins('✅')">✅</button><button class="emoji-btn" onclick="ins('⭐')">⭐</button>
+            <button class="emoji-btn" onclick="ins('🔑')">🔑</button><button class="emoji-btn" onclick="ins('📣')">📣</button>
+        </div>
+    </div>
+
+    <div class="modal-box footer-modal" id="footerModal" style="display:none;">
+        <div class="modal-header"><span>Vitrin Detayları</span><span style="cursor:pointer" onclick="closeAllModals()">✖</span></div>
+        <div style="padding:15px;">
+            <input type="text" id="agentName" placeholder="Danışman Adı" class="input-text">
+            <input type="text" id="agentTitle" placeholder="Unvan" class="input-text">
+            <input type="file" onchange="loadAgentImg(this)">
+            <hr>
+            <input type="text" id="feat1" placeholder="Özellik 1" class="input-text"><input type="text" id="feat2" placeholder="Özellik 2" class="input-text">
+            <input type="text" id="feat3" placeholder="Özellik 3" class="input-text"><input type="text" id="feat4" placeholder="Özellik 4" class="input-text">
+            <button class="btn-action" onclick="pushHistory(); draw(); closeAllModals()">UYGULA</button>
+        </div>
     </div>
 </div>
 
@@ -139,237 +263,201 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    // --- STATE & HISTORY ---
-    let state = {
-        format: 'post', activeKey: 'main',
-        imgs: {
-            main: {obj:null, src:null, x:50, y:50, size:100},
-            sub1: {obj:null, src:null, x:20, y:80, size:25},
-            sub2: {obj:null, src:null, x:50, y:80, size:25},
-            logo1: {obj:null, src:null, x:5, y:5, size:15},
-            logo2: {obj:null, src:null, x:80, y:5, size:15}
+    const state = {
+        format: 'post', layout: 'bottom',
+        activeImgKey: 'main', 
+        imgs: { 
+            main: {obj:null, src:null, x:50, y:50}, 
+            sub1: {obj:null, src:null, x:50, y:50}, sub2: {obj:null, src:null, x:50, y:50}, 
+            sub3: {obj:null, src:null, x:50, y:50}, sub4: {obj:null, src:null, x:50, y:50}, 
+            logo1: {obj:null, src:null, x:10, y:5, size:15}, logo2: {obj:null, src:null, x:50, y:5, size:15}, logo3: {obj:null, src:null, x:90, y:5, size:15}
         },
+        footer: { mode: 'simple', agentImg: null, agentImgSrc: null },
         texts: [], editingId: null,
-        footer: { show:true, tel:'', web:'', name:'' },
         history: []
     };
 
-    function saveToHistory() {
-        const snapshot = JSON.stringify(state);
-        if (state.history.length > 20) state.history.shift();
+    // --- UNDO ENGINE ---
+    function pushHistory() {
+        const snapshot = JSON.stringify({
+            format: state.format, layout: state.layout,
+            imgs: Object.keys(state.imgs).reduce((a, k) => { a[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size}; return a; }, {}),
+            texts: state.texts,
+            footerMode: state.footer.mode,
+            footerAgentSrc: state.footer.agentImgSrc,
+            ui: {
+                showHeader: document.getElementById('showHeader').checked,
+                headerText: document.getElementById('headerText').value,
+                headerBg: document.getElementById('headerBg').value,
+                headerColor: document.getElementById('headerColor').value,
+                headerHeight: document.getElementById('headerHeight').value,
+                headerFontSize: document.getElementById('headerFontSize').value,
+                headerFont: document.getElementById('headerFont').value,
+                headerItalic: document.getElementById('headerItalic').checked,
+                showFooter: document.getElementById('showFooter').checked,
+                footerTel: document.getElementById('footerTel').value,
+                footerWeb: document.getElementById('footerWeb').value,
+                footerColor: document.getElementById('footerColor').value,
+                agentName: document.getElementById('agentName').value,
+                agentTitle: document.getElementById('agentTitle').value,
+                feats: [1,2,3,4].map(n => document.getElementById('feat'+n).value)
+            }
+        });
+        if (state.history.length > 25) state.history.shift();
         state.history.push(snapshot);
     }
 
     function undo() {
-        if (state.history.length > 1) {
-            state.history.pop(); // Mevcut durumu at
-            const last = state.history[state.history.length - 1];
-            const data = JSON.parse(last);
-            Object.assign(state, data);
-            state.history = data.history; // History'i koru
-            // Resimleri yeniden canlandır
-            for(let k in state.imgs) {
-                if(state.imgs[k].src) {
-                    const i = new Image(); i.onload = draw; i.src = state.imgs[k].src;
-                    state.imgs[k].obj = i;
-                }
+        if (state.history.length <= 1) return;
+        state.history.pop(); // Remove current
+        const last = JSON.parse(state.history[state.history.length - 1]);
+        
+        state.format = last.format; state.layout = last.layout;
+        state.texts = last.texts; state.footer.mode = last.footerMode;
+        
+        // UI Restore
+        document.getElementById('showHeader').checked = last.ui.showHeader;
+        document.getElementById('headerText').value = last.ui.headerText;
+        document.getElementById('headerBg').value = last.ui.headerBg;
+        document.getElementById('headerColor').value = last.ui.headerColor;
+        document.getElementById('headerHeight').value = last.ui.headerHeight;
+        document.getElementById('headerFontSize').value = last.ui.headerFontSize;
+        document.getElementById('headerFont').value = last.ui.headerFont;
+        document.getElementById('headerItalic').checked = last.ui.headerItalic;
+        document.getElementById('showFooter').checked = last.ui.showFooter;
+        document.getElementById('footerTel').value = last.ui.footerTel;
+        document.getElementById('footerWeb').value = last.ui.footerWeb;
+        document.getElementById('footerColor').value = last.ui.footerColor;
+        document.getElementById('agentName').value = last.ui.agentName;
+        document.getElementById('agentTitle').value = last.ui.agentTitle;
+        last.ui.feats.forEach((f, i) => document.getElementById('feat' + (i+1)).value = f);
+
+        // Img Restore
+        for(let k in last.imgs) {
+            state.imgs[k].x = last.imgs[k].x; state.imgs[k].y = last.imgs[k].y; state.imgs[k].size = last.imgs[k].size;
+            if(state.imgs[k].src !== last.imgs[k].src) {
+                state.imgs[k].src = last.imgs[k].src;
+                if(last.imgs[k].src) {
+                    const img = new Image(); img.onload = draw; img.src = last.imgs[k].src; state.imgs[k].obj = img;
+                } else { state.imgs[k].obj = null; }
             }
-            draw(); renderLayers();
         }
+        if(state.footer.agentImgSrc !== last.footerAgentSrc) {
+            state.footer.agentImgSrc = last.footerAgentSrc;
+            if(last.footerAgentSrc) {
+                const img = new Image(); img.onload = draw; img.src = last.footerAgentSrc; state.footer.agentImg = img;
+            } else { state.footer.agentImg = null; }
+        }
+        
+        draw(); renderLayerList();
     }
 
-    // --- INTERACTION ---
-    let isDragging = false, isResizing = false, dragTarget = null, lastX=0, lastY=0;
-
-    canvas.addEventListener('mousedown', e => {
-        const {x, y} = getMousePos(e);
-        saveToHistory();
-
-        // 1. Logo Resize Handle
-        if(state.activeKey.startsWith('logo')) {
-            const d = state.imgs[state.activeKey];
-            if(d.obj && checkResize(x, y, d)) { isResizing = true; return; }
-        }
-        // 2. Metin Drag
-        for(let t of state.texts) {
-            const tx = canvas.width*(t.x/100), ty = canvas.height*(t.y/100);
-            if(Math.abs(x-tx)<100 && Math.abs(y-ty)<30) {
-                state.editingId = t.id; loadTextToEdit(t.id);
-                isDragging = true; dragTarget = t; return;
-            }
-        }
-        // 3. Image Drag
-        for(let k in state.imgs) {
-            if(k === 'main') continue;
-            if(state.imgs[k].obj && isInside(x, y, state.imgs[k])) {
-                sel(k); isDragging = true; dragTarget = state.imgs[k]; return;
-            }
-        }
-    });
-
-    canvas.addEventListener('mousemove', e => {
-        const {x, y} = getMousePos(e);
-        const dx = (x - lastX)/canvas.width*100, dy = (y - lastY)/canvas.height*100;
-        if(isDragging && dragTarget) { dragTarget.x += dx; dragTarget.y += dy; draw(); updatePanel(); }
-        else if(isResizing) { state.imgs[state.activeKey].size += dx; draw(); updatePanel(); }
-        lastX = x; lastY = y;
-    });
-
-    window.addEventListener('mouseup', () => { isDragging = false; isResizing = false; });
-
-    // --- DRAWING ---
+    // --- CORE ---
     function draw() {
-        canvas.width = 1080; canvas.height = 1350; // WhatsApp Portrait (4:5) En ideal format
-        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,canvas.width, canvas.height);
+        canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
+        ctx.fillStyle="#f4f4f4"; ctx.fillRect(0,0,canvas.width,canvas.height);
 
-        if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, 1080, 1350);
+        const headerH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
+        const showF = document.getElementById('showFooter').checked;
+        const footerH = showF ? (state.footer.mode==='simple'?100:250) : 0;
 
-        // Sub images
-        ['sub1', 'sub2'].forEach(k => {
-            const d = state.imgs[k];
-            if(d.obj) {
-                const w = canvas.width*(d.size/100), h = w*(d.obj.height/d.obj.width);
-                drawCropped(ctx, d, canvas.width*(d.x/100), canvas.height*(d.y/100), w, h);
-            }
-        });
+        if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
 
-        // Footer
-        if(state.footer.show) {
-            ctx.fillStyle = "rgba(0,0,0,0.85)"; ctx.fillRect(0, 1200, 1080, 150);
-            ctx.fillStyle = "#fff"; ctx.textAlign = "left"; ctx.font = "bold 35px Montserrat";
-            ctx.fillText(state.footer.tel + " | " + state.footer.web, 50, 1260);
-            ctx.fillStyle = varColor('--accent'); ctx.font = "bold 25px Montserrat";
-            ctx.fillText(state.footer.name.toUpperCase(), 50, 1300);
+        if(headerH > 0) {
+            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,headerH);
+            ctx.fillStyle = document.getElementById('headerColor').value;
+            const hFont = document.getElementById('headerFont').value;
+            ctx.font = `${document.getElementById('headerItalic').checked?'italic ':''}bold ${document.getElementById('headerFontSize').value}px ${hFont}`;
+            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, headerH/2);
         }
 
-        // Texts
+        const subs = ['sub1','sub2','sub3','sub4'].map(k=>state.imgs[k]).filter(i=>i.obj);
+        if(subs.length > 0) {
+            const sH = 250, sY = canvas.height - footerH - sH - 20;
+            if(state.layout === 'side') {
+                const sw = 300, sx = canvas.width-sw;
+                ctx.fillStyle="rgba(255,255,255,0.9)"; ctx.fillRect(sx, headerH, sw, canvas.height-headerH-footerH);
+                subs.forEach((img,i)=> drawCropped(ctx, img, sx+10, headerH+10+i*260, sw-20, 250));
+            } else {
+                ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(0, sY-10, canvas.width, sH+20);
+                subs.forEach((img,i)=> drawCropped(ctx, img, 20+i*260, sY, 240, 250));
+            }
+        }
+
+        if(showF) {
+            const fY = canvas.height - footerH;
+            ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, footerH);
+            ctx.fillStyle = "#fff"; ctx.textAlign="center";
+            if(state.footer.mode === 'simple') {
+                ctx.font="bold 35px Montserrat"; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+45);
+                ctx.font="25px Montserrat"; ctx.fillText(document.getElementById('footerWeb').value, canvas.width/2, fY+80);
+            } else {
+                if(state.footer.agentImg) ctx.drawImage(state.footer.agentImg, 20, fY+20, 210, 210);
+                ctx.textAlign="left"; ctx.font="bold 40px Montserrat"; ctx.fillText(document.getElementById('agentName').value, 250, fY+80);
+                ctx.font="25px Montserrat"; ctx.fillText(document.getElementById('agentTitle').value, 250, fY+120);
+            }
+        }
+
         state.texts.forEach(t => {
             ctx.save();
-            const tx = canvas.width*(t.x/100), ty = canvas.height*(t.y/100);
-            ctx.textAlign = "center"; ctx.font = `bold ${t.size}px Montserrat`;
-            if(t.glow) { ctx.shadowColor="black"; ctx.shadowBlur=30; ctx.strokeText(t.text, tx, ty); }
-            ctx.fillStyle = t.color; ctx.fillText(t.text, tx, ty);
-            if(state.editingId === t.id) { ctx.strokeStyle=varColor('--accent'); ctx.lineWidth=3; ctx.strokeRect(tx-150, ty-40, 300, 70); }
+            ctx.font = `bold ${t.size}px ${t.font}`; ctx.textAlign="center"; ctx.fillStyle=t.color;
+            ctx.shadowColor="black"; ctx.shadowBlur=10;
+            ctx.fillText(t.text, canvas.width*(t.x/100), canvas.height*(t.y/100));
             ctx.restore();
         });
 
-        // Logos
-        ['logo1', 'logo2'].forEach(k => {
+        ['logo1','logo2','logo3'].forEach(k => {
             const d = state.imgs[k];
             if(d.obj) {
                 const w = canvas.width*(d.size/100), h = w*(d.obj.height/d.obj.width);
-                const lx = canvas.width*(d.x/100), ly = canvas.height*(d.y/100);
-                ctx.drawImage(d.obj, lx, ly, w, h);
-                if(state.activeKey === k) {
-                    ctx.strokeStyle="cyan"; ctx.strokeRect(lx, ly, w, h);
-                    ctx.fillStyle="red"; ctx.fillRect(lx+w-15, ly+h-15, 30, 30);
-                }
+                ctx.drawImage(d.obj, (canvas.width-w)*(d.x/100), (canvas.height-h)*(d.y/100), w, h);
             }
         });
-
-        // Safe Zone Overlay
-        if(document.getElementById('showSafeZone').checked) {
-            ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.setLineDash([10,10]);
-            ctx.strokeRect(0, 135, 1080, 1080); // 1:1 Square Safe Zone
-            ctx.fillStyle = "rgba(255,255,255,0.2)"; ctx.fillRect(0,0,1080,135); ctx.fillRect(0,1215,1080,135);
-            ctx.setLineDash([]);
-        }
     }
 
     // --- ACTIONS ---
-    function addText() {
-        const val = document.getElementById('tInput').value; if(!val) return;
-        saveToHistory();
-        if(state.editingId) {
-            const t = state.texts.find(x => x.id === state.editingId);
-            t.text = val; t.glow = document.getElementById('tGlow').checked; t.color = document.getElementById('tColor').value;
-        } else {
-            state.texts.push({id:Date.now(), text:val, x:50, y:50, size:60, color:document.getElementById('tColor').value, glow:document.getElementById('tGlow').checked});
-        }
-        draw(); renderLayers();
+    function handleTextAction() {
+        const val = document.getElementById('tTxt').value; if(!val) return;
+        state.texts.push({ id:Date.now(), text:val, font:document.getElementById('tFont').value, size:document.getElementById('tSize').value, color:document.getElementById('tColor').value, x:50, y:50 });
+        pushHistory(); draw(); renderLayerList();
     }
-
-    function shareWhatsApp() {
-        // WhatsApp için 1:1 merkezli okunaklı görsel optimizasyonu
-        const link = document.createElement('a');
-        canvas.toBlob(blob => {
-            const file = new File([blob], "ilan.jpg", {type: "image/jpeg"});
-            if (navigator.share) {
-                navigator.share({ files: [file], title: 'Emlak İlanı', text: 'Yeni portföy yayında!' });
-            } else {
-                download();
-                alert("Tarayıcınız doğrudan paylaşımı desteklemiyor. Görsel indirildi, manuel paylaşabilirsiniz.");
-            }
-        }, 'image/jpeg', 0.9);
+    function selectActiveImg(k) {
+        state.activeImgKey = k;
+        document.querySelectorAll('.img-item').forEach(e => e.classList.remove('active'));
+        document.getElementById('item-' + k).classList.add('active');
+        document.getElementById('masterX').value = state.imgs[k].x; document.getElementById('masterY').value = state.imgs[k].y;
+        document.getElementById('masterSizeRow').style.display = k.startsWith('logo') ? 'flex' : 'none';
+        if(k.startsWith('logo')) document.getElementById('masterSize').value = state.imgs[k].size;
     }
-
-    // --- TEMPLATE & STORAGE ---
-    function saveTemplate() {
-        const name = document.getElementById('tmpName').value || "Şablon";
-        const temps = JSON.parse(localStorage.getItem('emlak_pro_temps') || '{}');
-        const snap = JSON.parse(JSON.stringify(state));
-        for(let k in snap.imgs) snap.imgs[k].obj = null;
-        temps[name] = snap;
-        localStorage.setItem('emlak_pro_temps', JSON.stringify(temps));
-        refreshTemplates();
-    }
-
-    function refreshTemplates() {
-        const list = document.getElementById('templateList');
-        const temps = JSON.parse(localStorage.getItem('emlak_pro_temps') || '{}');
-        list.innerHTML = "";
-        for(let n in temps) {
-            const d = document.createElement('div');
-            d.style = "display:flex; justify-content:space-between; font-size:10px; padding:3px; border-bottom:1px solid #ddd; cursor:pointer;";
-            d.innerHTML = `<span onclick="loadT('${n}')">📁 ${n}</span> <b onclick="delT('${n}')" style="color:red">✖</b>`;
-            list.appendChild(d);
-        }
-    }
-
-    // --- HELPERS ---
-    function sel(k) {
-        state.activeKey = k;
-        document.querySelectorAll('.img-box').forEach(b => b.classList.remove('active'));
-        document.getElementById('box-'+k).classList.add('active');
-        document.getElementById('activeLabel').innerText = "Seçili: " + k.toUpperCase();
-        updatePanel(); draw();
-    }
-    function updatePanel() {
-        const d = state.imgs[state.activeKey];
-        document.getElementById('mX').value = d.x; document.getElementById('mY').value = d.y; document.getElementById('mSize').value = d.size;
-        document.getElementById('mSizeRow').style.display = state.activeKey==='main' ? 'none' : 'flex';
-    }
-    function updateProp(a,v) { if(state.activeKey) { state.imgs[state.activeKey][a] = parseFloat(v); draw(); } }
-    function loadImg(inp, k) { if(inp.files[0]) { 
-        saveToHistory();
-        const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=draw; i.src=e.target.result; state.imgs[k].obj=i; state.imgs[k].src=e.target.result; sel(k); }; r.readAsDataURL(inp.files[0]); 
-    } }
-    function getMousePos(e) { const r=canvas.getBoundingClientRect(); return { x:(e.clientX-r.left)*(canvas.width/r.width), y:(e.clientY-r.top)*(canvas.height/r.height) }; }
-    function isInside(mx, my, d) { const w=canvas.width*(d.size/100), h=w*(d.obj.height/d.obj.width), lx=canvas.width*(d.x/100), ly=canvas.height*(d.y/100); return mx>lx && mx<lx+w && my>ly && my<ly+h; }
-    function checkResize(mx, my, d) { const w=canvas.width*(d.size/100), h=w*(d.obj.height/d.obj.width), lx=canvas.width*(d.x/100)+w, ly=canvas.height*(d.y/100)+h; return Math.abs(mx-lx)<30 && Math.abs(my-ly)<30; }
-    function drawCropped(ctx, d, x, y, w, h) { const img=d.obj, rI=img.width/img.height, rC=w/h; let sw, sh, sx, sy; if(rI>rC){sh=img.height; sw=sh*rC;}else{sw=img.width; sh=sw/rC;} sx=(img.width-sw)*(d.x/100); sy=(img.height-sh)*(d.y/100); ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h); }
-    function varColor(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
-    function renderLayers() {
-        const l = document.getElementById('layerList'); l.innerHTML = "";
+    function updateMasterPos(axis, val) { state.imgs[state.activeImgKey][axis] = val; draw(); }
+    function moveText(axis, val) { if(state.editingId) { state.texts.find(t=>t.id===state.editingId)[axis] = val; draw(); } }
+    function loadImg(inp, k) { if(inp.files[0]) { const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ state.imgs[k].obj=i; state.imgs[k].src=e.target.result; pushHistory(); draw(); }; i.src=e.target.result; }; r.readAsDataURL(inp.files[0]); } }
+    function loadAgentImg(inp) { if(inp.files[0]) { const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.onload=()=>{ state.footer.agentImg=i; state.footer.agentImgSrc=e.target.result; draw(); }; i.src=e.target.result; }; r.readAsDataURL(inp.files[0]); } }
+    function setFormat(f) { state.format=f; pushHistory(); draw(); document.getElementById('btn-post').classList.toggle('active', f==='post'); document.getElementById('btn-story').classList.toggle('active', f==='story'); }
+    function setLayout(l) { state.layout=l; pushHistory(); draw(); document.getElementById('btn-btm').classList.toggle('active', l==='bottom'); document.getElementById('btn-side').classList.toggle('active', l==='side'); }
+    function setFooterMode(m) { state.footer.mode=m; pushHistory(); draw(); document.getElementById('fModeSimple').classList.toggle('active', m==='simple'); document.getElementById('fModeVitrin').classList.toggle('active', m==='vitrin'); document.getElementById('simpleFooterSettings').style.display = m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display = m==='vitrin'?'block':'none'; }
+    function renderLayerList() {
+        const el = document.getElementById('layerList'); el.innerHTML = '';
         state.texts.forEach(t => {
-            const d = document.createElement('div'); d.style = "padding:2px; border-bottom:1px solid #eee; cursor:pointer;";
-            if(state.editingId === t.id) d.style.background = "#fff9c4";
-            d.innerHTML = `${t.text.substring(0,15)}... <b onclick="delT(${t.id})">✖</b>`;
-            d.onclick = () => { state.editingId = t.id; loadTextToEdit(t.id); draw(); };
-            l.appendChild(d);
+            const div = document.createElement('div'); div.className = `layer-row ${t.id===state.editingId?'selected':''}`;
+            div.innerHTML = `<span>${t.text}</span> <button class="del-btn" onclick="delTx(${t.id})">✖</button>`;
+            div.onclick = () => { state.editingId = t.id; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; renderLayerList(); };
+            el.appendChild(div);
         });
     }
-    function loadTextToEdit(id) { const t=state.texts.find(x=>x.id===id); document.getElementById('tInput').value=t.text; document.getElementById('tGlow').checked=t.glow; document.getElementById('tColor').value=t.color; }
-    function closeFooterModal() { 
-        state.footer.tel = document.getElementById('fTel').value;
-        state.footer.web = document.getElementById('fWeb').value;
-        state.footer.name = document.getElementById('fName').value;
-        document.getElementById('footerModal').style.display='none'; draw(); 
-    }
-    function openFooterModal() { document.getElementById('footerModal').style.display='block'; }
+    function delTx(id) { state.texts = state.texts.filter(t=>t.id!==id); pushHistory(); draw(); renderLayerList(); }
+    function cancelEdit() { state.editingId = null; document.getElementById('textPosSettings').style.display='none'; renderLayerList(); }
+    function drawCropped(ctx, imgData, x,y,w,h) { const img=imgData.obj; const rB=w/h, rI=img.width/img.height; let sw,sh,sx,sy; if(rI>rB){sh=img.height; sw=sh*rB;}else{sw=img.width; sh=sw/rB;} sx=(img.width-sw)*(imgData.x/100); sy=(img.height-sh)*(imgData.y/100); ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h); }
+    function toggleEmojiModal() { document.getElementById('modalOverlay').style.display='block'; document.getElementById('emojiModal').style.display='block'; }
+    function toggleFooterModal() { document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; }
+    function closeAllModals() { document.getElementById('modalOverlay').style.display='none'; document.getElementById('emojiModal').style.display='none'; document.getElementById('footerModal').style.display='none'; }
+    function ins(e) { document.getElementById('tTxt').value += e; closeAllModals(); }
     function download() { const a=document.createElement('a'); a.download='ilan.jpg'; a.href=canvas.toDataURL('image/jpeg', 0.95); a.click(); }
-    function loadT(n) { const t=JSON.parse(localStorage.getItem('emlak_pro_temps'))[n]; Object.assign(state, t); for(let k in state.imgs) if(state.imgs[k].src){ const i=new Image(); i.onload=draw; i.src=state.imgs[k].src; state.imgs[k].obj=i; } draw(); renderLayers(); }
-    window.onload = () => { refreshTemplates(); saveToHistory(); draw(); };
+    function resetProject() { if(confirm('Sıfırla?')) location.reload(); }
+    function saveProject() { const json = JSON.stringify(state); const blob = new Blob([json], {type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download="proje.json"; a.click(); }
+    function loadProject(inp) { const r=new FileReader(); r.onload=e=>{ const d=JSON.parse(e.target.result); Object.assign(state, d); for(let k in state.imgs) if(state.imgs[k].src) { const i=new Image(); i.onload=draw; i.src=state.imgs[k].src; state.imgs[k].obj=i; } draw(); renderLayerList(); }; r.readAsText(inp.files[0]); }
+    
+    window.onload = () => { pushHistory(); draw(); };
 </script>
 
 </body>
