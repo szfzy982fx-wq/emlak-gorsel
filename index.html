@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V27 (Professional Enterprise)</title>
+    <title>Emlak Stüdyosu V28 (Creative Enterprise)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
         
-        /* SIDEBAR */
         .sidebar { background: white; padding: 15px; border-right: 3px solid #2c3e50; overflow-y: auto; height: 100%; position: relative; }
         
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
@@ -18,7 +17,6 @@
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
         .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* BELİRGİN BÖLÜM BAŞLIKLARI */
         .group-title { 
             font-size: 11px; font-weight: 900; color: #ffffff; text-transform: uppercase; 
             margin: 20px 0 10px 0; background: #2c3e50; padding: 10px 12px; 
@@ -26,7 +24,6 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* PROJE BUTONLARI */
         .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .btn-undo { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; margin-bottom: 5px; }
         .btn-save { background: #2c3e50; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; }
@@ -34,11 +31,9 @@
         .btn-new { background: #8e44ad; color: white; border: none; padding: 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; }
         .active-project-name { font-size: 10px; color: #27ae60; font-weight: bold; text-align: center; grid-column: span 2; margin-top: 5px; background: #eafaf1; padding: 4px; border-radius: 4px; }
 
-        /* FORMAT & GALERİ */
         .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
 
-        /* GÖRSEL ÖĞELERİ & İSİMLER */
         .img-item { display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; position: relative; margin-bottom: 6px; background: #fff; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 5px solid #3498db; }
         .img-label-area { flex: 1; overflow: hidden; pointer-events: none; }
@@ -46,22 +41,18 @@
         .file-name-display { font-size: 10px; color: #3498db; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 3px; font-style: italic; }
         .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; }
 
-        /* KUMANDA */
         .master-controls { background: #2c3e50; color: white; padding: 12px; border-radius: 8px; margin-top: 10px; position: sticky; top: 0; z-index: 10; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
         .control-row span { font-size: 11px; width: 50px; text-align: right; opacity: 0.9; font-weight: bold; }
         .control-row input { flex: 1; cursor: pointer; }
 
-        /* AYAR PANELLERİ */
         .hf-settings { background: #34495e; color: white; padding: 12px; border-radius: 8px; font-size: 11px; margin-bottom: 10px; }
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 5px; }
         .hf-input { width: 100%; padding: 6px; border: none; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
 
-        /* CANVAS */
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; border: 5px solid #fff; }
         
-        /* MODALLAR */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; backdrop-filter: blur(4px); }
         .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); z-index: 999; width: 580px; }
         .modal-header { background: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-radius: 12px 12px 0 0; }
@@ -82,7 +73,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V27 PRO ENT</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V28 CREATIVE</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
@@ -202,17 +193,28 @@
                 <div class="control-row"><span>Boy</span> <input type="range" id="footerHeight" min="100" max="450" value="200" onmousedown="saveState()" oninput="draw()"></div>
                 <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ DANIŞMAN & ÖZELLİKLER</button>
             </div>
-            <div class="hf-row" style="margin-top:8px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="draw()"></div>
+            <div class="hf-row" style="margin-top:8px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="saveState(); draw()"></div>
         </div>
 
         <div class="group-title">6. Serbest Metin & Katmanlar</div>
         <div class="text-box">
-            <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:8px; margin-bottom:10px; cursor:pointer; font-weight:bold;">😊 EMOJİ EKLE</button>
-            <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Yazı yazın...">
-            <div style="display:flex; gap:5px; margin:8px 0;">
-                <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd;"><option value="Arial">Arial</option><option value="'Montserrat'">Montserrat</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:40px; border:1px solid #ddd; border-radius:4px;">
+            <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:8px; margin-bottom:10px; cursor:pointer; font-weight:bold;">😊 EMOJİ SEÇ</button>
+            <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
+            <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
+                <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;">
+                    <option value="'Montserrat'">Modern</option>
+                    <option value="'Bebas Neue'">Bebas (Güçlü)</option>
+                    <option value="'Dancing Script'">El Yazısı</option>
+                    <option value="'Playfair Display'">Lüks</option>
+                    <option value="'Poppins'">Poppins</option>
+                    <option value="'Roboto'">Roboto</option>
+                    <option value="Arial">Arial</option>
+                </select>
+                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px; padding:5px;">
                 <input type="color" id="tColor" value="#ffffff" style="width:30px; border:none; background:transparent;">
+            </div>
+            <div style="margin-bottom:10px;">
+                <label style="font-size:11px; font-weight:bold; cursor:pointer;"><input type="checkbox" id="tItalic"> Yatık Yazı (İtalik)</label>
             </div>
             <button id="btnAction" class="btn-action" style="width:100%; padding:10px; background:#f39c12; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="handleTextAction()">➕ KATMAN EKLE</button>
             <div id="textPosSettings" style="margin-top:12px; display:none;">
@@ -222,7 +224,7 @@
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR (JPG)</button>
+        <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR</button>
         <div style="height:60px"></div>
     </div>
 
@@ -231,11 +233,11 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box" id="emojiModal" style="display:none; width:260px;">
-        <div class="modal-header"><span>Hızlı Emojiler</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-header"><span>Emojiler</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:26px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:26px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:26px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:26px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:26px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:26px; cursor:pointer">⭐</button><button onclick="ins('💎')" style="font-size:26px; cursor:pointer">💎</button><button onclick="ins('🔑')" style="font-size:26px; cursor:pointer">🔑</button></div></div>
     </div>
     <div class="modal-box" id="footerModal" style="display:none; width:560px;">
-        <div class="modal-header"><span>Kurumsal Veri Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-header"><span>Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div class="modal-body">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div>
@@ -374,10 +376,15 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap); ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6); drawCr(ctx, img, ix, iy, cw, ch); });
         }
 
-        // METİN ÇİZİMİ (EN ÜSTTE)
+        // METİN KATMANLARI
         state.texts.forEach(t => {
-            ctx.save(); ctx.font=`${t.italic?'italic ':''}bold ${t.size}px ${t.font}`; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillStyle=t.color; ctx.shadowColor="rgba(0,0,0,0.8)"; ctx.shadowBlur=10;
-            ctx.fillText(t.text, canvas.width*(t.x/100), canvas.height*(t.y/100)); ctx.restore();
+            ctx.save();
+            ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font}`;
+            ctx.textAlign = "center"; ctx.textBaseline = "middle";
+            ctx.fillStyle = t.color;
+            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10;
+            ctx.fillText(t.text, canvas.width * (t.x / 100), canvas.height * (t.y / 100));
+            ctx.restore();
         });
 
         ['logo1','logo2','logo3'].forEach(k=>{ if(state.imgs[k].obj) { const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100), lh=lw*(i.height/i.width); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height-lh)*(state.imgs[k].y/100), lw, lh); } });
@@ -391,21 +398,20 @@
     function loadImg(inp,k){ if(inp.files[0]){ saveState(); const fName = inp.files[0].name; state.imgs[k].fileName = fName; document.getElementById('name-'+k).innerText = fName; const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.src=e.target.result; i.onload=()=>{state.imgs[k].obj=i; state.imgs[k].src=e.target.result; draw();}; }; r.readAsDataURL(inp.files[0]); } }
     function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName = "Seçilmedi"; document.getElementById('name-'+k).innerText = "Seçilmedi"; draw(); }
     
-    // METİN & EMOJİ FONKSİYONU
     function handleTextAction(){ 
         const v=document.getElementById('tTxt').value; if(!v)return; 
         saveState(); 
-        const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value;
+        const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value, it=document.getElementById('tItalic').checked;
         if(state.editingId!==null){ 
-            const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; 
+            const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; t.italic=it;
             cancelEdit(); 
         } else { 
-            const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:false, x:50, y:50}); 
+            const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:it, x:50, y:50}); 
             loadTextToEdit(id); 
         } 
         draw(); renderLayerList(); 
     }
-    function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; renderLayerList(); draw(); }
+    function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('tItalic').checked=t.italic; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; renderLayerList(); draw(); }
     function moveText(a,v){ if(state.editingId){ state.texts.find(x=>x.id===state.editingId)[a]=v; draw(); } }
     function cancelEdit(){ state.editingId=null; document.getElementById('tTxt').value=""; document.getElementById('textPosSettings').style.display='none'; document.getElementById('btnAction').innerText="➕ KATMAN EKLE"; renderLayerList(); draw(); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
@@ -472,8 +478,6 @@
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
             }
-            document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h;
-            document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
             setFormat(state.format); setFooterMode(state.footer.mode); renderLayerList(); draw();
         };
         reader.readAsText(input.files[0]);
