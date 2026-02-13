@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V21 (Dynamic Gallery)</title>
+    <title>Emlak Stüdyosu V22 (Legacy Support)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -11,7 +11,7 @@
         .wrapper { display: grid; grid-template-columns: 360px 1fr; height: 100vh; }
         .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        /* LOGO */
+        /* VİZÖR LOGO */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
@@ -24,6 +24,7 @@
         .btn-undo { background: #e74c3c; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; grid-column: span 2; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-new { background: #8e44ad; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold; }
         .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
         .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
@@ -43,7 +44,7 @@
         .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
         .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
-        .hf-input { width: 100%; padding: 4px; margin-top: 2px; border: none; border-radius: 3px; }
+        .hf-input { width: 100%; padding: 4px; margin-top: 2px; border: none; border-radius: 3px; box-sizing: border-box; }
 
         .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
@@ -51,6 +52,8 @@
 
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
+        .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
+        .f-mode-btn.active { background:white; color:#333; }
     </style>
 </head>
 <body>
@@ -61,7 +64,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V21 DYNAMIC</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V22 LEGACY FIX</span></div>
         </div>
 
         <div class="project-actions">
@@ -72,7 +75,7 @@
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
 
-        <div class="group-title">1. Format & Düzen</div>
+        <div class="group-title">1. Format</div>
         <div style="display:flex; gap:5px; margin-bottom:5px;">
             <button class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare</button>
             <button class="btn-toggle" id="btn-story" onclick="setFormat('story')">Hikaye</button>
@@ -169,7 +172,7 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box" id="emojiModal" style="display:none; width:220px;"><div class="modal-header"><span>Emoji</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:24px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:24px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:24px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:24px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:24px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:24px; cursor:pointer">⭐</button><button onclick="ins('💎')" style="font-size:24px; cursor:pointer">💎</button><button onclick="ins('🔑')" style="font-size:24px; cursor:pointer">🔑</button></div></div></div>
-    <div class="modal-box" id="footerModal" style="display:none; width:500px;"><div class="modal-header"><span>Vitrin Bilgileri</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div><label>Danışman</label><input type="text" id="agentName" placeholder="Ad Soyad" class="input-text"><input type="text" id="agentTitle" placeholder="Unvan" class="input-text"><input type="file" onchange="loadAgentImg(this)"></div><div><label>Özellikler</label><input type="text" id="feat1" placeholder="Örn: 3+1" class="input-text"><input type="text" id="feat2" placeholder="Örn: 140m2" class="input-text"><input type="text" id="feat3" placeholder="Örn: Deniz Manzaralı" class="input-text"><input type="text" id="feat4" placeholder="Örn: Krediye Uygun" class="input-text"></div></div><button onclick="closeAllModals()" style="width:100%; margin-top:15px; padding:10px; background:#27ae60; color:white; cursor:pointer;">TAMAM</button></div></div>
+    <div class="modal-box" id="footerModal" style="display:none; width:500px;"><div class="modal-header"><span>Vitrin Bilgileri</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div><label>Danışman</label><input type="text" id="agentName" placeholder="Ad Soyad" class="input-text"><input type="text" id="agentTitle" placeholder="Unvan" class="input-text"><input type="file" onchange="loadAgentImg(this)"></div><div><label>Özellikler</label><input type="text" id="feat1" placeholder="Örn: 3+1" class="input-text"><input type="text" id="feat2" placeholder="Örn: 140m2" class="input-text"><input type="text" id="feat3" placeholder="Örn: Deniz" class="input-text"><input type="text" id="feat4" placeholder="Örn: Kredi" class="input-text"></div></div><button onclick="closeAllModals()" style="width:100%; margin-top:15px; padding:10px; background:#27ae60; color:white; cursor:pointer;">TAMAM</button></div></div>
 </div>
 
 <script>
@@ -298,8 +301,77 @@
     function loadAgentImg(i){ if(i.files[0]){ saveState(); const r=new FileReader(); r.onload=e=>{ const img=new Image(); img.src=e.target.result; img.onload=()=>{state.footer.agentImg=img; state.footer.agentImgSrc=e.target.result; draw();}; }; r.readAsDataURL(i.files[0]); } }
     function download(){ const a=document.createElement('a'); a.download='ilan.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
     function resetProject(){ if(confirm('Sıfırlansın mı?')) location.reload(); }
-    function saveProject(){ /* Kaydetme logicleri... */ }
-    function loadProject(i){ /* Yükleme logicleri... */ }
+
+    // --- PROJE KAYDET & YÜKLE (GÜNCELLENDİ) ---
+    function saveProject() {
+        const data = {
+            format: state.format, texts: state.texts, gallery: state.gallery,
+            footer: { mode: state.footer.mode, agentImgSrc: state.footer.agentImgSrc },
+            header: { 
+                show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, 
+                h: document.getElementById('headerHeight').value, f: document.getElementById('headerFont').value,
+                fs: document.getElementById('headerFontSize').value, i: document.getElementById('headerItalic').checked,
+                bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value
+            },
+            f_vals: {
+                show: document.getElementById('showFooter').checked, tel: document.getElementById('footerTel').value,
+                web: document.getElementById('footerWeb').value, h: document.getElementById('footerHeight').value,
+                c: document.getElementById('footerColor').value, name: document.getElementById('agentName').value,
+                title: document.getElementById('agentTitle').value, fts: [1,2,3,4].map(n=>document.getElementById('feat'+n).value)
+            },
+            imgs: {}
+        };
+        for(let k in state.imgs) if(state.imgs[k].src) data.imgs[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size};
+        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'proje.json'; a.click();
+    }
+
+    function loadProject(input) {
+        if(!input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const d = JSON.parse(e.target.result);
+            state.format = d.format; state.texts = d.texts || [];
+            
+            // ESKİ YEDEK DÖNÜŞTÜRÜCÜ (Legacy Support)
+            if(!d.gallery) {
+                // Eğer eski yedekte 'layout' varsa ona göre pozisyon ata
+                if(d.layout === 'side') state.gallery = { w: 25, h: 80, x: 85, y: 50 };
+                else state.gallery = { w: 95, h: 25, x: 50, y: 70 };
+            } else { state.gallery = d.gallery; }
+
+            // DOM Yükleme
+            if(d.header) {
+                document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text;
+                document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFont').value = d.header.f;
+                document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerItalic').checked = d.header.i;
+                document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c;
+            }
+            if(d.f_vals) {
+                document.getElementById('showFooter').checked = d.f_vals.show; document.getElementById('footerTel').value = d.f_vals.tel;
+                document.getElementById('footerWeb').value = d.f_vals.web; document.getElementById('footerHeight').value = d.f_vals.h;
+                document.getElementById('footerColor').value = d.f_vals.c; document.getElementById('agentName').value = d.f_vals.name;
+                document.getElementById('agentTitle').value = d.f_vals.title; d.f_vals.fts.forEach((f,i)=>document.getElementById('feat'+(i+1)).value=f);
+            }
+            
+            // Görsel Yükleme
+            for(let k in d.imgs) {
+                state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y; state.imgs[k].size = d.imgs[k].size;
+                state.imgs[k].src = d.imgs[k].src;
+                if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
+            }
+            if(d.footer.agentImgSrc) {
+                state.footer.agentImgSrc = d.footer.agentImgSrc;
+                const img = new Image(); img.src = state.footer.agentImgSrc; img.onload = () => { state.footer.agentImg = img; draw(); };
+            }
+            
+            document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h;
+            document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
+            
+            setFormat(d.format); setFooterMode(d.footer.mode); renderLayerList(); draw();
+        };
+        reader.readAsText(input.files[0]);
+    }
 </script>
 </body>
 </html>
