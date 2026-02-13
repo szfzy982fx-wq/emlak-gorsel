@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V10 (Final)</title>
+    <title>Karacabay Emlak Stüdyosu V11 (Smart Save)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -13,8 +13,14 @@
         /* SOL PANEL */
         .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 16px; margin-top: 0; }
+        h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 16px; margin-top: 0; display:flex; justify-content:space-between; align-items:center; }
         .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 12px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+
+        /* YENİ: KAYDET / YÜKLE BUTONLARI */
+        .project-actions { display: flex; gap: 5px; margin-bottom: 15px; }
+        .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-save:hover { background: #2c3e50; } .btn-load:hover { background: #95a5a6; }
 
         /* Butonlar */
         .btn-group { display: flex; gap: 5px; margin-bottom: 5px; }
@@ -22,7 +28,7 @@
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
         .btn-toggle.disabled { opacity: 0.5; pointer-events: none; }
 
-        /* GÖRSEL LİSTESİ & SİLME BUTONU */
+        /* GÖRSEL LİSTESİ */
         .img-selector-list { display: flex; flex-direction: column; gap: 4px; }
         .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
         .img-item:hover { background: #f9f9f9; }
@@ -36,7 +42,7 @@
         .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
         .btn-remove-img:hover { background: #e74c3c; color: white; }
 
-        /* TEK MERKEZLİ KUMANDA */
+        /* KUMANDA PANELİ */
         .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .master-header { font-size: 10px; font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -82,7 +88,13 @@
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>💎 Emlak Stüdyosu V10</h2>
+        <h2>💎 Stüdyo V11</h2>
+
+        <div class="project-actions">
+            <button class="btn-save" onclick="saveProject()">💾 Projeyi Kaydet</button>
+            <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Proje Yükle</button>
+            <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
+        </div>
 
         <div class="group-title">1. Format & Düzen</div>
         <div class="btn-group">
@@ -119,19 +131,19 @@
 
             <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
                 <div class="img-label-area"><label>1. Detay</label><input type="file" id="file-sub1" accept="image/*" onchange="loadImg(this, 'sub1')"></div>
-                <button class="btn-remove-img" onclick="removeImg('sub1', event)" title="Resmi Kaldır">🗑️</button>
+                <button class="btn-remove-img" onclick="removeImg('sub1', event)" title="Kaldır">🗑️</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
                 <div class="img-label-area"><label>2. Detay</label><input type="file" id="file-sub2" accept="image/*" onchange="loadImg(this, 'sub2')"></div>
-                <button class="btn-remove-img" onclick="removeImg('sub2', event)" title="Resmi Kaldır">🗑️</button>
+                <button class="btn-remove-img" onclick="removeImg('sub2', event)" title="Kaldır">🗑️</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
                 <div class="img-label-area"><label>3. Detay</label><input type="file" id="file-sub3" accept="image/*" onchange="loadImg(this, 'sub3')"></div>
-                <button class="btn-remove-img" onclick="removeImg('sub3', event)" title="Resmi Kaldır">🗑️</button>
+                <button class="btn-remove-img" onclick="removeImg('sub3', event)" title="Kaldır">🗑️</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
                 <div class="img-label-area"><label>4. Detay</label><input type="file" id="file-sub4" accept="image/*" onchange="loadImg(this, 'sub4')"></div>
-                <button class="btn-remove-img" onclick="removeImg('sub4', event)" title="Resmi Kaldır">🗑️</button>
+                <button class="btn-remove-img" onclick="removeImg('sub4', event)" title="Kaldır">🗑️</button>
             </div>
         </div>
 
@@ -146,7 +158,7 @@
                     <option value="'Montserrat', sans-serif">Montserrat</option>
                     <option value="'Poppins', sans-serif">Poppins</option>
                     <option value="'Playfair Display', serif">Playfair (Lüks)</option>
-                    <option value="'Bebas Neue', sans-serif">Bebas (Başlık)</option>
+                    <option value="'Bebas Neue', sans-serif">Bebas</option>
                     <option value="'Roboto', sans-serif">Roboto</option>
                 </select>
                 <input type="number" id="tSize" value="60" style="width:40px">
@@ -179,15 +191,15 @@
         <div class="img-item" onclick="selectActiveImg('logo')" id="item-logo">
             <div class="img-label-area">
                 <label>Logo Dosyası</label>
-                <input type="file" accept="image/*" onchange="loadImg(this, 'logo')">
+                <input type="file" id="file-logo" accept="image/*" onchange="loadImg(this, 'logo')">
             </div>
         </div>
         <div class="control-row" style="background:#fff; padding:5px; border:1px solid #eee; margin-top:5px; border-radius:4px;">
             <span style="width:auto; font-size:10px; font-weight:bold; margin-right:5px;">Logo Boyut:</span>
-            <input type="range" min="5" max="50" value="20" oninput="state.imgs.logo.size=this.value; draw();">
+            <input type="range" id="logoSize" min="5" max="50" value="20" oninput="state.imgs.logo.size=this.value; draw();">
         </div>
 
-        <button class="btn-download" onclick="download()">💾 İNDİR</button>
+        <button class="btn-download" onclick="download()">💾 GÖRSELİ İNDİR</button>
         <div style="height:50px"></div>
     </div>
 
@@ -242,10 +254,10 @@
         format: 'post', layout: 'bottom',
         activeImgKey: 'main', 
         imgs: { 
-            main: {obj:null, x:50, y:50}, 
-            sub1: {obj:null, x:50, y:50}, sub2: {obj:null, x:50, y:50}, 
-            sub3: {obj:null, x:50, y:50}, sub4: {obj:null, x:50, y:50}, 
-            logo: {obj:null, x:90, y:5, size:20} 
+            main: {obj:null, src:null, x:50, y:50}, 
+            sub1: {obj:null, src:null, x:50, y:50}, sub2: {obj:null, src:null, x:50, y:50}, 
+            sub3: {obj:null, src:null, x:50, y:50}, sub4: {obj:null, src:null, x:50, y:50}, 
+            logo: {obj:null, src:null, x:90, y:5, size:20} 
         },
         texts: [],
         editingId: null
@@ -253,7 +265,90 @@
 
     window.onload = () => { draw(); };
 
-    // 1. FORMAT & LAYOUT
+    // --- PROJE KAYDET / YÜKLE SİSTEMİ ---
+    function saveProject() {
+        const data = {
+            format: state.format,
+            layout: state.layout,
+            texts: state.texts,
+            footer: {
+                show: document.getElementById('showFooter').checked,
+                tel: document.getElementById('footerTel').value,
+                web: document.getElementById('footerWeb').value,
+                color: document.getElementById('footerColor').value
+            },
+            imgs: {}
+        };
+
+        // Resimleri ve ayarlarını kaydet
+        for (const [key, val] of Object.entries(state.imgs)) {
+            if (val.src) { // Sadece yüklü resimler
+                data.imgs[key] = {
+                    src: val.src, // Base64 verisi
+                    x: val.x,
+                    y: val.y,
+                    size: val.size // Logo için
+                };
+            }
+        }
+
+        const json = JSON.stringify(data);
+        const blob = new Blob([json], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "karacabay-proje.json";
+        a.click();
+    }
+
+    function loadProject(input) {
+        if (!input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // 1. Ayarları Geri Yükle
+                setFormat(data.format);
+                setLayout(data.layout);
+                
+                // 2. Footer Geri Yükle
+                document.getElementById('showFooter').checked = data.footer.show;
+                document.getElementById('footerTel').value = data.footer.tel;
+                document.getElementById('footerWeb').value = data.footer.web;
+                document.getElementById('footerColor').value = data.footer.color;
+
+                // 3. Metinleri Geri Yükle
+                state.texts = data.texts || [];
+                renderLayerList();
+
+                // 4. Resimleri Geri Yükle
+                if (data.imgs) {
+                    for (const [key, val] of Object.entries(data.imgs)) {
+                        const img = new Image();
+                        img.src = val.src;
+                        img.onload = () => {
+                            state.imgs[key].obj = img;
+                            state.imgs[key].src = val.src;
+                            state.imgs[key].x = val.x;
+                            state.imgs[key].y = val.y;
+                            if(key === 'logo' && val.size) {
+                                state.imgs[key].size = val.size;
+                                document.getElementById('logoSize').value = val.size;
+                            }
+                            draw(); // Her resim yüklendiğinde çiz
+                        };
+                    }
+                }
+                alert("Proje başarıyla yüklendi!");
+            } catch (err) {
+                alert("Proje dosyası okunamadı! Hata: " + err);
+            }
+        };
+        reader.readAsText(input.files[0]);
+    }
+
+    // FORMAT & LAYOUT
     function setFormat(f) {
         state.format = f;
         document.querySelectorAll('#btn-post, #btn-story').forEach(b => b.classList.remove('active'));
@@ -270,7 +365,7 @@
         draw();
     }
 
-    // 2. RESİM YÖNETİMİ
+    // RESİM YÖNETİMİ
     function selectActiveImg(key) {
         state.activeImgKey = key;
         document.querySelectorAll('.img-item').forEach(el => el.classList.remove('active'));
@@ -290,6 +385,7 @@
                 const i = new Image();
                 i.onload = () => {
                     state.imgs[key].obj = i;
+                    state.imgs[key].src = e.target.result; // Kayıt için sakla
                     selectActiveImg(key);
                     draw();
                 };
@@ -299,12 +395,12 @@
         }
     }
 
-    // YENİ: RESİM SİLME FONKSİYONU
     function removeImg(key, event) {
-        event.stopPropagation(); // Seçim tetiklemesini engelle
-        state.imgs[key].obj = null; // Hafızadan sil
-        document.getElementById('file-' + key).value = ""; // Inputu temizle
-        draw(); // Yeniden çiz (Boşlukları kapatır)
+        event.stopPropagation();
+        state.imgs[key].obj = null;
+        state.imgs[key].src = null;
+        document.getElementById('file-' + key).value = "";
+        draw();
     }
 
     function updateMasterPos(axis, val) {
@@ -312,7 +408,7 @@
         draw();
     }
 
-    // 3. EMOJI & METİN
+    // METİN & EMOJI
     function toggleEmojiModal() {
         const el = document.getElementById('emojiModal');
         el.style.display = el.style.display === 'block' ? 'none' : 'block';
@@ -394,7 +490,7 @@
         renderLayerList(); draw();
     }
 
-    // --- ÇİZİM MOTORU ---
+    // ÇİZİM MOTORU
     function draw() {
         canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
         ctx.fillStyle="#ecf0f1"; ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -403,8 +499,7 @@
         if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
         else { ctx.fillStyle="#bdc3c7"; ctx.font="40px sans-serif"; ctx.textAlign="center"; ctx.fillText("Ana Resim Bekleniyor...", canvas.width/2, canvas.height/2); }
 
-        // 2. Alt Resimler (Dinamik Filtreleme)
-        // Sadece dolu olanları al. Sırayı korur.
+        // 2. Alt Resimler
         const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         const hasFooter = document.getElementById('showFooter').checked;
         const fH = state.format==='story'?120:100;
@@ -415,30 +510,16 @@
                 const sH = canvas.height*0.3;
                 const sY = canvas.height - sH - 50 - fOff;
                 ctx.fillStyle="rgba(0,0,0,0.7)"; ctx.fillRect(0, sY, canvas.width, sH+200);
-                
-                // Resim sayısına göre genişlik ayarla (En fazla 4)
-                const count = subs.length;
-                const gap=20;
-                
-                // Story modu için özel grid mantığı:
-                // 1 resim: Tam genişlik
-                // 2 resim: Yan yana
-                // 3-4 resim: 2x2 Grid (Veya 3 yan yana, ama 2x2 daha iyi)
-                
+                const count = subs.length; const gap=20;
                 if(count <= 2) {
-                   // Yan yana diz
-                   const cw = (canvas.width - gap*(count+1))/count;
-                   const ch = sH - gap; // Tek satır yüksekliği
+                   const cw = (canvas.width - gap*(count+1))/count; const ch = sH - gap;
                    subs.forEach((img, i) => {
-                       const x = gap + i*(cw+gap);
-                       const y = sY + gap;
+                       const x = gap + i*(cw+gap); const y = sY + gap;
                        ctx.fillStyle="#fff"; ctx.fillRect(x-5,y-5,cw+10,ch+10);
                        drawCropped(ctx, img, x, y, cw, ch);
                    });
                 } else {
-                   // Grid (2x2)
-                   const cw=(canvas.width-gap*3)/2; 
-                   const ch=(sH-gap)/2;
+                   const cw=(canvas.width-gap*3)/2; const ch=(sH-gap)/2;
                    subs.forEach((img,i)=>{
                        const col=i%2, row=Math.floor(i/2);
                        const x=gap+col*(cw+gap), y=sY+gap+row*(ch+gap);
@@ -446,7 +527,6 @@
                        drawCropped(ctx, img, x,y,cw,ch);
                    });
                 }
-
             } else if(state.layout === 'side') {
                 const sw = canvas.width*0.28, sx = canvas.width-sw;
                 ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.fillRect(sx,0,sw,canvas.height);
@@ -466,10 +546,9 @@
             }
         }
 
-        // 3. Logo (Boyut Ayarlı)
+        // 3. Logo
         if(state.imgs.logo.obj) {
             const img=state.imgs.logo.obj;
-            // state.imgs.logo.size'ı kullan (Yüzde)
             const lw=canvas.width*(state.imgs.logo.size/100); 
             const lh=lw*(img.height/img.width);
             const lx=(canvas.width-lw)*(state.imgs.logo.x/100);
@@ -524,7 +603,7 @@
         ctx.drawImage(img, sx,sy,sw,sh, x,y,w,h);
     }
     function download() {
-        const a=document.createElement('a'); a.download='karacabay-v10.jpg';
+        const a=document.createElement('a'); a.download='karacabay-tasarim.jpg';
         a.href=canvas.toDataURL('image/jpeg',0.95); a.click();
     }
 </script>
