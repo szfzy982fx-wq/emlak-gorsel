@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V18 (Vizör)</title>
+    <title>Emlak Stüdyosu V19 (Pro Header)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -13,7 +13,7 @@
         /* SOL PANEL */
         .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        /* YENİ LOGO ALANI: VİZÖR & VİTRİN KONSEPTİ */
+        /* MARKA LOGO ALANI */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text { display: flex; flex-direction: column; justify-content: center; }
@@ -72,7 +72,7 @@
 
         /* HEADER & FOOTER AYARLARI */
         .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
-        .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
         .hf-input { width: 100%; padding: 4px; margin-top: 2px; border: none; border-radius: 3px; box-sizing: border-box; }
         
         .footer-mode-select { display:flex; gap:5px; margin-bottom:5px; background:#2c3e50; padding:3px; border-radius:4px; }
@@ -108,15 +108,13 @@
                 <path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
                 <path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
                 <path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/>
-                
                 <path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/>
-                
                 <circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
             <div class="brand-text">
                 <h1>EMLAK</h1>
                 <h1 style="color:#2c3e50">STÜDYOSU</h1>
-                <span>V18 VİZÖR EDITION</span>
+                <span>V19 PRO HEADER</span>
             </div>
         </div>
 
@@ -166,12 +164,34 @@
             </div>
         </div>
 
-        <div class="group-title">3. Kurumsal Başlık (Header)</div>
+        <div class="group-title">3. Kurumsal Başlık (Üst Panel)</div>
         <div class="hf-settings">
             <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlığı Göster</label>
-            <div style="margin-top:5px;">
+            <div style="margin-top:5px; padding-top:5px; border-top:1px solid #ffffff33;">
                 <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı (Örn: TURYAP)" oninput="draw()">
+                
+                <div class="control-row" style="margin-top:5px;">
+                    <span style="width:auto; font-size:10px;">Yükseklik:</span>
+                    <input type="range" id="headerHeight" min="50" max="250" value="80" oninput="draw()">
+                </div>
+
                 <div class="hf-row" style="margin-top:5px;">
+                    <select id="headerFont" class="hf-input" style="flex:2;" onchange="draw()">
+                        <option value="'Montserrat', sans-serif">Montserrat (Modern)</option>
+                        <option value="'Playfair Display', serif">Playfair (Lüks)</option>
+                        <option value="'Bebas Neue', sans-serif">Bebas (Güçlü)</option>
+                        <option value="'Dancing Script', cursive">El Yazısı</option>
+                        <option value="Arial">Arial</option>
+                    </select>
+                    <input type="number" id="headerFontSize" class="hf-input" style="flex:1;" value="40" title="Punto" oninput="draw()">
+                </div>
+                
+                <div class="hf-row">
+                    <label style="font-size:10px; display:flex; align-items:center; gap:3px;">
+                        <input type="checkbox" id="headerItalic" onchange="draw()"> İtalik
+                    </label>
+                </div>
+                <div class="hf-row">
                     <span>Arkaplan:</span> <input type="color" id="headerBg" value="#ffffff" oninput="draw()">
                     <span>Yazı:</span> <input type="color" id="headerColor" value="#003399" oninput="draw()">
                 </div>
@@ -456,7 +476,11 @@
                     show: document.getElementById('showHeader').checked,
                     text: document.getElementById('headerText').value,
                     bg: document.getElementById('headerBg').value,
-                    color: document.getElementById('headerColor').value
+                    color: document.getElementById('headerColor').value,
+                    height: document.getElementById('headerHeight').value, // YENİ
+                    font: document.getElementById('headerFont').value, // YENİ
+                    fontSize: document.getElementById('headerFontSize').value, // YENİ
+                    italic: document.getElementById('headerItalic').checked // YENİ
                 },
                 imgs: {}
             };
@@ -485,6 +509,12 @@
                     document.getElementById('headerText').value = d.header.text;
                     document.getElementById('headerBg').value = d.header.bg;
                     document.getElementById('headerColor').value = d.header.color;
+                    
+                    // YENİ ÖZELLİKLERİ GERİ YÜKLE
+                    if(d.header.height) document.getElementById('headerHeight').value = d.header.height;
+                    if(d.header.font) document.getElementById('headerFont').value = d.header.font;
+                    if(d.header.fontSize) document.getElementById('headerFontSize').value = d.header.fontSize;
+                    if(d.header.italic !== undefined) document.getElementById('headerItalic').checked = d.header.italic;
                 }
                 if(d.footer) {
                     document.getElementById('showFooter').checked = d.footer.show;
@@ -522,7 +552,10 @@
         canvas.width = 1080; canvas.height = state.format==='post'?1080:1920;
         ctx.fillStyle="#ecf0f1"; ctx.fillRect(0,0,canvas.width,canvas.height);
 
-        const headerH = document.getElementById('showHeader').checked ? 80 : 0;
+        // HEADER HESABI (YENİ: Slider'dan alınıyor)
+        // Eğer kapalıysa 0, açıksa slider değeri
+        const headerH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
+        
         const showFooter = document.getElementById('showFooter').checked;
         let footerH = 0;
         if(showFooter) {
@@ -533,17 +566,32 @@
         if(state.imgs.main.obj) drawCropped(ctx, state.imgs.main, 0,0, canvas.width, canvas.height);
         else { ctx.fillStyle="#bdc3c7"; ctx.font="40px sans-serif"; ctx.textAlign="center"; ctx.fillText("Görsel Bekleniyor...", canvas.width/2, canvas.height/2); }
 
-        // 2. Header
+        // 2. Header (YENİLENMİŞ ÇİZİM)
         if(headerH > 0) {
-            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0, 0, canvas.width, headerH);
-            ctx.fillStyle = document.getElementById('headerColor').value; ctx.font = "bold 40px 'Montserrat'";
-            ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, headerH/2);
+            ctx.fillStyle = document.getElementById('headerBg').value; 
+            ctx.fillRect(0, 0, canvas.width, headerH);
+            
+            ctx.fillStyle = document.getElementById('headerColor').value;
+            
+            // Kullanıcı ayarlarını al
+            const hFont = document.getElementById('headerFont').value;
+            const hSize = document.getElementById('headerFontSize').value;
+            const hItalic = document.getElementById('headerItalic').checked ? "italic " : "";
+            
+            ctx.font = `${hItalic}bold ${hSize}px ${hFont}`;
+            ctx.textAlign = "center"; 
+            ctx.textBaseline = "middle"; 
+            ctx.fillText(document.getElementById('headerText').value, canvas.width/2, headerH/2);
         }
 
-        // 3. Alt Resimler
+        // 3. Alt Resimler (DİKKAT: HeaderH yüksekliğine göre aşağı kaymalı)
+        // Ama biz tasarımda ana resmi tam ekran yapıp üzerine bindiriyoruz.
+        // Ancak Side Bar (Yan Şerit) varsa header'ın altından başlamalı.
         const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         if(subs.length > 0) {
-            const sH = canvas.height*0.25; const sY = canvas.height - footerH - sH - (showFooter?20:0);
+            const sH = canvas.height*0.25; 
+            const sY = canvas.height - footerH - sH - (showFooter?20:0);
+            
             if(state.format === 'story') {
                 const gridH = canvas.height * 0.3; const gridY = canvas.height - footerH - gridH - 50;
                 ctx.fillStyle="rgba(0,0,0,0.7)"; ctx.fillRect(0, gridY, canvas.width, gridH + 100);
@@ -554,9 +602,16 @@
                 });
             } else if(state.layout === 'side') {
                 const sw = canvas.width*0.28, sx = canvas.width-sw;
-                ctx.fillStyle="rgba(255,255,255,0.95)"; ctx.fillRect(sx,headerH,sw,canvas.height-headerH-footerH);
-                const availH = canvas.height-headerH-footerH; const ch = (availH-(subs.length+1)*10)/subs.length;
-                subs.forEach((img,i)=>{ drawCropped(ctx, img, sx+10, headerH+10+i*(ch+10), sw-20, ch); });
+                // Side bar header'ın altından başlar, footer'ın üstünde biter
+                ctx.fillStyle="rgba(255,255,255,0.95)"; 
+                ctx.fillRect(sx, headerH, sw, canvas.height - headerH - footerH);
+                
+                const availH = canvas.height - headerH - footerH; 
+                const ch = (availH-(subs.length+1)*10)/subs.length;
+                subs.forEach((img,i)=>{ 
+                    // Y koordinatı: Header yüksekliği + boşluk + sıra
+                    drawCropped(ctx, img, sx+10, headerH+10+i*(ch+10), sw-20, ch); 
+                });
             } else {
                 ctx.fillStyle="rgba(0,0,0,0.6)"; ctx.fillRect(0, sY-20, canvas.width, sH+40);
                 const gap=20, cw=(canvas.width-(subs.length+1)*gap)/subs.length;
