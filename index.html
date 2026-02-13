@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V22 (Legacy Support)</title>
+    <title>Emlak Stüdyosu V23 (Master Pro)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -29,31 +29,39 @@
         .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
 
+        /* GÖRSEL SEÇİCİ */
         .img-item { display: flex; align-items: center; gap: 5px; padding: 6px; border: 1px solid #eee; border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 4px solid #3498db; }
         .img-label-area { flex: 1; overflow: hidden; }
-        .img-label-area label { font-size: 11px; font-weight: bold; display: block; }
+        .img-label-area label { font-size: 11px; font-weight: bold; display: block; cursor: pointer; }
         .img-label-area input { font-size: 9px; width: 100%; margin-top: 2px; }
         .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 4px; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; }
 
+        /* KUMANDA PANELİ */
         .master-controls { background: #2c3e50; color: white; padding: 10px; border-radius: 6px; margin-top: 10px; position: sticky; top: 0; z-index: 10; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
         .control-row span { font-size: 11px; width: 45px; text-align: right; opacity: 0.8; }
         .control-row input { flex: 1; cursor: pointer; }
 
-        .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
         .hf-settings { background: #34495e; color: white; padding: 10px; border-radius: 6px; font-size: 11px; margin-bottom: 10px; }
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; gap: 5px; }
         .hf-input { width: 100%; padding: 4px; margin-top: 2px; border: none; border-radius: 3px; box-sizing: border-box; }
+        .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
+        .f-mode-btn.active { background:white; color:#333; }
 
+        .text-box { background: #fff8e1; padding: 10px; border: 1px solid #f1c40f; border-radius: 6px; }
         .layer-list { margin-top: 5px; border: 1px solid #eee; background: #fafafa; max-height: 120px; overflow-y: auto; border-radius: 4px; }
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-bottom: 1px solid #eee; font-size: 11px; cursor: pointer; }
         .layer-row.selected { background: #d5eafc; border-left: 3px solid #3498db; }
 
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; }
-        .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
-        .f-mode-btn.active { background:white; color:#333; }
+        .btn-download { background: #27ae60; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 14px; }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 998; }
+        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999; border: 1px solid #ddd; max-height: 90vh; overflow-y: auto; }
+        .modal-header { background: #f8f9fa; padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 14px; }
+        .modal-body { padding: 15px; }
     </style>
 </head>
 <body>
@@ -64,7 +72,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V22 LEGACY FIX</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V23 MASTER PRO</span></div>
         </div>
 
         <div class="project-actions">
@@ -77,16 +85,16 @@
 
         <div class="group-title">1. Format</div>
         <div style="display:flex; gap:5px; margin-bottom:5px;">
-            <button class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare</button>
-            <button class="btn-toggle" id="btn-story" onclick="setFormat('story')">Hikaye</button>
+            <button class="btn-toggle active" id="btn-post" onclick="setFormat('post')">Kare (Post)</button>
+            <button class="btn-toggle" id="btn-story" onclick="setFormat('story')">Hikaye (Story)</button>
         </div>
 
         <div class="group-title">2. Serbest Galeri Ayarları</div>
         <div class="hf-settings" style="background: #27ae60;">
-            <div class="control-row"><span>Genişlik</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
-            <div class="control-row"><span>Yükseklik</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
-            <div class="control-row"><span>Yatay X</span> <input type="range" id="galX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('x', this.value)"></div>
-            <div class="control-row"><span>Dikey Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
+            <div class="control-row"><span>Gen.</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
+            <div class="control-row"><span>Yük.</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
+            <div class="control-row"><span>X</span> <input type="range" id="galX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('x', this.value)"></div>
+            <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
         </div>
 
         <div class="group-title">3. Görseller & Kumanda</div>
@@ -94,8 +102,8 @@
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
                 <span id="activeImgLabel">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
             </div>
-            <div class="control-row"><span>X Konum</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
-            <div class="control-row"><span>Y Konum</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
+            <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
+            <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
             <div class="control-row" id="masterSizeRow" style="display:none; border-top:1px solid #ffffff33; padding-top:5px; margin-top:5px;">
                 <span>Boyut</span> <input type="range" id="masterSize" min="5" max="100" value="20" onmousedown="saveState()" oninput="updateMasterPos('size', this.value)">
             </div>
@@ -117,15 +125,15 @@
         <div class="group-title">4. Pro Header (Üst Şerit)</div>
         <div class="hf-settings">
             <label><input type="checkbox" id="showHeader" onchange="saveState(); draw()"> Başlığı Göster</label>
-            <div style="margin-top:5px;">
+            <div style="margin-top:5px; padding-top:5px; border-top:1px solid #ffffff33;">
                 <input type="text" id="headerText" class="hf-input" placeholder="Kurum Adı" onmousedown="saveState()" oninput="draw()">
                 <div class="control-row"><span>Yükseklik</span> <input type="range" id="headerHeight" min="50" max="300" value="80" onmousedown="saveState()" oninput="draw()"></div>
                 <div class="hf-row">
                     <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option><option value="'Playfair Display'">Lüks</option></select>
                     <input type="number" id="headerFontSize" class="hf-input" style="width:50px" value="40" oninput="draw()">
-                    <label><input type="checkbox" id="headerItalic" onchange="draw()"> /</label>
+                    <label style="font-size:10px;"><input type="checkbox" id="headerItalic" onchange="saveState(); draw()"> İtalik</label>
                 </div>
-                <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="draw()"></div>
+                <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="saveState(); draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="saveState(); draw()"></div>
             </div>
         </div>
 
@@ -134,14 +142,14 @@
             <label><input type="checkbox" id="showFooter" checked onchange="saveState(); draw()"> Footer Aktif</label>
             <div style="display:flex; gap:5px; margin:5px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
             <div id="simpleFooterSettings">
-                <input type="text" id="footerTel" class="hf-input" placeholder="Telefon" oninput="draw()">
-                <input type="text" id="footerWeb" class="hf-input" placeholder="Web Sitesi" oninput="draw()">
+                <input type="text" id="footerTel" class="hf-input" placeholder="Telefon" onmousedown="saveState()" oninput="draw()">
+                <input type="text" id="footerWeb" class="hf-input" placeholder="Web Sitesi" onmousedown="saveState()" oninput="draw()">
             </div>
             <div id="vitrinFooterSettings" style="display:none;">
                 <div class="control-row"><span>Yükseklik</span> <input type="range" id="footerHeight" min="100" max="450" value="200" onmousedown="saveState()" oninput="draw()"></div>
-                <button onclick="toggleFooterModal()" style="width:100%; padding:5px; cursor:pointer;">✏️ İçeriği Düzenle</button>
+                <button onclick="toggleFooterModal()" style="width:100%; padding:8px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ İçeriği Düzenle</button>
             </div>
-            <div class="hf-row" style="margin-top:5px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="draw()"></div>
+            <div class="hf-row" style="margin-top:5px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="saveState(); draw()"></div>
         </div>
 
         <div class="group-title">6. Metin Ekle</div>
@@ -153,7 +161,7 @@
                 <input type="number" id="tSize" value="60" style="width:40px">
                 <input type="color" id="tColor" value="#ffffff">
             </div>
-            <label><input type="checkbox" id="tItalic"> İtalik</label>
+            <label style="font-size:11px;"><input type="checkbox" id="tItalic"> İtalik</label>
             <button id="btnAction" class="btn-action" onclick="handleTextAction()">➕ EKLE</button>
             <button id="btnCancel" onclick="cancelEdit()" style="display:none; width:100%; margin-top:5px;">Vazgeç</button>
             <div id="textPosSettings" style="margin-top:10px;">
@@ -164,7 +172,6 @@
         <div id="layerList" class="layer-list"></div>
 
         <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR</button>
-        <div style="height:50px"></div>
     </div>
 
     <div class="canvas-area"><canvas id="canvas"></canvas></div>
@@ -172,7 +179,7 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box" id="emojiModal" style="display:none; width:220px;"><div class="modal-header"><span>Emoji</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:24px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:24px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:24px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:24px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:24px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:24px; cursor:pointer">⭐</button><button onclick="ins('💎')" style="font-size:24px; cursor:pointer">💎</button><button onclick="ins('🔑')" style="font-size:24px; cursor:pointer">🔑</button></div></div></div>
-    <div class="modal-box" id="footerModal" style="display:none; width:500px;"><div class="modal-header"><span>Vitrin Bilgileri</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div><label>Danışman</label><input type="text" id="agentName" placeholder="Ad Soyad" class="input-text"><input type="text" id="agentTitle" placeholder="Unvan" class="input-text"><input type="file" onchange="loadAgentImg(this)"></div><div><label>Özellikler</label><input type="text" id="feat1" placeholder="Örn: 3+1" class="input-text"><input type="text" id="feat2" placeholder="Örn: 140m2" class="input-text"><input type="text" id="feat3" placeholder="Örn: Deniz" class="input-text"><input type="text" id="feat4" placeholder="Örn: Kredi" class="input-text"></div></div><button onclick="closeAllModals()" style="width:100%; margin-top:15px; padding:10px; background:#27ae60; color:white; cursor:pointer;">TAMAM</button></div></div>
+    <div class="modal-box" id="footerModal" style="display:none; width:500px;"><div class="modal-header"><span>Vitrin Bilgileri</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div><div class="modal-body"><div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"><div><label style="font-weight:bold; font-size:12px;">Danışman</label><input type="text" id="agentName" placeholder="Ad Soyad" class="input-text"><input type="text" id="agentTitle" placeholder="Unvan" class="input-text"><input type="file" onchange="loadAgentImg(this)"></div><div><label style="font-weight:bold; font-size:12px;">Özellikler</label><input type="text" id="feat1" placeholder="Özellik 1" class="input-text"><input type="text" id="feat2" placeholder="Özellik 2" class="input-text"><input type="text" id="feat3" placeholder="Özellik 3" class="input-text"><input type="text" id="feat4" placeholder="Özellik 4" class="input-text"></div></div><button onclick="closeAllModals(); draw();" style="width:100%; margin-top:15px; padding:10px; background:#27ae60; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">TAMAM</button></div></div>
 </div>
 
 <script>
@@ -191,41 +198,52 @@
     function saveState() {
         const snap = {
             format: state.format, gallery: {...state.gallery}, texts: JSON.parse(JSON.stringify(state.texts)),
-            footer: { mode: state.footer.mode, agentImgSrc: state.footer.agentImgSrc },
-            imgsData: {},
+            footerMode: state.footer.mode, footerImg: state.footer.agentImgSrc,
             dom: {
-                showHeader: document.getElementById('showHeader').checked, headerText: document.getElementById('headerText').value, headerHeight: document.getElementById('headerHeight').value, headerFont: document.getElementById('headerFont').value, headerFontSize: document.getElementById('headerFontSize').value, headerItalic: document.getElementById('headerItalic').checked, headerBg: document.getElementById('headerBg').value, headerColor: document.getElementById('headerColor').value, showFooter: document.getElementById('showFooter').checked, footerTel: document.getElementById('footerTel').value, footerWeb: document.getElementById('footerWeb').value, footerHeight: document.getElementById('footerHeight').value, footerColor: document.getElementById('footerColor').value, agentName: document.getElementById('agentName').value, agentTitle: document.getElementById('agentTitle').value, feats: [1,2,3,4].map(n=>document.getElementById('feat'+n).value)
+                showHeader: document.getElementById('showHeader').checked, headerText: document.getElementById('headerText').value, 
+                headerH: document.getElementById('headerHeight').value, headerF: document.getElementById('headerFont').value,
+                headerFS: document.getElementById('headerFontSize').value, headerI: document.getElementById('headerItalic').checked,
+                headerBg: document.getElementById('headerBg').value, headerColor: document.getElementById('headerColor').value,
+                showFooter: document.getElementById('showFooter').checked, footerTel: document.getElementById('footerTel').value,
+                footerWeb: document.getElementById('footerWeb').value, footerH: document.getElementById('footerHeight').value,
+                footerC: document.getElementById('footerColor').value, agentN: document.getElementById('agentName').value,
+                agentT: document.getElementById('agentTitle').value, feats: [1,2,3,4].map(n=>document.getElementById('feat'+n).value)
             }
         };
-        for(let k in state.imgs) snap.imgsData[k] = {...state.imgs[k], obj:null};
-        history.push(JSON.stringify(snap));
-        if(history.length > 20) history.shift();
+        for(let k in state.imgs) snap[k] = {...state.imgs[k], obj:null};
+        history.push(JSON.stringify(snap)); if(history.length > 20) history.shift();
     }
 
     function undo() {
         if(history.length === 0) return;
         const last = JSON.parse(history.pop());
-        state.format = last.format; state.gallery = last.gallery; state.texts = last.texts; state.footer.mode = last.footer.mode;
+        state.format = last.format; state.gallery = last.gallery; state.texts = last.texts; state.footer.mode = last.footerMode;
         const d = last.dom;
-        document.getElementById('showHeader').checked = d.showHeader; document.getElementById('headerText').value = d.headerText; document.getElementById('headerHeight').value = d.headerHeight; document.getElementById('headerFont').value = d.headerFont; document.getElementById('headerFontSize').value = d.headerFontSize; document.getElementById('headerItalic').checked = d.headerItalic; document.getElementById('headerBg').value = d.headerBg; document.getElementById('headerColor').value = d.headerColor; document.getElementById('showFooter').checked = d.showFooter; document.getElementById('footerTel').value = d.footerTel; document.getElementById('footerWeb').value = d.footerWeb; document.getElementById('footerHeight').value = d.footerHeight; document.getElementById('footerColor').value = d.footerColor; document.getElementById('agentName').value = d.agentName; document.getElementById('agentTitle').value = d.agentTitle; d.feats.forEach((f,i)=>document.getElementById('feat'+(i+1)).value=f);
-        document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h; document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
-        for(let k in last.imgsData) {
-            state.imgs[k].x = last.imgsData[k].x; state.imgs[k].y = last.imgsData[k].y; state.imgs[k].size = last.imgsData[k].size;
-            if(last.imgsData[k].src !== state.imgs[k].src) {
-                state.imgs[k].src = last.imgsData[k].src;
+        document.getElementById('showHeader').checked = d.showHeader; document.getElementById('headerText').value = d.headerText;
+        document.getElementById('headerHeight').value = d.headerH; document.getElementById('headerFont').value = d.headerF;
+        document.getElementById('headerFontSize').value = d.headerFS; document.getElementById('headerItalic').checked = d.headerI;
+        document.getElementById('headerBg').value = d.headerBg; document.getElementById('headerColor').value = d.headerColor;
+        document.getElementById('showFooter').checked = d.showFooter; document.getElementById('footerTel').value = d.footerTel;
+        document.getElementById('footerWeb').value = d.footerWeb; document.getElementById('footerHeight').value = d.footerH;
+        document.getElementById('footerColor').value = d.footerC; document.getElementById('agentName').value = d.agentN;
+        document.getElementById('agentTitle').value = d.agentT; d.feats.forEach((f,i)=>document.getElementById('feat'+(i+1)).value=f);
+        
+        for(let k in state.imgs) {
+            state.imgs[k].x = last[k].x; state.imgs[k].y = last[k].y; state.imgs[k].size = last[k].size;
+            if(last[k].src !== state.imgs[k].src) {
+                state.imgs[k].src = last[k].src;
                 if(state.imgs[k].src) { const i=new Image(); i.src=state.imgs[k].src; i.onload=()=>{state.imgs[k].obj=i; draw();}; } else state.imgs[k].obj=null;
             }
         }
-        if(last.footer.agentImgSrc !== state.footer.agentImgSrc) {
-            state.footer.agentImgSrc = last.footer.agentImgSrc;
-            if(state.footer.agentImgSrc) { const i=new Image(); i.src=state.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } else state.footer.agentImg=null;
-        }
+        state.footer.agentImgSrc = last.footerImg;
+        if(state.footer.agentImgSrc) { const i=new Image(); i.src=state.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } else state.footer.agentImg=null;
+        
         setFooterMode(state.footer.mode); renderLayerList(); draw();
     }
 
     function draw() {
         canvas.width = 1080; canvas.height = state.format === 'post' ? 1080 : 1920;
-        ctx.fillStyle = "#eee"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         if (state.imgs.main.obj) drawCr(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
 
@@ -258,16 +276,8 @@
             const gw = canvas.width * (state.gallery.w/100), gh = canvas.height * (state.gallery.h/100);
             const gx = (canvas.width - gw) * (state.gallery.x/100), gy = (canvas.height - gh) * (state.gallery.y/100);
             ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(gx-10, gy-10, gw+20, gh+20);
-            const gap=15;
-            let cols = gw > gh ? subs.length : (gw > gh*0.5 ? 2 : 1);
-            let rows = Math.ceil(subs.length/cols);
-            const cw = (gw - (cols-1)*gap)/cols, ch = (gh - (rows-1)*gap)/rows;
-            subs.forEach((img, i)=>{
-                const c=i%cols, r=Math.floor(i/cols);
-                const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap);
-                ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6);
-                drawCr(ctx, img, ix, iy, cw, ch);
-            });
+            const gap=15; let cols = gw > gh ? subs.length : (gw > gh*0.5 ? 2 : 1); let rows = Math.ceil(subs.length/cols); const cw = (gw - (cols-1)*gap)/cols, ch = (gh - (rows-1)*gap)/rows;
+            subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap); ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6); drawCr(ctx, img, ix, iy, cw, ch); });
         }
 
         state.texts.forEach(t => {
@@ -286,12 +296,14 @@
     function updateMasterPos(a,v){ state.imgs[state.activeImgKey][a]=v; draw(); }
     function loadImg(inp,k){ if(inp.files[0]){ saveState(); const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.src=e.target.result; i.onload=()=>{state.imgs[k].obj=i; state.imgs[k].src=e.target.result; selectActiveImg(k); draw();}; }; r.readAsDataURL(inp.files[0]); } }
     function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; draw(); }
+    
     function handleTextAction(){ const v=document.getElementById('tTxt').value; if(!v)return; saveState(); const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value, i=document.getElementById('tItalic').checked; if(state.editingId!==null){ const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; t.italic=i; cancelEdit(); } else { const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:i, x:50, y:50}); loadTextToEdit(id); } draw(); renderLayerList(); }
     function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('tItalic').checked=t.italic; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; document.getElementById('btnCancel').style.display='block'; renderLayerList(); draw(); }
     function moveText(a,v){ if(state.editingId){ state.texts.find(x=>x.id===state.editingId)[a]=v; draw(); } }
     function cancelEdit(){ state.editingId=null; document.getElementById('tTxt').value=""; document.getElementById('textPosSettings').style.display='none'; document.getElementById('btnAction').innerText="➕ EKLE"; document.getElementById('btnCancel').style.display='none'; renderLayerList(); draw(); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
     function renderLayerList(){ const l=document.getElementById('layerList'); l.innerHTML=''; state.texts.forEach(t=>{ const d=document.createElement('div'); d.className=`layer-row ${t.id===state.editingId?'selected':''}`; d.onclick=()=>loadTextToEdit(t.id); d.innerHTML=`<span style="flex:1">${t.text}</span><button style="background:red; color:white; border:none; border-radius:3px; cursor:pointer;" onclick="delTx(${t.id},event)">✖</button>`; l.appendChild(d); }); }
+    
     function setFormat(f){ saveState(); state.format=f; draw(); document.getElementById('btn-post').className=f==='post'?'btn-toggle active':'btn-toggle'; document.getElementById('btn-story').className=f==='story'?'btn-toggle active':'btn-toggle'; }
     function setFooterMode(m){ saveState(); state.footer.mode=m; document.getElementById('fModeSimple').className=m==='simple'?'f-mode-btn active':'f-mode-btn'; document.getElementById('fModeVitrin').className=m==='vitrin'?'f-mode-btn active':'f-mode-btn'; document.getElementById('simpleFooterSettings').style.display=m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display=m==='vitrin'?'block':'none'; draw(); }
     function toggleEmojiModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('emojiModal').style.display='block'; }
@@ -306,24 +318,24 @@
     function saveProject() {
         const data = {
             format: state.format, texts: state.texts, gallery: state.gallery,
-            footer: { mode: state.footer.mode, agentImgSrc: state.footer.agentImgSrc },
+            footer: { 
+                show: document.getElementById('showFooter').checked, mode: state.footer.mode, 
+                agentImgSrc: state.footer.agentImgSrc, tel: document.getElementById('footerTel').value,
+                web: document.getElementById('footerWeb').value, h: document.getElementById('footerHeight').value,
+                c: document.getElementById('footerColor').value, name: document.getElementById('agentName').value,
+                title: document.getElementById('agentTitle').value, fts: [1,2,3,4].map(n=>document.getElementById('feat'+n).value)
+            },
             header: { 
                 show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, 
                 h: document.getElementById('headerHeight').value, f: document.getElementById('headerFont').value,
                 fs: document.getElementById('headerFontSize').value, i: document.getElementById('headerItalic').checked,
                 bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value
             },
-            f_vals: {
-                show: document.getElementById('showFooter').checked, tel: document.getElementById('footerTel').value,
-                web: document.getElementById('footerWeb').value, h: document.getElementById('footerHeight').value,
-                c: document.getElementById('footerColor').value, name: document.getElementById('agentName').value,
-                title: document.getElementById('agentTitle').value, fts: [1,2,3,4].map(n=>document.getElementById('feat'+n).value)
-            },
             imgs: {}
         };
         for(let k in state.imgs) if(state.imgs[k].src) data.imgs[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size};
         const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'proje.json'; a.click();
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ilan-yedek.json'; a.click();
     }
 
     function loadProject(input) {
@@ -331,44 +343,52 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const d = JSON.parse(e.target.result);
-            state.format = d.format; state.texts = d.texts || [];
+            state.format = d.format || 'post'; state.texts = d.texts || [];
             
-            // ESKİ YEDEK DÖNÜŞTÜRÜCÜ (Legacy Support)
+            // GALERİ DÖNÜŞTÜRÜCÜ
             if(!d.gallery) {
-                // Eğer eski yedekte 'layout' varsa ona göre pozisyon ata
                 if(d.layout === 'side') state.gallery = { w: 25, h: 80, x: 85, y: 50 };
                 else state.gallery = { w: 95, h: 25, x: 50, y: 70 };
             } else { state.gallery = d.gallery; }
 
-            // DOM Yükleme
+            // HEADER RESTORE
             if(d.header) {
-                document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text;
-                document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFont').value = d.header.f;
-                document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerItalic').checked = d.header.i;
-                document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c;
+                document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text || "";
+                document.getElementById('headerHeight').value = d.header.h || 80; document.getElementById('headerFont').value = d.header.f || "'Montserrat'";
+                document.getElementById('headerFontSize').value = d.header.fs || 40; document.getElementById('headerItalic').checked = d.header.i || false;
+                document.getElementById('headerBg').value = d.header.bg || "#ffffff"; document.getElementById('headerColor').value = d.header.c || "#003399";
             }
-            if(d.f_vals) {
-                document.getElementById('showFooter').checked = d.f_vals.show; document.getElementById('footerTel').value = d.f_vals.tel;
-                document.getElementById('footerWeb').value = d.f_vals.web; document.getElementById('footerHeight').value = d.f_vals.h;
-                document.getElementById('footerColor').value = d.f_vals.c; document.getElementById('agentName').value = d.f_vals.name;
-                document.getElementById('agentTitle').value = d.f_vals.title; d.f_vals.fts.forEach((f,i)=>document.getElementById('feat'+(i+1)).value=f);
+
+            // FOOTER RESTORE (V23 LEGACY COMPATIBLE)
+            if(d.footer) {
+                const f = d.footer;
+                document.getElementById('showFooter').checked = f.show !== undefined ? f.show : true;
+                state.footer.mode = f.mode || 'simple';
+                document.getElementById('footerTel').value = f.tel || "";
+                document.getElementById('footerWeb').value = f.web || "";
+                document.getElementById('footerHeight').value = f.h || 200;
+                document.getElementById('footerColor').value = f.c || "#000000";
+                document.getElementById('agentName').value = f.name || "";
+                document.getElementById('agentTitle').value = f.title || "";
+                if(f.fts) f.fts.forEach((val, i) => { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = val; });
+                
+                if(f.agentImgSrc) {
+                    state.footer.agentImgSrc = f.agentImgSrc;
+                    const img = new Image(); img.src = f.agentImgSrc; img.onload = () => { state.footer.agentImg = img; draw(); };
+                }
             }
             
-            // Görsel Yükleme
+            // IMGS RESTORE
             for(let k in d.imgs) {
-                state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y; state.imgs[k].size = d.imgs[k].size;
+                state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y; state.imgs[k].size = d.imgs[k].size || 15;
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
-            }
-            if(d.footer.agentImgSrc) {
-                state.footer.agentImgSrc = d.footer.agentImgSrc;
-                const img = new Image(); img.src = state.footer.agentImgSrc; img.onload = () => { state.footer.agentImg = img; draw(); };
             }
             
             document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h;
             document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
             
-            setFormat(d.format); setFooterMode(d.footer.mode); renderLayerList(); draw();
+            setFormat(state.format); setFooterMode(state.footer.mode); renderLayerList(); draw();
         };
         reader.readAsText(input.files[0]);
     }
