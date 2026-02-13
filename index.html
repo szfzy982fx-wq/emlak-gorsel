@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V16 (Typography)</title>
+    <title>Karacabay Emlak Stüdyosu V17 (Brand Edition)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -13,7 +13,12 @@
         /* SOL PANEL */
         .sidebar { background: white; padding: 15px; border-right: 1px solid #ddd; overflow-y: auto; height: 100%; position: relative; }
         
-        h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 16px; margin-top: 0; display:flex; justify-content:space-between; align-items:center; }
+        /* LOGO ALANI (YENİ) */
+        .brand-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
+        .brand-logo-svg { width: 40px; height: 40px; }
+        .brand-text h1 { margin: 0; font-size: 18px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; letter-spacing: -0.5px; }
+        .brand-text span { font-size: 11px; color: #3498db; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
         .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 15px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
 
         /* PROJE BUTONLARI */
@@ -53,7 +58,7 @@
         .btn-action { width: 100%; background: #f39c12; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; }
         .btn-action.update { background: #27ae60; }
         
-        /* METİN KONUM PANELİ (YENİ - SARI PANEL) */
+        /* METİN KONUM PANELİ */
         #textPosSettings { display: none; background: #fff3cd; padding: 8px; border: 1px solid #ffeeba; border-radius: 4px; margin-top: 5px; }
         #textPosSettings label { display: block; font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #856404; }
 
@@ -96,7 +101,22 @@
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>💎 Stüdyo V16</h2>
+        <div class="brand-header">
+            <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 10L10 40V90H50V10Z" fill="#2c3e50"/>
+                <rect x="55" y="40" width="15" height="15" fill="#3498db" opacity="0.8"/>
+                <rect x="75" y="40" width="15" height="15" fill="#3498db" opacity="0.6"/>
+                <rect x="55" y="60" width="15" height="15" fill="#3498db" opacity="0.9"/>
+                <rect x="75" y="60" width="15" height="15" fill="#3498db" opacity="0.7"/>
+                <rect x="55" y="80" width="15" height="10" fill="#3498db" opacity="1"/>
+                <rect x="75" y="80" width="15" height="10" fill="#3498db" opacity="0.8"/>
+                <path d="M50 10L90 40H50V10Z" fill="#3498db" opacity="0.5"/>
+            </svg>
+            <div class="brand-text">
+                <h1>KARACABAY</h1>
+                <span>EMLAK STÜDYOSU V17</span>
+            </div>
+        </div>
 
         <div class="project-actions">
             <button class="btn-new" onclick="resetProject()">✨ YENİ</button>
@@ -319,7 +339,7 @@
         draw();
     }
 
-    // --- TEXT EDIT (YENİ SİSTEM) ---
+    // --- TEXT EDIT ---
     function handleTextAction() {
         const val = document.getElementById('tTxt').value;
         if(!val) return;
@@ -351,14 +371,12 @@
         if(!txt) return;
         state.editingId = id;
         
-        // Formu doldur
         document.getElementById('tTxt').value = txt.text;
         document.getElementById('tFont').value = txt.font;
         document.getElementById('tSize').value = txt.size;
         document.getElementById('tColor').value = txt.color;
         document.getElementById('tItalic').checked = txt.italic || false;
         
-        // HAREKET PANELİNİ AÇ VE DEĞERLERİ GİR
         document.getElementById('textPosSettings').style.display = 'block';
         document.getElementById('txtX').value = txt.x;
         document.getElementById('txtY').value = txt.y;
@@ -385,7 +403,7 @@
         state.editingId = null;
         document.getElementById('tTxt').value = "";
         document.getElementById('tItalic').checked = false;
-        document.getElementById('textPosSettings').style.display = 'none'; // Paneli gizle
+        document.getElementById('textPosSettings').style.display = 'none';
         
         const btn = document.getElementById('btnAction');
         btn.innerText = "➕ EKLE";
@@ -579,7 +597,7 @@
         state.texts.forEach(t => {
             const x=canvas.width*(t.x/100), y=canvas.height*(t.y/100);
             ctx.save(); 
-            // Font Stili Oluşturma
+            // Font Stili
             const style = t.italic ? "italic " : "";
             ctx.font = `${style}bold ${t.size}px ${t.font}`;
             
