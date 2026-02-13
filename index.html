@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karacabay Emlak Stüdyosu V11 (Smart Save)</title>
+    <title>Karacabay Emlak Stüdyosu V12 (New Start)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -16,11 +16,12 @@
         h2 { border-bottom: 2px solid #e67e22; padding-bottom: 10px; color: #2c3e50; font-size: 16px; margin-top: 0; display:flex; justify-content:space-between; align-items:center; }
         .group-title { font-size: 10px; font-weight: 800; color: #7f8c8d; text-transform: uppercase; margin: 12px 0 5px 0; border-bottom: 1px solid #eee; padding-bottom: 2px; }
 
-        /* YENİ: KAYDET / YÜKLE BUTONLARI */
+        /* PROJE BUTONLARI (YENİ BUTON EKLENDİ) */
         .project-actions { display: flex; gap: 5px; margin-bottom: 15px; }
+        .btn-new { background: #8e44ad; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 0.6; cursor: pointer; font-weight: bold; }
         .btn-save { background: #34495e; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-load { background: #7f8c8d; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 11px; flex: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-save:hover { background: #2c3e50; } .btn-load:hover { background: #95a5a6; }
+        .btn-new:hover { background: #9b59b6; } .btn-save:hover { background: #2c3e50; } .btn-load:hover { background: #95a5a6; }
 
         /* Butonlar */
         .btn-group { display: flex; gap: 5px; margin-bottom: 5px; }
@@ -88,11 +89,12 @@
 
 <div class="wrapper">
     <div class="sidebar">
-        <h2>💎 Stüdyo V11</h2>
+        <h2>💎 Stüdyo V12</h2>
 
         <div class="project-actions">
-            <button class="btn-save" onclick="saveProject()">💾 Projeyi Kaydet</button>
-            <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Proje Yükle</button>
+            <button class="btn-new" onclick="resetProject()">✨ YENİ</button>
+            <button class="btn-save" onclick="saveProject()">💾 Kaydet</button>
+            <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
 
@@ -157,7 +159,7 @@
                     <option value="Arial">Arial</option>
                     <option value="'Montserrat', sans-serif">Montserrat</option>
                     <option value="'Poppins', sans-serif">Poppins</option>
-                    <option value="'Playfair Display', serif">Playfair (Lüks)</option>
+                    <option value="'Playfair Display', serif">Playfair</option>
                     <option value="'Bebas Neue', sans-serif">Bebas</option>
                     <option value="'Roboto', sans-serif">Roboto</option>
                 </select>
@@ -265,7 +267,38 @@
 
     window.onload = () => { draw(); };
 
-    // --- PROJE KAYDET / YÜKLE SİSTEMİ ---
+    // --- YENİ: SAYFA SIFIRLAMA ---
+    function resetProject() {
+        if(!confirm("Mevcut çalışma silinecek ve yeni bir sayfa açılacak. Onaylıyor musunuz?")) return;
+
+        // Ayarları Sıfırla
+        state.activeImgKey = 'main';
+        state.texts = [];
+        state.editingId = null;
+        
+        // Resimleri Sıfırla
+        Object.keys(state.imgs).forEach(key => {
+            state.imgs[key].obj = null;
+            state.imgs[key].src = null;
+            state.imgs[key].x = key === 'logo' ? 90 : 50;
+            state.imgs[key].y = key === 'logo' ? 5 : 50;
+            if(key === 'logo') state.imgs[key].size = 20;
+        });
+
+        // UI Temizle
+        document.querySelectorAll('input[type="file"]').forEach(el => el.value = '');
+        document.querySelectorAll('input[type="text"]').forEach(el => el.value = '');
+        document.getElementById('showFooter').checked = false;
+        document.getElementById('tTxt').value = '';
+        document.getElementById('logoSize').value = 20;
+        
+        cancelEdit();
+        selectActiveImg('main');
+        renderLayerList();
+        draw();
+    }
+
+    // --- PROJE KAYDET / YÜKLE ---
     function saveProject() {
         const data = {
             format: state.format,
@@ -279,26 +312,15 @@
             },
             imgs: {}
         };
-
-        // Resimleri ve ayarlarını kaydet
         for (const [key, val] of Object.entries(state.imgs)) {
-            if (val.src) { // Sadece yüklü resimler
-                data.imgs[key] = {
-                    src: val.src, // Base64 verisi
-                    x: val.x,
-                    y: val.y,
-                    size: val.size // Logo için
-                };
+            if (val.src) { 
+                data.imgs[key] = { src: val.src, x: val.x, y: val.y, size: val.size };
             }
         }
-
         const json = JSON.stringify(data);
         const blob = new Blob([json], {type: "application/json"});
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "karacabay-proje.json";
-        a.click();
+        const a = document.createElement('a'); a.href = url; a.download = "karacabay-proje.json"; a.click();
     }
 
     function loadProject(input) {
@@ -307,22 +329,14 @@
         reader.onload = function(e) {
             try {
                 const data = JSON.parse(e.target.result);
-                
-                // 1. Ayarları Geri Yükle
                 setFormat(data.format);
                 setLayout(data.layout);
-                
-                // 2. Footer Geri Yükle
                 document.getElementById('showFooter').checked = data.footer.show;
                 document.getElementById('footerTel').value = data.footer.tel;
                 document.getElementById('footerWeb').value = data.footer.web;
                 document.getElementById('footerColor').value = data.footer.color;
-
-                // 3. Metinleri Geri Yükle
                 state.texts = data.texts || [];
                 renderLayerList();
-
-                // 4. Resimleri Geri Yükle
                 if (data.imgs) {
                     for (const [key, val] of Object.entries(data.imgs)) {
                         const img = new Image();
@@ -336,14 +350,11 @@
                                 state.imgs[key].size = val.size;
                                 document.getElementById('logoSize').value = val.size;
                             }
-                            draw(); // Her resim yüklendiğinde çiz
+                            draw();
                         };
                     }
                 }
-                alert("Proje başarıyla yüklendi!");
-            } catch (err) {
-                alert("Proje dosyası okunamadı! Hata: " + err);
-            }
+            } catch (err) { alert("Hata: " + err); }
         };
         reader.readAsText(input.files[0]);
     }
@@ -385,7 +396,7 @@
                 const i = new Image();
                 i.onload = () => {
                     state.imgs[key].obj = i;
-                    state.imgs[key].src = e.target.result; // Kayıt için sakla
+                    state.imgs[key].src = e.target.result; 
                     selectActiveImg(key);
                     draw();
                 };
