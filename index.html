@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V36 (Master Integration)</title>
+    <title>Emlak Stüdyosu V37 (Ultra Dynamic Integration)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
-        
         .sidebar { background: white; padding: 15px; border-right: 3px solid #2c3e50; overflow-y: auto; height: 100%; position: relative; }
         
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
@@ -17,12 +16,7 @@
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
         .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
-        .group-title { 
-            font-size: 11px; font-weight: 900; color: #ffffff; text-transform: uppercase; 
-            margin: 20px 0 10px 0; background: #2c3e50; padding: 10px 12px; 
-            border-left: 6px solid #f1c40f; border-radius: 0 4px 4px 0;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .group-title { font-size: 11px; font-weight: 900; color: #ffffff; text-transform: uppercase; margin: 20px 0 10px 0; background: #2c3e50; padding: 10px 12px; border-left: 6px solid #f1c40f; border-radius: 0 4px 4px 0; display: flex; justify-content: space-between; align-items: center; }
 
         .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .btn-undo { background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; grid-column: span 2; margin-bottom: 5px; }
@@ -51,27 +45,23 @@
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; border: 5px solid #fff; }
         
-        /* Renk Paleti & Efektler */
         .color-palette { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
         .palette-circle { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(0,0,0,0.1); transition: 0.2s; }
-        .palette-circle:hover { transform: scale(1.2); border-color: #3498db; }
-
-        /* Yeni İletişim Butonları */
-        .btn-comm { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Paylaşım & Yazdır Butonları */
+        .btn-comm { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .btn-wp { background: #25d366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
         .btn-print { background: #34495e; color: white; }
-        .btn-download-high { background: #2c3e50; color: #f1c40f; border: 2px solid #f1c40f; }
+        .btn-download-main { background: #2c3e50; color: #f1c40f; border: 2px solid #f1c40f; }
+
+        .layer-list { margin-top: 10px; border: 1px solid #ddd; background: #f9f9f9; max-height: 120px; overflow-y: auto; border-radius: 6px; }
+        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 12px; cursor: pointer; }
+        .layer-row.selected { background: #eaf6ff; border-left: 4px solid #3498db; font-weight: bold; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; backdrop-filter: blur(5px); }
         .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); z-index: 999; width: 580px; }
-        .modal-header { background: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-radius: 12px 12px 0 0; }
-        .modal-body { padding: 25px; }
-
-        .layer-list { margin-top: 10px; border: 1px solid #ddd; background: #f9f9f9; max-height: 150px; overflow-y: auto; border-radius: 6px; }
-        .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 12px; cursor: pointer; }
-        .layer-row.selected { background: #eaf6ff; border-left: 4px solid #3498db; font-weight: bold; }
         
-        /* Yazıcı Ayarı */
+        /* BASKI AYARI */
         @media print {
             body * { visibility: hidden; }
             #canvas, #canvas * { visibility: visible; }
@@ -88,7 +78,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V36 MASTER</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V37 ULTRA</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
@@ -117,10 +107,10 @@
             <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
         </div>
 
-        <div class="group-title">3. Görseller & Kadraj</div>
+        <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
@@ -138,63 +128,76 @@
             </div>
             <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1"><div class="img-label-area"><label>Detay 1</label><span class="file-name-display" id="name-sub1">Seçilmedi</span></div><input type="file" id="file-sub1" style="display:none" onchange="loadImg(this, 'sub1')"><button class="btn-remove-img" onclick="removeImg('sub1', event)">✖</button></div>
             <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2"><div class="img-label-area"><label>Detay 2</label><span class="file-name-display" id="name-sub2">Seçilmedi</span></div><input type="file" id="file-sub2" style="display:none" onchange="loadImg(this, 'sub2')"><button class="btn-remove-img" onclick="removeImg('sub2', event)">✖</button></div>
+            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3"><div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Seçilmedi</span></div><input type="file" id="file-sub3" style="display:none" onchange="loadImg(this, 'sub3')"><button class="btn-remove-img" onclick="removeImg('sub3', event)">✖</button></div>
+            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4"><div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Seçilmedi</span></div><input type="file" id="file-sub4" style="display:none" onchange="loadImg(this, 'sub4')"><button class="btn-remove-img" onclick="removeImg('sub4', event)">✖</button></div>
+            <div class="group-title" style="margin-top:15px; background:#34495e;">LOGOLAR</div>
             <div class="img-item" onclick="selectActiveImg('logo1')" id="item-logo1"><div class="img-label-area"><label>Logo 1</label><span class="file-name-display" id="name-logo1">Seçilmedi</span></div><input type="file" id="file-logo1" style="display:none" onchange="loadImg(this, 'logo1')"><button class="btn-remove-img" onclick="removeImg('logo1', event)">✖</button></div>
+            <div class="img-item" onclick="selectActiveImg('logo2')" id="item-logo2"><div class="img-label-area"><label>Logo 2</label><span class="file-name-display" id="name-logo2">Seçilmedi</span></div><input type="file" id="file-logo2" style="display:none" onchange="loadImg(this, 'logo2')"><button class="btn-remove-img" onclick="removeImg('logo2', event)">✖</button></div>
+            <div class="img-item" onclick="selectActiveImg('logo3')" id="item-logo3"><div class="img-label-area"><label>Logo 3</label><span class="file-name-display" id="name-logo3">Seçilmedi</span></div><input type="file" id="file-logo3" style="display:none" onchange="loadImg(this, 'logo3')"><button class="btn-remove-img" onclick="removeImg('logo3', event)">✖</button></div>
         </div>
 
-        <div class="group-title">4. Pro Header & Footer</div>
+        <div class="group-title">4. Pro Header (Üst Şerit)</div>
         <div class="hf-settings">
             <label><input type="checkbox" id="showHeader" onchange="saveState(); draw()"> Başlığı Aktif Et</label>
-            <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." oninput="draw()" style="margin-top:8px;">
+            <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." onmousedown="saveState()" oninput="draw()" style="margin-top:8px;">
+            <div class="control-row"><span>Boy</span> <input type="range" id="headerHeight" min="50" max="300" value="80" onmousedown="saveState()" oninput="draw()"></div>
             <div class="hf-row">
-                <select id="headerFont" class="hf-input" onchange="draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option></select>
+                <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option><option value="'Playfair Display'">Lüks</option></select>
                 <input type="number" id="headerFontSize" class="hf-input" style="width:40px" value="40" oninput="draw()">
-                <label><input type="checkbox" id="headerItalic" onchange="draw()"> /</label>
+                <label><input type="checkbox" id="headerItalic" onchange="saveState(); draw()"> /</label>
             </div>
             <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="draw()"></div>
-            <hr style="opacity:0.2;">
-            <label><input type="checkbox" id="showFooter" checked onchange="saveState(); draw()"> Footer Aktif</label>
-            <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
-            <div id="simpleFooterSettings"><input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()"></div>
-            <div id="vitrinFooterSettings" style="display:none;">
-                <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ DANIŞMAN & ÖZELLİKLER</button>
-            </div>
-            <div class="hf-row" style="margin-top:8px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="draw()"></div>
         </div>
 
-        <div class="group-title">5. Serbest Metin & Ultra Efektler</div>
+        <div class="group-title">5. Alt Şerit (Footer - Dinamik)</div>
+        <div class="hf-settings">
+            <label><input type="checkbox" id="showFooter" checked onchange="saveState(); draw()"> Footer Aktif</label>
+            <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
+            <div id="simpleFooterSettings">
+                <input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()">
+                <input type="text" id="footerWeb" class="hf-input" placeholder="Web Adresi..." oninput="draw()">
+            </div>
+            <div id="vitrinFooterSettings" style="display:none;">
+                <div class="control-row"><span>Boy</span> <input type="range" id="footerHeight" min="100" max="450" value="200" onmousedown="saveState()" oninput="draw()"></div>
+                <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ DANIŞMAN & ÖZELLİKLER</button>
+            </div>
+            <div class="hf-row" style="margin-top:8px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="saveState(); draw()"></div>
+        </div>
+
+        <div class="group-title">6. Serbest Metin & Ultra Efektler</div>
         <div class="text-box" style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #ddd;">
             <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
-            <div style="color:#000; font-size:10px; font-weight:bold; margin:10px 0 5px 0;">RENK & ULTRA EFEKT SEÇİMİ:</div>
             <div class="color-palette">
                 <div class="palette-circle" onclick="setTColor('#f1c40f')" style="background:#f1c40f;"></div>
                 <div class="palette-circle" onclick="setTColor('#003399')" style="background:#003399;"></div>
                 <div class="palette-circle" onclick="setTColor('#ffffff')" style="background:#ffffff;"></div>
-                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:24px; border:none; background:transparent;">
+                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:22px; border:none; background:transparent;">
                 <select id="tEffect" class="hf-input" style="width:auto; margin:0;" onchange="draw()">
                     <option value="none">Efekt: Standart</option>
-                    <option value="lightsaber">🌟 IŞIN KILICI (Ultra)</option>
+                    <option value="lightsaber">🌟 IŞIN KILICI (Ultra Glow)</option>
                     <option value="neon">💎 MODERN NEON</option>
-                    <option value="fire">🔥 ATEŞ PARLAMASI</option>
                     <option value="stars">✨ YILDIZ YAĞMURU</option>
                 </select>
             </div>
-            <div style="display:flex; gap:5px; margin-bottom:10px; align-items:center;">
-                <select id="tFont" class="hf-input" style="flex:2; background:white; border:1px solid #ddd;"><option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:50px; border:1px solid #ddd; border-radius:4px; padding:6px;">
+            <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
+                <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;">
+                    <option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option>
+                </select>
+                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px; padding:5px;">
                 <label><input type="checkbox" id="tItalic"> /</label>
             </div>
             <button id="btnAction" class="btn-new" style="background:#f39c12; width:100%;" onclick="handleTextAction()">➕ KATMAN EKLE / GÜNCELLE</button>
             <div id="textPosSettings" style="margin-top:12px; display:none; background:#eee; padding:10px; border-radius:6px;">
-                <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" style="width:100%"><br>
+                <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" style="width:100%">
                 <input type="range" id="txtY" min="0" max="100" oninput="moveText('y', this.value)" style="width:100%">
             </div>
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <div class="group-title">6. Paylaşım & Çıktı Merkezi</div>
+        <div class="group-title">7. Paylaşım & Baskı Merkezi</div>
         <button class="btn-comm btn-wp" onclick="shareOnWhatsApp()">📲 WHATSAPP'TA PAYLAŞ (Dosya)</button>
         <button class="btn-comm btn-print" onclick="printCanvas()">🖨️ YAZDIR (A4 OTOMATİK)</button>
-        <button class="btn-comm btn-download-high" onclick="download()">💾 JPG OLARAK KAYDET</button>
+        <button class="btn-comm btn-download-main" onclick="download()">💾 JPG OLARAK KAYDET</button>
         <div style="height:50px"></div>
     </div>
 
@@ -203,21 +206,26 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box" id="footerModal" style="display:none;">
-        <div class="modal-header"><span>🏢 Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
-        <div class="modal-body">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+        <div style="background:#2c3e50; color:white; padding:15px; font-weight:bold; display:flex; justify-content:space-between;"><span>🏢 Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div style="padding:25px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div>
                     <label style="font-weight:bold; font-size:11px;">👤 DANIŞMAN</label>
                     <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
                     <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
                     <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
-                    <input type="file" onchange="loadAgentImg(this)" style="font-size:10px;">
+                    <input type="file" onchange="loadAgentImg(this)" style="font-size:10px; margin-top:5px;">
                 </div>
                 <div>
-                    <label style="font-weight:bold; font-size:11px;">📋 ÖZELLİKLER</label>
-                    <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
-                    <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
-                    <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
+                    <label style="font-weight:bold; font-size:11px;">📋 ÖZELLİKLER (6 ADET)</label>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+                        <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;">
+                        <input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
+                        <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;">
+                        <input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
+                        <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;">
+                        <input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
+                    </div>
                 </div>
             </div>
             <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:20px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
@@ -233,8 +241,9 @@
         format: 'post', activeImgKey: 'main', projectName: "Yeni İlan",
         imgs: { 
             main: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
-            sub1: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, sub2: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"},
-            logo1: {obj:null, src:null, x:90, y:5, size:15, fileName: "Seçilmedi"} 
+            sub1: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, sub2: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
+            sub3: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, sub4: {obj:null, src:null, x:50, y:50, fileName: "Seçilmedi"}, 
+            logo1: {obj:null, src:null, x:10, y:5, size:15, fileName: "Seçilmedi"}, logo2: {obj:null, src:null, x:50, y:5, size:15, fileName: "Seçilmedi"}, logo3: {obj:null, src:null, x:90, y:5, size:15, fileName: "Seçilmedi"} 
         },
         footer: { mode: 'simple', agentImg: null, agentImgSrc: null },
         gallery: { w: 95, h: 25, x: 50, y: 70 },
@@ -244,9 +253,16 @@
     let history = [];
     function saveState() {
         const snap = JSON.stringify({
-            texts: JSON.parse(JSON.stringify(state.texts)),
+            format: state.format, gallery: {...state.gallery}, texts: state.texts,
             imgs: Object.keys(state.imgs).reduce((acc, k) => { acc[k] = {...state.imgs[k], obj:null}; return acc; }, {}),
-            gallery: {...state.gallery}, format: state.format
+            dom: {
+                showHeader: document.getElementById('showHeader').checked, headerText: document.getElementById('headerText').value, 
+                headerH: document.getElementById('headerHeight').value, headerF: document.getElementById('headerFont').value,
+                showFooter: document.getElementById('showFooter').checked, footerTel: document.getElementById('footerTel').value,
+                footerWeb: document.getElementById('footerWeb').value, footerH: document.getElementById('footerHeight').value,
+                agentN: document.getElementById('agentName').value, agentT: document.getElementById('agentTitle').value,
+                feats: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value)
+            }
         });
         history.push(snap); if(history.length > 20) history.shift();
     }
@@ -254,7 +270,13 @@
     function undo() {
         if(history.length === 0) return;
         const last = JSON.parse(history.pop());
-        state.texts = last.texts; state.gallery = last.gallery; state.format = last.format;
+        state.format = last.format; state.gallery = last.gallery; state.texts = last.texts;
+        const d = last.dom;
+        document.getElementById('showHeader').checked = d.showHeader; document.getElementById('headerText').value = d.headerText;
+        document.getElementById('headerHeight').value = d.headerH;
+        document.getElementById('showFooter').checked = d.showFooter; document.getElementById('footerTel').value = d.footerTel;
+        document.getElementById('agentName').value = d.agentN;
+        d.feats.forEach((f,i)=> { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value=f; });
         for(let k in state.imgs) {
             state.imgs[k].x = last.imgs[k].x; state.imgs[k].y = last.imgs[k].y;
             state.imgs[k].fileName = last.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = state.imgs[k].fileName;
@@ -302,16 +324,18 @@
             }
         }
 
-        // Galeri
-        const subs = [state.imgs.sub1, state.imgs.sub2].filter(i=>i.obj);
+        // Galeri (Dinamik)
+        const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         if (subs.length > 0) {
             const gw = canvas.width * (state.gallery.w/100), gh = canvas.height * (state.gallery.h/100);
             const gx = (canvas.width-gw)*(state.gallery.x/100), gy = (canvas.height-gh)*(state.gallery.y/100);
             ctx.fillStyle="rgba(0,0,0,0.5)"; ctx.fillRect(gx-10, gy-10, gw+20, gh+20);
-            subs.forEach((img, i)=>{ const cw = gw/subs.length - 10; drawCr(ctx, img, gx + i*(cw+10), gy, cw, gh); });
+            const gap=15; let cols = gw > gh ? subs.length : 2; let rows = Math.ceil(subs.length/cols);
+            const cw = (gw - (cols-1)*gap)/cols, ch = (gh - (rows-1)*gap)/rows;
+            subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); drawCr(ctx, img, gx+c*(cw+gap), gy+r*(ch+gap), cw, ch); });
         }
 
-        // --- ULTRA EFEKT MOTORU ---
+        // --- ULTRA EFEKT MOTORU (V37) ---
         state.texts.forEach(t => {
             ctx.save();
             const tx = canvas.width * (t.x / 100); const ty = canvas.height * (t.y / 100);
@@ -319,27 +343,39 @@
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
 
             if (t.effect === 'lightsaber') {
+                // ULTRA IŞIN KILICI: 3 Katmanlı Aura (40-60-80) + Beyaz Kor
                 ctx.shadowColor = t.color;
                 [40, 60, 80].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); });
-                ctx.lineWidth = 2; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty);
+                ctx.lineWidth = 2.5; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty);
             } else if (t.effect === 'neon') {
                 ctx.shadowColor = t.color; ctx.shadowBlur = 40; ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'fire') {
-                ctx.shadowColor = "#ff4500"; ctx.shadowBlur = 40; ctx.fillStyle = "#f1c40f"; ctx.fillText(t.text, tx, ty);
             } else if (t.effect === 'stars') {
-                ctx.fillStyle = "#ffffff"; for(let i=0; i<10; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*200, ty+(Math.random()-0.5)*100, 2, 0, Math.PI*2); ctx.fill(); }
+                ctx.fillStyle = "#ffffff"; for(let i=0; i<12; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*300, ty+(Math.random()-0.5)*150, 2, 0, Math.PI*2); ctx.fill(); }
             } else {
                 ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4;
             }
             ctx.fillStyle = t.color; ctx.fillText(t.text, tx, ty); ctx.restore();
         });
 
-        if(state.imgs.logo1.obj) { const lw=canvas.width*(state.imgs.logo1.size/100); ctx.drawImage(state.imgs.logo1.obj, (canvas.width-lw)*(state.imgs.logo1.x/100), canvas.height*0.05, lw, lw*(state.imgs.logo1.obj.height/state.imgs.logo1.obj.width)); }
+        ['logo1','logo2','logo3'].forEach(k=>{ if(state.imgs[k].obj){ const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height*0.05)*(state.imgs[k].y/5), lw, lw*(i.height/i.width)); } });
     }
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    // Metin İşlemleri
+    // Paylaşım & Çıktı (WhatsApp & Print)
+    async function shareOnWhatsApp() {
+        try {
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
+            const file = new File([blob], state.projectName + '.jpg', { type: 'image/jpeg' });
+            if (navigator.share) {
+                await navigator.share({ files: [file], title: state.projectName, text: 'Yeni Gayrimenkul İlanı' });
+            } else { alert("Sistem paylaşımı bu tarayıcıda desteklenmiyor."); }
+        } catch (e) { console.error('Paylaşım hatası:', e); }
+    }
+    function printCanvas(){ window.print(); }
+    function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
+
+    // Metin Düzenleme (Update/Edit Stabilize)
     function handleTextAction(){
         const v=document.getElementById('tTxt').value; if(!v) return;
         saveState();
@@ -359,27 +395,14 @@
     function renderLayerList(){ const l=document.getElementById('layerList'); l.innerHTML=''; state.texts.forEach(t=>{ const row=document.createElement('div'); row.className=`layer-row ${t.id===state.editingId?'selected':''}`; row.onclick=()=>loadTextToEdit(t.id); row.innerHTML=`<span style="flex:1">${t.text}</span><button style="background:red; color:white; border:none; border-radius:3px; cursor:pointer;" onclick="delTx(${t.id},event)">✖</button>`; l.appendChild(row); }); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
 
-    // Paylaşım & Çıktı
-    async function shareOnWhatsApp() {
-        try {
-            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
-            const file = new File([blob], state.projectName + '.jpg', { type: 'image/jpeg' });
-            if (navigator.share) {
-                await navigator.share({ files: [file], title: state.projectName, text: 'Yeni İlan Detayı' });
-            } else { alert("Sistem paylaşımı desteklenmiyor."); }
-        } catch (e) { console.error(e); }
-    }
-    function printCanvas(){ window.print(); }
-    function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
-
-    // V30 Miras Fonksiyonlar
-    function selectActiveImg(k){ state.activeImgKey=k; document.querySelectorAll('.img-item').forEach(e=>e.classList.remove('active')); document.getElementById('item-'+k).classList.add('active'); }
+    // Görsel & Format
+    function selectActiveImg(k){ state.activeImgKey=k; document.querySelectorAll('.img-item').forEach(e=>e.classList.remove('active')); document.getElementById('item-'+k).classList.add('active'); if(k.startsWith('logo')){ document.getElementById('masterSizeRow').style.display='flex'; document.getElementById('masterSize').value=state.imgs[k].size; } else { document.getElementById('masterSizeRow').style.display='none'; } }
     function loadImg(inp,k){ if(inp.files[0]){ saveState(); const fName=inp.files[0].name; state.imgs[k].fileName=fName; document.getElementById('name-'+k).innerText=fName; const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.src=e.target.result; i.onload=()=>{state.imgs[k].obj=i; state.imgs[k].src=e.target.result; draw();}; }; r.readAsDataURL(inp.files[0]); } }
-    function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName="Seçilmedi"; document.getElementById('name-'+k).innerText="Seçilmedi"; draw(); }
+    function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName="Seçilmedi"; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText="Seçilmedi"; draw(); }
     function updateMasterPos(a,v){ state.imgs[state.activeImgKey][a]=v; draw(); }
     function updateGal(a,v){ state.gallery[a]=parseInt(v); draw(); }
     function setFormat(f){ state.format=f; draw(); document.getElementById('btn-post').className=f==='post'?'btn-toggle active':'btn-toggle'; document.getElementById('btn-story').className=f==='story'?'btn-toggle active':'btn-toggle'; }
-    function setLayout(m){ if(m==='bottom') state.gallery={w:95,h:25,x:50,y:70}; else state.gallery={w:25,h:80,x:85,y:50}; draw(); }
+    function setLayout(m){ saveState(); if(m==='bottom') state.gallery={w:95,h:25,x:50,y:70}; else state.gallery={w:25,h:80,x:85,y:50}; draw(); }
     function setFooterMode(m){ state.footer.mode=m; document.getElementById('fModeSimple').className=m==='simple'?'f-mode-btn active':'f-mode-btn'; document.getElementById('fModeVitrin').className=m==='vitrin'?'f-mode-btn active':'f-mode-btn'; document.getElementById('simpleFooterSettings').style.display=m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display=m==='vitrin'?'block':'none'; draw(); }
     function toggleFooterModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; }
     function closeAllModals(){ document.getElementById('modalOverlay').style.display='none'; }
@@ -387,8 +410,8 @@
     function resetProject(){ if(confirm('Sıfırlansın mı?')) location.reload(); }
 
     function saveProject() {
-        const data = { texts: state.texts, imgs: {}, gallery: state.gallery, format: state.format };
-        for(let k in state.imgs) if(state.imgs[k].src) data.imgs[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, fileName: state.imgs[k].fileName};
+        const data = { texts: state.texts, imgs: {}, gallery: state.gallery, format: state.format, footer: state.footer };
+        for(let k in state.imgs) if(state.imgs[k].src) data.imgs[k] = {src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size, fileName: state.imgs[k].fileName};
         const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = state.projectName + '.json'; a.click();
     }
@@ -400,7 +423,7 @@
             const d = JSON.parse(e.target.result);
             state.texts = d.texts || []; state.gallery = d.gallery || state.gallery; state.format = d.format || 'post';
             for(let k in d.imgs) {
-                state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y;
+                state.imgs[k].x = d.imgs[k].x; state.imgs[k].y = d.imgs[k].y; state.imgs[k].size = d.imgs[k].size || 15;
                 state.imgs[k].fileName = d.imgs[k].fileName || "Bilinmiyor"; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = state.imgs[k].fileName;
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
