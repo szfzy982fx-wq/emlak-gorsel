@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V31 (Visual Effects)</title>
+    <title>Emlak Stüdyosu V32 (Ultra Effects & Share)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -65,6 +65,11 @@
         .layer-row.selected { background: #eaf6ff; border-left: 4px solid #3498db; font-weight: bold; }
         .f-mode-btn { flex:1; background:transparent; border:none; color:#aaa; cursor:pointer; padding:5px; font-size:10px; font-weight:bold; border-radius:3px; }
         .f-mode-btn.active { background:white; color:#333; }
+
+        /* YENİ BUTONLAR */
+        .btn-comm { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 13px; }
+        .btn-wp { background: #25d366; color: white; }
+        .btn-print { background: #34495e; color: white; }
     </style>
 </head>
 <body>
@@ -75,7 +80,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V31 EFFECTS</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V32 ULTRA PRO</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
@@ -107,7 +112,7 @@
         <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
@@ -135,18 +140,6 @@
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub2').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('sub2', event)">✖</button>
             </div>
-            <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
-                <div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Seçilmedi</span></div>
-                <input type="file" id="file-sub3" style="display:none" onchange="loadImg(this, 'sub3')">
-                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub3').click(); event.stopPropagation();">📂</button>
-                <button class="btn-remove-img" onclick="removeImg('sub3', event)">✖</button>
-            </div>
-            <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
-                <div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Seçilmedi</span></div>
-                <input type="file" id="file-sub4" style="display:none" onchange="loadImg(this, 'sub4')">
-                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub4').click(); event.stopPropagation();">📂</button>
-                <button class="btn-remove-img" onclick="removeImg('sub4', event)">✖</button>
-            </div>
             <div class="group-title" style="margin-top:15px; background:#34495e;">LOGOLAR</div>
             <div class="img-item" onclick="selectActiveImg('logo1')" id="item-logo1">
                 <div class="img-label-area"><label>Logo 1</label><span class="file-name-display" id="name-logo1">Seçilmedi</span></div>
@@ -169,7 +162,7 @@
                 <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." onmousedown="saveState()" oninput="draw()">
                 <div class="control-row"><span>Boy</span> <input type="range" id="headerHeight" min="50" max="300" value="80" onmousedown="saveState()" oninput="draw()"></div>
                 <div class="hf-row">
-                    <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option><option value="'Playfair Display'">Lüks</option></select>
+                    <select id="headerFont" class="hf-input" onchange="saveState(); draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option></select>
                     <input type="number" id="headerFontSize" class="hf-input" style="width:40px" value="40" oninput="draw()">
                     <label><input type="checkbox" id="headerItalic" onchange="saveState(); draw()"> /</label>
                 </div>
@@ -197,7 +190,7 @@
             <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:8px; margin-bottom:10px; cursor:pointer; font-weight:bold;">😊 EMOJİ SEÇ</button>
             <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
             
-            <div style="color:#000; font-size:10px; font-weight:bold; margin:10px 0 5px 0;">HIZLI RENK VE EFEKT:</div>
+            <div style="color:#000; font-size:10px; font-weight:bold; margin:10px 0 5px 0;">HIZLI RENK VE ULTRA EFEKT:</div>
             <div class="color-palette">
                 <div class="palette-circle" onclick="setTColor('#f1c40f')" style="background:#f1c40f;"></div>
                 <div class="palette-circle" onclick="setTColor('#003399')" style="background:#003399;"></div>
@@ -205,28 +198,27 @@
                 <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:22px; border:none; background:transparent;">
                 <select id="tEffect" class="hf-input" style="width:auto; height:22px; padding:0; border:1px solid #ddd; font-size:10px;" onchange="draw()">
                     <option value="none">Efekt: Yok</option>
-                    <option value="neon">Neon Işıma</option>
-                    <option value="glow">Altın Parlama</option>
-                    <option value="stars">Yıldız Yağmuru</option>
+                    <option value="lightsaber">🌟 IŞIN KILICI (Ultra)</option>
+                    <option value="neon">💎 Neon Işıma</option>
+                    <option value="fire">🔥 Ateş Parlaması</option>
+                    <option value="stars">✨ Yıldız Yağmuru</option>
                 </select>
             </div>
 
             <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;">
-                    <option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option><option value="'Playfair Display'">Lüks</option>
+                    <option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option>
                 </select>
                 <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px; padding:5px;">
                 <label style="font-size:11px; font-weight:bold; cursor:pointer;"><input type="checkbox" id="tItalic"> /</label>
             </div>
             <button id="btnAction" class="btn-action" style="width:100%; padding:10px; background:#f39c12; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="handleTextAction()">➕ KATMAN EKLE</button>
-            <div id="textPosSettings" style="margin-top:12px; display:none;">
-                <div class="control-row"><span>Yatay</span><input type="range" id="txtX" min="0" max="100" onmousedown="saveState()" oninput="moveText('x', this.value)"></div>
-                <div class="control-row"><span>Dikey</span><input type="range" id="txtY" min="0" max="100" onmousedown="saveState()" oninput="moveText('y', this.value)"></div>
-            </div>
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR (JPG)</button>
+        <button class="btn-comm btn-wp" onclick="shareOnWhatsApp()">📲 WHATSAPP'TA PAYLAŞ</button>
+        <button class="btn-comm btn-print" onclick="printCanvas()">🖨️ YAZDIR (PDF/A4)</button>
+        <button class="btn-download" style="margin-top:10px; background:#2c3e50; width:100%;" onclick="download()">💾 JPG OLARAK KAYDET</button>
         <div style="height:60px"></div>
     </div>
 
@@ -239,7 +231,7 @@
         <div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:26px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:26px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:26px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:26px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:26px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:26px; cursor:pointer">⭐</button><button onclick="ins('💎')" style="font-size:26px; cursor:pointer">💎</button><button onclick="ins('🔑')" style="font-size:26px; cursor:pointer">🔑</button></div></div>
     </div>
     <div class="modal-box" id="footerModal" style="display:none; width:560px;">
-        <div class="modal-header"><span>🏢 Kurumsal Veri Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-header"><span>🏢 Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div class="modal-body">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div>
@@ -331,6 +323,37 @@
         setFooterMode(state.footer.mode); renderLayerList(); draw();
     }
 
+    // WHATSAPP PAYLAŞMA (WEB SHARE API)
+    async function shareOnWhatsApp() {
+        try {
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            const blob = await (await fetch(dataUrl)).blob();
+            const file = new File([blob], 'ilan.jpg', { type: 'image/jpeg' });
+            
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: state.projectName,
+                    text: 'Gayrimenkul İlan Detayları'
+                });
+            } else {
+                alert("Tarayıcınız doğrudan paylaşımı desteklemiyor. Lütfen İndir butonunu kullanın.");
+            }
+        } catch (err) {
+            console.error('Paylaşım hatası:', err);
+        }
+    }
+
+    // YAZDIRMA FONKSİYONU
+    function printCanvas() {
+        const dataUrl = canvas.toDataURL();
+        const windowPrint = window.open('', '');
+        windowPrint.document.write(`<div style="text-align:center;"><img src="${dataUrl}" style="max-width:100%; height:auto;"></div>`);
+        windowPrint.document.close();
+        windowPrint.focus();
+        setTimeout(() => { windowPrint.print(); windowPrint.close(); }, 500);
+    }
+
     function setLayout(mode) {
         saveState();
         if (mode === 'bottom') state.gallery = { w: 95, h: 25, x: 50, y: 70 };
@@ -389,7 +412,7 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap); ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6); drawCr(ctx, img, ix, iy, cw, ch); });
         }
 
-        // --- SERBEST METİN KATMANLARI VE EFEKTLER ---
+        // --- ULTRA EFEKT MOTORU ---
         state.texts.forEach(t => {
             ctx.save();
             const tx = canvas.width * (t.x / 100);
@@ -397,17 +420,25 @@
             ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font}`;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
 
-            if (t.effect === 'neon') {
-                ctx.shadowColor = t.color; ctx.shadowBlur = 30;
+            if (t.effect === 'lightsaber') {
+                // IŞIN KILICI EFEKTİ (3 Katmanlı Aura)
+                ctx.shadowColor = t.color;
+                ctx.shadowBlur = 30; ctx.strokeText(t.text, tx, ty);
+                ctx.shadowBlur = 60; ctx.strokeText(t.text, tx, ty);
+                ctx.shadowBlur = 90; ctx.strokeText(t.text, tx, ty);
+                ctx.lineWidth = 2; ctx.strokeStyle = "#fff"; // Beyaz çekirdek koru
+                ctx.strokeText(t.text, tx, ty);
+            } else if (t.effect === 'neon') {
+                ctx.shadowColor = t.color; ctx.shadowBlur = 40;
                 ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'glow') {
-                ctx.shadowColor = "#f1c40f"; ctx.shadowBlur = 40;
+            } else if (t.effect === 'fire') {
+                ctx.shadowColor = "#ff4500"; ctx.shadowBlur = 50;
+                ctx.fillStyle = "#f1c40f"; ctx.fillText(t.text, tx, ty);
             } else if (t.effect === 'stars') {
                 ctx.fillStyle = "#fff";
-                for(let i=0; i<8; i++) {
-                    const sx = tx + (Math.random()-0.5)*200;
-                    const sy = ty + (Math.random()-0.5)*100;
-                    ctx.beginPath(); ctx.arc(sx, sy, Math.random()*3, 0, Math.PI*2); ctx.fill();
+                for(let i=0; i<12; i++) {
+                    const sx = tx + (Math.random()-0.5)*300; const sy = ty + (Math.random()-0.5)*150;
+                    ctx.beginPath(); ctx.arc(sx, sy, Math.random()*4, 0, Math.PI*2); ctx.fill();
                 }
             } else {
                 ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 8;
@@ -510,6 +541,8 @@
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
             }
+            document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h;
+            document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
             setFormat(state.format); setFooterMode(state.footer.mode); renderLayerList(); draw();
         };
         reader.readAsText(input.files[0]);
