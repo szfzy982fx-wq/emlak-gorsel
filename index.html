@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V42 (Visual FX Master)</title>
+    <title>Emlak Stüdyosu V43 (WP Listing Pro)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -71,15 +71,15 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V42 VISUAL FX</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V43 LISTING PRO</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
-            <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al</button>
+            <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al (Undo)</button>
             <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET (Tüm Bilgiler)</button>
             <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 PROJE YÜKLE (JSON)</button>
-            <button class="btn-action btn-new" onclick="resetProject()">✨ SIFIRLA</button>
+            <button class="btn-action btn-new" onclick="resetProject()">✨ YENİ PROJE / SIFIRLA</button>
             <div class="active-project-name" id="projectNameLabel">Aktif: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
@@ -103,7 +103,7 @@
         <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)"></div>
@@ -131,7 +131,7 @@
 
         <div class="group-title">4. Pro Header (Üst Şerit)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showHeader" onchange="draw()"> Aktif Et</label>
+            <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlığı Aktif Et</label>
             <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." oninput="draw()" style="margin-top:8px;">
             <div class="control-row"><span>Boy</span> <input type="range" id="headerHeight" min="50" max="300" value="80" oninput="draw()"></div>
             <div class="hf-row">
@@ -142,11 +142,13 @@
             <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="draw()"></div>
         </div>
 
-        <div class="group-title">5. Alt Şerit (Footer - Dinamik)</div>
+        <div class="group-title">5. Alt Şerit (Footer - Deep Dynamic)</div>
         <div class="hf-settings">
             <label><input type="checkbox" id="showFooter" checked onchange="draw()"> Footer Aktif</label>
             <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
-            <div class="control-row"><span>Boy (Slider)</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
+            
+            <div class="control-row"><span>Boy (Yükseklik)</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
+
             <div id="simpleFooterSettings">
                 <input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()">
                 <input type="text" id="footerWeb" class="hf-input" placeholder="Web Adresi..." oninput="draw()">
@@ -165,7 +167,7 @@
                     <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:24px; border:none; background:transparent;">
                     <select id="tEffect" class="hf-input" style="width:auto; margin:0;" onchange="draw()">
                         <option value="none">Efekt Yok</option>
-                        <option value="lightsaber">🌟 IŞIN KILICI (Beyaz Kor)</option>
+                        <option value="lightsaber">🌟 IŞIN KILICI (Ultra Glow)</option>
                         <option value="stars">✨ YILDIZ YAĞMURU</option>
                         <option value="gold">🟡 ALTIN YANSIMA</option>
                         <option value="retro">💖 RETRO WAVE</option>
@@ -176,8 +178,7 @@
             </div>
             <div style="display:flex; gap:5px; margin-bottom:10px; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;"><option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px; padding:5px;">
-                <label><input type="checkbox" id="tItalic"> /</label>
+                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; padding:5px; border-radius:4px;">
             </div>
             <button id="btnAction" class="btn-new" style="background:#f39c12; width:100%;" onclick="handleTextAction()">➕ KATMAN EKLE / GÜNCELLE</button>
             <div id="textPosSettings" style="display:none; margin-top:12px; background:#eee; padding:10px; border-radius:6px;">
@@ -188,7 +189,7 @@
         <div id="layerList" class="layer-list"></div>
 
         <div class="group-title">7. Paylaşım & Çıktı Merkezi</div>
-        <button class="btn-comm btn-copy" onclick="copyToClipboard()">📋 GÖRSELİ KOPYALA (WhatsApp Optimizeli)</button>
+        <button class="btn-comm btn-copy" onclick="copyToClipboard()">📋 KOPYALA WP</button>
         <button class="btn-comm btn-print" onclick="printCanvas()">🖨️ YAZDIR (A4 OTOMATİK)</button>
         <button class="btn-comm btn-jpg" onclick="download()">💾 JPG OLARAK KAYDET</button>
         <div style="height:50px"></div>
@@ -203,20 +204,20 @@
         <div style="padding:20px;">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
                 <div>
-                    <label style="font-weight:bold; font-size:11px;">👤 DANIŞMAN</label>
-                    <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
-                    <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
-                    <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
+                    <label style="font-size:11px; font-weight:bold;">👤 DANIŞMAN</label>
+                    <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input" style="border:1px solid #ddd;">
                     <input type="file" onchange="loadAgentImg(this)" style="font-size:10px;">
                 </div>
                 <div>
-                    <label style="font-weight:bold; font-size:11px;">📋 ÖZELLİKLER</label>
+                    <label style="font-size:11px; font-weight:bold;">📋 ÖZELLİKLER</label>
                     <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
                     <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
                     <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
                 </div>
             </div>
-            <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:20px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
+            <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:15px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
         </div>
     </div>
 </div>
@@ -262,7 +263,6 @@
         renderLayerList(); draw();
     }
 
-    // --- FULL SYNC ---
     function saveProject() {
         const data = {
             format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName,
@@ -330,31 +330,19 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); drawCr(ctx, img, gx+c*(cw+gap), gy+r*(ch+gap), cw, ch); });
         }
 
-        // --- ULTRA EFEKT MOTORU (V42 MASTER) ---
+        // --- ULTRA EFEKT ---
         state.texts.forEach(t => {
             ctx.save();
             const tx = canvas.width * (t.x / 100); const ty = canvas.height * (t.y / 100);
             ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font || 'Montserrat'}`;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
-
-            if (t.effect === 'lightsaber') {
-                ctx.shadowColor = t.color; [40, 60, 80].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); });
-                ctx.lineWidth = 3; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'stars') {
-                ctx.fillStyle = "#ffffff"; for(let i=0; i<15; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*350, ty+(Math.random()-0.5)*180, 2.5, 0, Math.PI*2); ctx.fill(); }
-                ctx.shadowColor = t.color; ctx.shadowBlur = 15;
-            } else if (t.effect === 'gold') {
-                ctx.shadowColor = "#000"; ctx.shadowBlur = 5; ctx.strokeStyle = "#f1c40f"; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
-                ctx.strokeStyle = "#fff"; ctx.lineWidth = 1; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'retro') {
-                ctx.shadowColor = "#ff00ff"; ctx.shadowBlur = 20; ctx.strokeStyle = "#00ffff"; ctx.lineWidth = 3; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'neon') {
-                ctx.shadowColor = t.color; ctx.shadowBlur = 40; ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
-            } else if (t.effect === 'ghost') {
-                ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetX = 15; ctx.shadowOffsetY = 15;
-            } else {
-                ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4;
-            }
+            if (t.effect === 'lightsaber') { ctx.shadowColor = t.color; [40, 60, 80].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); }); ctx.lineWidth = 3; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty); }
+            else if (t.effect === 'stars') { ctx.fillStyle = "#ffffff"; for(let i=0; i<15; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*350, ty+(Math.random()-0.5)*180, 2.5, 0, Math.PI*2); ctx.fill(); } ctx.shadowColor = t.color; ctx.shadowBlur = 15; }
+            else if (t.effect === 'gold') { ctx.shadowColor = "#000"; ctx.shadowBlur = 5; ctx.strokeStyle = "#f1c40f"; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty); ctx.strokeStyle = "#fff"; ctx.lineWidth = 1; ctx.strokeText(t.text, tx, ty); }
+            else if (t.effect === 'retro') { ctx.shadowColor = "#ff00ff"; ctx.shadowBlur = 20; ctx.strokeStyle = "#00ffff"; ctx.lineWidth = 3; ctx.strokeText(t.text, tx, ty); }
+            else if (t.effect === 'neon') { ctx.shadowColor = t.color; ctx.shadowBlur = 40; ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty); }
+            else if (t.effect === 'ghost') { ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 30; ctx.shadowOffsetX = 15; ctx.shadowOffsetY = 15; }
+            else { ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4; }
             ctx.fillStyle = t.color; ctx.fillText(t.text, tx, ty); ctx.restore();
         });
 
@@ -363,13 +351,15 @@
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    // --- KOPYALA (WP OPTIMIZELI) ---
+    // --- KOPYALA (WHATSAPP LISTING OPTIMIZED) ---
     async function copyToClipboard() {
         try {
-            const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+            // Saf PNG bloğu oluşturularak sadece 'image/png' formatında panoya yazılır. 
+            // Bu, WP'nin resmi tek bir temiz dosya olarak görüp anında önizleme üretmesini sağlar.
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0));
             const data = [new ClipboardItem({ 'image/png': blob })];
             await navigator.clipboard.write(data);
-            alert("İlan WhatsApp için optimize edilerek kopyalandı! (Tıklamadan tam görünecek)");
+            alert("İlan Panoya Kopyalandı! (WhatsApp Listeleme Optimizeli)");
         } catch (err) { alert("Tarayıcı kopyalamaya izin vermedi."); }
     }
 
