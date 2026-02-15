@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V30 (Dynamic Scale)</title>
+    <title>Emlak Stüdyosu V31 (Visual Effects)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -75,7 +75,7 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V30 DYNAMIC</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V31 EFFECTS</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
@@ -107,7 +107,7 @@
         <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
@@ -196,13 +196,21 @@
         <div class="text-box">
             <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:8px; margin-bottom:10px; cursor:pointer; font-weight:bold;">😊 EMOJİ SEÇ</button>
             <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
-            <div style="color:#000; font-size:10px; font-weight:bold; margin:5px 0;">HIZLI RENK:</div>
+            
+            <div style="color:#000; font-size:10px; font-weight:bold; margin:10px 0 5px 0;">HIZLI RENK VE EFEKT:</div>
             <div class="color-palette">
                 <div class="palette-circle" onclick="setTColor('#f1c40f')" style="background:#f1c40f;"></div>
                 <div class="palette-circle" onclick="setTColor('#003399')" style="background:#003399;"></div>
                 <div class="palette-circle" onclick="setTColor('#ffffff')" style="background:#ffffff;"></div>
                 <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:22px; border:none; background:transparent;">
+                <select id="tEffect" class="hf-input" style="width:auto; height:22px; padding:0; border:1px solid #ddd; font-size:10px;" onchange="draw()">
+                    <option value="none">Efekt: Yok</option>
+                    <option value="neon">Neon Işıma</option>
+                    <option value="glow">Altın Parlama</option>
+                    <option value="stars">Yıldız Yağmuru</option>
+                </select>
             </div>
+
             <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;">
                     <option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option><option value="'Playfair Display'">Lüks</option>
@@ -356,27 +364,16 @@
                 const p=fH*0.1, is=fH*0.7;
                 if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); }
                 
-                // --- DINAMIK ORANTILI FOOTER YAZILARI ---
                 ctx.fillStyle="#fff"; ctx.textAlign="left"; 
-                const nameSize = fH * 0.15;
-                const subSize = fH * 0.10;
-                const featSize = fH * 0.11;
-
-                ctx.font=`bold ${nameSize}px Montserrat`; 
-                ctx.fillText(document.getElementById('agentName').value, p+is+20, fY + fH*0.35);
-                
-                ctx.font=`${subSize}px Montserrat`; 
-                ctx.fillText(document.getElementById('agentTitle').value.toUpperCase(), p+is+20, fY + fH*0.55);
-                
-                ctx.font=`bold ${subSize}px Montserrat`; 
-                ctx.fillText(document.getElementById('agentExtra').value, p+is+20, fY + fH*0.75);
+                const nameSize = fH * 0.15; const subSize = fH * 0.10; const featSize = fH * 0.11;
+                ctx.font=`bold ${nameSize}px Montserrat`; ctx.fillText(document.getElementById('agentName').value, p+is+20, fY + fH*0.35);
+                ctx.font=`${subSize}px Montserrat`; ctx.fillText(document.getElementById('agentTitle').value.toUpperCase(), p+is+20, fY + fH*0.55);
+                ctx.font=`bold ${subSize}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value, p+is+20, fY + fH*0.75);
                 
                 const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value).filter(v=>v);
                 fs.forEach((f,i)=>{ 
                     const col = i % 2, row = Math.floor(i/2); 
-                    const fx = canvas.width*0.58 + (col * (canvas.width*0.2)); 
-                    const fy = fY + (fH*0.15) + (row * (fH*0.25)); 
-                    
+                    const fx = canvas.width*0.58 + (col * (canvas.width*0.2)); const fy = fY + (fH*0.15) + (row * (fH*0.25)); 
                     ctx.fillStyle="#f1c40f"; ctx.font=`bold ${featSize*1.1}px Arial`; ctx.fillText("✓", fx-30, fy + featSize/2); 
                     ctx.fillStyle="#fff"; ctx.font=`bold ${featSize}px Arial`; ctx.fillText(f, fx, fy + featSize/2); 
                 });
@@ -392,15 +389,33 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap); ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6); drawCr(ctx, img, ix, iy, cw, ch); });
         }
 
-        // METİN KATMANLARI (GÖLGE & DERİNLİK MODU)
+        // --- SERBEST METİN KATMANLARI VE EFEKTLER ---
         state.texts.forEach(t => {
             ctx.save();
-            ctx.shadowColor = "rgba(0,0,0,0.85)";
-            ctx.shadowBlur = 8; ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+            const tx = canvas.width * (t.x / 100);
+            const ty = canvas.height * (t.y / 100);
             ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font}`;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
+
+            if (t.effect === 'neon') {
+                ctx.shadowColor = t.color; ctx.shadowBlur = 30;
+                ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
+            } else if (t.effect === 'glow') {
+                ctx.shadowColor = "#f1c40f"; ctx.shadowBlur = 40;
+            } else if (t.effect === 'stars') {
+                ctx.fillStyle = "#fff";
+                for(let i=0; i<8; i++) {
+                    const sx = tx + (Math.random()-0.5)*200;
+                    const sy = ty + (Math.random()-0.5)*100;
+                    ctx.beginPath(); ctx.arc(sx, sy, Math.random()*3, 0, Math.PI*2); ctx.fill();
+                }
+            } else {
+                ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 8;
+                ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+            }
+
             ctx.fillStyle = t.color;
-            ctx.fillText(t.text, canvas.width * (t.x / 100), canvas.height * (t.y / 100));
+            ctx.fillText(t.text, tx, ty);
             ctx.restore();
         });
 
@@ -418,17 +433,17 @@
     function handleTextAction(){ 
         const v=document.getElementById('tTxt').value; if(!v)return; 
         saveState(); 
-        const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value, it=document.getElementById('tItalic').checked;
+        const f=document.getElementById('tFont').value, s=document.getElementById('tSize').value, c=document.getElementById('tColor').value, it=document.getElementById('tItalic').checked, ef=document.getElementById('tEffect').value;
         if(state.editingId!==null){ 
-            const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; t.italic=it;
+            const t=state.texts.find(x=>x.id===state.editingId); t.text=v; t.font=f; t.size=s; t.color=c; t.italic=it; t.effect=ef;
             cancelEdit(); 
         } else { 
-            const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:it, x:50, y:50}); 
+            const id=Date.now(); state.texts.push({id, text:v, font:f, size:s, color:c, italic:it, effect:ef, x:50, y:50}); 
             loadTextToEdit(id); 
         } 
         draw(); renderLayerList(); 
     }
-    function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('tItalic').checked=t.italic; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; renderLayerList(); draw(); }
+    function loadTextToEdit(id){ const t=state.texts.find(x=>x.id===id); state.editingId=id; document.getElementById('tTxt').value=t.text; document.getElementById('tFont').value=t.font; document.getElementById('tSize').value=t.size; document.getElementById('tColor').value=t.color; document.getElementById('tItalic').checked=t.italic; document.getElementById('tEffect').value=t.effect || 'none'; document.getElementById('textPosSettings').style.display='block'; document.getElementById('txtX').value=t.x; document.getElementById('txtY').value=t.y; document.getElementById('btnAction').innerText="GÜNCELLE ✅"; renderLayerList(); draw(); }
     function moveText(a,v){ if(state.editingId){ state.texts.find(x=>x.id===state.editingId)[a]=v; draw(); } }
     function cancelEdit(){ state.editingId=null; document.getElementById('tTxt').value=""; document.getElementById('textPosSettings').style.display='none'; document.getElementById('btnAction').innerText="➕ KATMAN EKLE"; renderLayerList(); draw(); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
@@ -495,8 +510,6 @@
                 state.imgs[k].src = d.imgs[k].src;
                 if(state.imgs[k].src) { const img = new Image(); img.src = state.imgs[k].src; img.onload = () => { state.imgs[k].obj = img; draw(); }; }
             }
-            document.getElementById('galW').value = state.gallery.w; document.getElementById('galH').value = state.gallery.h;
-            document.getElementById('galX').value = state.gallery.x; document.getElementById('galY').value = state.gallery.y;
             setFormat(state.format); setFooterMode(state.footer.mode); renderLayerList(); draw();
         };
         reader.readAsText(input.files[0]);
