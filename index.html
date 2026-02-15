@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V43 (WP Listing Pro)</title>
+    <title>Emlak Stüdyosu V44 (WP Listing Master)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -11,6 +11,7 @@
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
         .sidebar { background: white; padding: 15px; border-right: 3px solid #2c3e50; overflow-y: auto; height: 100%; position: relative; }
         
+        /* Marka Başlık */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
@@ -42,8 +43,9 @@
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 5px; }
         .hf-input { width: 100%; padding: 6px; border: none; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
 
+        /* Paylaşım & Kopyalama */
         .btn-comm { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
-        .btn-copy { background: #3498db; color: white; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3); }
+        .btn-copy { background: #3498db; color: white; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4); }
         .btn-print { background: #34495e; color: white; }
         .btn-jpg { background: #2c3e50; color: #f1c40f; border: 2px solid #f1c40f; }
 
@@ -54,6 +56,7 @@
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; background: white; border: 5px solid #fff; }
 
+        /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; backdrop-filter: blur(5px); }
         .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; width: 560px; z-index: 999; overflow: hidden; }
 
@@ -71,16 +74,16 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V43 LISTING PRO</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V44 INTEGRITY</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
             <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al (Undo)</button>
-            <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET (Tüm Bilgiler)</button>
+            <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET (JSON)</button>
             <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 PROJE YÜKLE (JSON)</button>
             <button class="btn-action btn-new" onclick="resetProject()">✨ YENİ PROJE / SIFIRLA</button>
-            <div class="active-project-name" id="projectNameLabel">Aktif: Yeni İlan</div>
+            <div id="projectNameLabel" style="font-size:10px; color:#27ae60; text-align:center; grid-column:span 2;">Aktif: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
 
@@ -131,7 +134,7 @@
 
         <div class="group-title">4. Pro Header (Üst Şerit)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlığı Aktif Et</label>
+            <label><input type="checkbox" id="showHeader" onchange="draw()"> Aktif Et</label>
             <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." oninput="draw()" style="margin-top:8px;">
             <div class="control-row"><span>Boy</span> <input type="range" id="headerHeight" min="50" max="300" value="80" oninput="draw()"></div>
             <div class="hf-row">
@@ -142,12 +145,12 @@
             <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="draw()"></div>
         </div>
 
-        <div class="group-title">5. Alt Şerit (Footer - Deep Dynamic)</div>
+        <div class="group-title">5. Alt Şerit (Footer - Dinamik)</div>
         <div class="hf-settings">
             <label><input type="checkbox" id="showFooter" checked onchange="draw()"> Footer Aktif</label>
             <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
             
-            <div class="control-row"><span>Boy (Yükseklik)</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
+            <div class="control-row"><span>Boy (Slider)</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
 
             <div id="simpleFooterSettings">
                 <input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()">
@@ -176,9 +179,10 @@
                     </select>
                 </div>
             </div>
-            <div style="display:flex; gap:5px; margin-bottom:10px; align-items:center;">
+            <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;"><option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; padding:5px; border-radius:4px;">
+                <input type="number" id="tSize" value="60" style="width:50px; border:1px solid #ddd; padding:5px; border-radius:4px;">
+                <label><input type="checkbox" id="tItalic"> /</label>
             </div>
             <button id="btnAction" class="btn-new" style="background:#f39c12; width:100%;" onclick="handleTextAction()">➕ KATMAN EKLE / GÜNCELLE</button>
             <div id="textPosSettings" style="display:none; margin-top:12px; background:#eee; padding:10px; border-radius:6px;">
@@ -263,6 +267,7 @@
         renderLayerList(); draw();
     }
 
+    // --- FULL SYNC SAVE / LOAD ---
     function saveProject() {
         const data = {
             format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName,
@@ -295,6 +300,7 @@
         ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (state.imgs.main.obj) drawCr(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
 
+        // Header
         const hH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
         if (hH > 0) {
             ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH); ctx.fillStyle = document.getElementById('headerColor').value;
@@ -302,6 +308,7 @@
             ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, hH/2);
         }
 
+        // Footer (Dinamik Ölçekli)
         const fH = document.getElementById('showFooter').checked ? parseInt(document.getElementById('footerHeight').value) : 0;
         if (fH > 0) {
             const fY = canvas.height - fH; ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, fH);
@@ -321,6 +328,7 @@
             }
         }
 
+        // Galeri
         const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         if (subs.length > 0) {
             const gw = canvas.width * (state.gallery.w/100), gh = canvas.height * (state.gallery.h/100);
@@ -351,21 +359,26 @@
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    // --- KOPYALA (WHATSAPP LISTING OPTIMIZED) ---
+    // --- 📋 KOPYALA WP (GÜÇLENDİRİLMİŞ MOTOR) ---
     async function copyToClipboard() {
         try {
-            // Saf PNG bloğu oluşturularak sadece 'image/png' formatında panoya yazılır. 
-            // Bu, WP'nin resmi tek bir temiz dosya olarak görüp anında önizleme üretmesini sağlar.
-            const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0));
+            // WhatsApp önizlemesi için en garantili yöntem PNG verisini ClipboardItem içinden göndermektir.
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
+            if (!blob) throw new Error("Blob oluşturulamadı.");
+            
             const data = [new ClipboardItem({ 'image/png': blob })];
             await navigator.clipboard.write(data);
-            alert("İlan Panoya Kopyalandı! (WhatsApp Listeleme Optimizeli)");
-        } catch (err) { alert("Tarayıcı kopyalamaya izin vermedi."); }
+            alert("📋 KOPYALA WP: İlan WhatsApp için panoya alındı! Şimdi Ctrl+V yapabilirsiniz.");
+        } catch (err) {
+            console.error("Kopyalama Hatası:", err);
+            alert("Kopyalama başarısız. Tarayıcı izinlerini kontrol edin veya JPG Kaydet butonunu kullanın.");
+        }
     }
 
     function printCanvas(){ window.print(); }
     function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
 
+    // Katman & Metin İşlemleri
     function handleTextAction(){
         const v=document.getElementById('tTxt').value; if(!v) return;
         saveState();
