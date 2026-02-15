@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V28 (Creative Enterprise)</title>
+    <title>Emlak Stüdyosu V29 (Shadow & Palette)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -36,8 +36,6 @@
 
         .img-item { display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; position: relative; margin-bottom: 6px; background: #fff; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 5px solid #3498db; }
-        .img-label-area { flex: 1; overflow: hidden; pointer-events: none; }
-        .img-label-area label { font-size: 11px; font-weight: 800; display: block; color: #2c3e50; }
         .file-name-display { font-size: 10px; color: #3498db; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 3px; font-style: italic; }
         .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; }
 
@@ -53,6 +51,11 @@
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; object-fit: contain; background: white; border: 5px solid #fff; }
         
+        /* RENK PALETİ */
+        .color-palette { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .palette-circle { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(0,0,0,0.1); transition: 0.2s; }
+        .palette-circle:hover { transform: scale(1.2); border-color: #3498db; }
+
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 998; backdrop-filter: blur(4px); }
         .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); z-index: 999; width: 580px; }
         .modal-header { background: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; border-radius: 12px 12px 0 0; }
@@ -73,15 +76,15 @@
             <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
                 <path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M10 70V90H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M90 70V90H70" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/>
             </svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V28 CREATIVE</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V29 SHADOW</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
-            <button class="btn-undo" onclick="undo()">↩ Yaptığım İşlemi Geri Al</button>
+            <button class="btn-undo" onclick="undo()">↩ Geri Al</button>
             <button class="btn-save" onclick="saveProject()">💾 Kaydet</button>
             <button class="btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
-            <button class="btn-new" onclick="resetProject()">✨ YENİ PROJE BAŞLAT</button>
+            <button class="btn-new" onclick="resetProject()">✨ YENİ PROJE</button>
             <div class="active-project-name" id="projectNameLabel">Aktif Proje: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
@@ -96,16 +99,16 @@
             <button class="btn-toggle" style="background:#f1c40f; color:#000;" onclick="setLayout('side')">Dikey Şerit</button>
         </div>
         <div class="hf-settings" style="background: #27ae60;">
-            <div class="control-row"><span>Gen.</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
-            <div class="control-row"><span>Yük.</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
+            <div class="control-row"><span>En</span> <input type="range" id="galW" min="10" max="100" value="95" onmousedown="saveState()" oninput="updateGal('w', this.value)"></div>
+            <div class="control-row"><span>Boy</span> <input type="range" id="galH" min="10" max="80" value="25" onmousedown="saveState()" oninput="updateGal('h', this.value)"></div>
             <div class="control-row"><span>X</span> <input type="range" id="galX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('x', this.value)"></div>
-            <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="70" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
+            <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateGal('y', this.value)"></div>
         </div>
 
         <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" onmousedown="saveState()" oninput="updateMasterPos('y', this.value)"></div>
@@ -116,31 +119,31 @@
 
         <div class="img-selector-list" style="margin-top:10px;">
             <div class="img-item active" onclick="selectActiveImg('main')" id="item-main">
-                <div class="img-label-area"><label>⭐ Ana Vitrin</label><span class="file-name-display" id="name-main">Dosya seçilmedi</span></div>
+                <div class="img-label-area"><label>⭐ Ana Vitrin</label><span class="file-name-display" id="name-main">Seçilmedi</span></div>
                 <input type="file" id="file-main" style="display:none" onchange="loadImg(this, 'main')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-main').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('main', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub1')" id="item-sub1">
-                <div class="img-label-area"><label>Detay 1</label><span class="file-name-display" id="name-sub1">Dosya seçilmedi</span></div>
+                <div class="img-label-area"><label>Detay 1</label><span class="file-name-display" id="name-sub1">Seçilmedi</span></div>
                 <input type="file" id="file-sub1" style="display:none" onchange="loadImg(this, 'sub1')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub1').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('sub1', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub2')" id="item-sub2">
-                <div class="img-label-area"><label>Detay 2</label><span class="file-name-display" id="name-sub2">Dosya seçilmedi</span></div>
+                <div class="img-label-area"><label>Detay 2</label><span class="file-name-display" id="name-sub2">Seçilmedi</span></div>
                 <input type="file" id="file-sub2" style="display:none" onchange="loadImg(this, 'sub2')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub2').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('sub2', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub3')" id="item-sub3">
-                <div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Dosya seçilmedi</span></div>
+                <div class="img-label-area"><label>Detay 3</label><span class="file-name-display" id="name-sub3">Seçilmedi</span></div>
                 <input type="file" id="file-sub3" style="display:none" onchange="loadImg(this, 'sub3')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub3').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('sub3', event)">✖</button>
             </div>
             <div class="img-item" onclick="selectActiveImg('sub4')" id="item-sub4">
-                <div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Dosya seçilmedi</span></div>
+                <div class="img-label-area"><label>Detay 4</label><span class="file-name-display" id="name-sub4">Seçilmedi</span></div>
                 <input type="file" id="file-sub4" style="display:none" onchange="loadImg(this, 'sub4')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-sub4').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('sub4', event)">✖</button>
@@ -157,12 +160,6 @@
                 <input type="file" id="file-logo2" style="display:none" onchange="loadImg(this, 'logo2')">
                 <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-logo2').click(); event.stopPropagation();">📂</button>
                 <button class="btn-remove-img" onclick="removeImg('logo2', event)">✖</button>
-            </div>
-            <div class="img-item" onclick="selectActiveImg('logo3')" id="item-logo3">
-                <div class="img-label-area"><label>Logo 3</label><span class="file-name-display" id="name-logo3">Seçilmedi</span></div>
-                <input type="file" id="file-logo3" style="display:none" onchange="loadImg(this, 'logo3')">
-                <button class="btn-remove-img" style="background:#f1f4f8; color:#333; margin-right:5px;" onclick="document.getElementById('file-logo3').click(); event.stopPropagation();">📂</button>
-                <button class="btn-remove-img" onclick="removeImg('logo3', event)">✖</button>
             </div>
         </div>
 
@@ -200,22 +197,23 @@
         <div class="text-box">
             <button class="btn-emoji-open" onclick="toggleEmojiModal()" style="width:100%; background:#fff; border:1px dashed #ccc; padding:8px; margin-bottom:10px; cursor:pointer; font-weight:bold;">😊 EMOJİ SEÇ</button>
             <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
+            
+            <div style="font-size:10px; font-weight:bold; margin:10px 0 5px 0;">HIZLI PALET VE RENK SEÇİMİ</div>
+            <div class="color-palette">
+                <div class="palette-circle" onclick="setTColor('#f1c40f')" style="background:#f1c40f;"></div>
+                <div class="palette-circle" onclick="setTColor('#003399')" style="background:#003399;"></div>
+                <div class="palette-circle" onclick="setTColor('#ffffff')" style="background:#ffffff;"></div>
+                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:22px; border:none; background:transparent; cursor:pointer;">
+            </div>
+
             <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;">
-                    <option value="'Montserrat'">Modern</option>
-                    <option value="'Bebas Neue'">Bebas (Güçlü)</option>
-                    <option value="'Dancing Script'">El Yazısı</option>
-                    <option value="'Playfair Display'">Lüks</option>
-                    <option value="'Poppins'">Poppins</option>
-                    <option value="'Roboto'">Roboto</option>
-                    <option value="Arial">Arial</option>
+                    <option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option><option value="'Playfair Display'">Lüks</option><option value="'Poppins'">Poppins</option><option value="'Roboto'">Roboto</option>
                 </select>
                 <input type="number" id="tSize" value="60" style="width:45px; border:1px solid #ddd; border-radius:4px; padding:5px;">
-                <input type="color" id="tColor" value="#ffffff" style="width:30px; border:none; background:transparent;">
+                <label style="font-size:11px; font-weight:bold; cursor:pointer;"><input type="checkbox" id="tItalic"> /</label>
             </div>
-            <div style="margin-bottom:10px;">
-                <label style="font-size:11px; font-weight:bold; cursor:pointer;"><input type="checkbox" id="tItalic"> Yatık Yazı (İtalik)</label>
-            </div>
+            
             <button id="btnAction" class="btn-action" style="width:100%; padding:10px; background:#f39c12; color:white; border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="handleTextAction()">➕ KATMAN EKLE</button>
             <div id="textPosSettings" style="margin-top:12px; display:none;">
                 <div class="control-row"><span>Yatay</span><input type="range" id="txtX" min="0" max="100" onmousedown="saveState()" oninput="moveText('x', this.value)"></div>
@@ -224,7 +222,7 @@
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR</button>
+        <button class="btn-download" style="margin-top:20px;" onclick="download()">💾 GÖRSELİ İNDİR (JPG)</button>
         <div style="height:60px"></div>
     </div>
 
@@ -237,7 +235,7 @@
         <div class="modal-body"><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;"><button onclick="ins('🏠')" style="font-size:26px; cursor:pointer">🏠</button><button onclick="ins('📍')" style="font-size:26px; cursor:pointer">📍</button><button onclick="ins('📞')" style="font-size:26px; cursor:pointer">📞</button><button onclick="ins('🔥')" style="font-size:26px; cursor:pointer">🔥</button><button onclick="ins('✅')" style="font-size:26px; cursor:pointer">✅</button><button onclick="ins('⭐')" style="font-size:26px; cursor:pointer">⭐</button><button onclick="ins('💎')" style="font-size:26px; cursor:pointer">💎</button><button onclick="ins('🔑')" style="font-size:26px; cursor:pointer">🔑</button></div></div>
     </div>
     <div class="modal-box" id="footerModal" style="display:none; width:560px;">
-        <div class="modal-header"><span>Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div class="modal-header"><span>Kurumsal Veri Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div class="modal-body">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
                 <div>
@@ -338,6 +336,8 @@
         draw();
     }
 
+    function setTColor(hex) { document.getElementById('tColor').value = hex; draw(); }
+
     function draw() {
         canvas.width = 1080; canvas.height = state.format === 'post' ? 1080 : 1920;
         ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -376,13 +376,17 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); const ix=gx+c*(cw+gap), iy=gy+r*(ch+gap); ctx.fillStyle="#fff"; ctx.fillRect(ix-3, iy-3, cw+6, ch+6); drawCr(ctx, img, ix, iy, cw, ch); });
         }
 
-        // METİN KATMANLARI
+        // METİN KATMANLARI (GÖLGE & DERİNLİK MODELİ)
         state.texts.forEach(t => {
             ctx.save();
+            ctx.shadowColor = "rgba(0,0,0,0.85)"; // Gölge Rengi
+            ctx.shadowBlur = 8;                   // Gölge Yayılımı
+            ctx.shadowOffsetX = 3;                // Gölge Yatay Kayma
+            ctx.shadowOffsetY = 3;                // Gölge Dikey Kayma
+            
             ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font}`;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
             ctx.fillStyle = t.color;
-            ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 10;
             ctx.fillText(t.text, canvas.width * (t.x / 100), canvas.height * (t.y / 100));
             ctx.restore();
         });
