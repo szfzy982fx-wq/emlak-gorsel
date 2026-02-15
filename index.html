@@ -3,33 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V34 (Legacy & Communication Ultimate)</title>
+    <title>Emlak Stüdyosu V35 (Master Enterprise)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
-        
         .sidebar { background: white; padding: 15px; border-right: 3px solid #2c3e50; overflow-y: auto; height: 100%; position: relative; }
         
+        /* Marka */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
         .brand-text span { font-size: 10px; color: #f1c40f; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
-        .group-title { 
-            font-size: 11px; font-weight: 900; color: #ffffff; text-transform: uppercase; 
-            margin: 20px 0 10px 0; background: #2c3e50; padding: 10px 12px; 
-            border-left: 6px solid #f1c40f; border-radius: 0 4px 4px 0;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .group-title { font-size: 11px; font-weight: 900; color: #ffffff; text-transform: uppercase; margin: 20px 0 10px 0; background: #2c3e50; padding: 10px 12px; border-left: 6px solid #f1c40f; border-radius: 0 4px 4px 0; display: flex; justify-content: space-between; align-items: center; }
 
         .project-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .btn-action { border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
+        .btn-action { border: none; padding: 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; text-align: center; }
         .btn-undo { background: #e74c3c; grid-column: span 2; margin-bottom: 5px; }
         .btn-save { background: #2c3e50; }
         .btn-load { background: #34495e; }
         .btn-new { background: #8e44ad; grid-column: span 2; padding: 12px; margin-top: 5px; }
+        .active-project-name { font-size: 10px; color: #27ae60; font-weight: bold; text-align: center; grid-column: span 2; margin-top: 5px; background: #eafaf1; padding: 4px; border-radius: 4px; }
 
         .btn-toggle { flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; cursor: pointer; border-radius: 4px; font-size: 11px; font-weight: bold; text-align: center; }
         .btn-toggle.active { background: #3498db; color: white; border-color: #3498db; }
@@ -37,7 +33,7 @@
         .img-item { display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; position: relative; margin-bottom: 6px; background: #fff; }
         .img-item.active { border-color: #3498db; background: #eaf6ff; border-left: 5px solid #3498db; }
         .file-name-display { font-size: 10px; color: #3498db; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-top: 3px; font-style: italic; }
-        .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-remove-img { background: #ffebeb; color: #e74c3c; border: 1px solid #ffcccc; border-radius: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         .master-controls { background: #2c3e50; color: white; padding: 12px; border-radius: 8px; margin-top: 10px; }
         .control-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
@@ -46,17 +42,10 @@
 
         .hf-settings { background: #34495e; color: white; padding: 12px; border-radius: 8px; font-size: 11px; margin-bottom: 10px; }
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 5px; }
-        .hf-input { width: 100%; padding: 7px; border: none; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
-
-        .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; background: white; border: 5px solid #fff; }
-        
-        /* Renk & Efekt */
-        .color-palette { display: flex; gap: 8px; align-items: center; margin: 10px 0; }
-        .palette-circle { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(0,0,0,0.1); }
+        .hf-input { width: 100%; padding: 8px; border: none; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
 
         /* Paylaşım Butonları */
-        .btn-comm { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .btn-comm { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .btn-wp { background: #25d366; color: white; box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
         .btn-print { background: #34495e; color: white; }
         .btn-jpg { background: #2c3e50; color: #f1c40f; border: 2px solid #f1c40f; }
@@ -65,10 +54,12 @@
         .layer-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 12px; cursor: pointer; }
         .layer-row.selected { background: #eaf6ff; border-left: 4px solid #3498db; }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; backdrop-filter: blur(5px); }
-        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; width: 560px; z-index: 999; overflow: hidden; }
+        .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; background: white; border: 5px solid #fff; }
 
-        /* YAZDIRMA AYARI */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; backdrop-filter: blur(5px); }
+        .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; width: 560px; z-index: 999; }
+
         @media print {
             body * { visibility: hidden; }
             #canvas, #canvas * { visibility: visible; }
@@ -83,7 +74,7 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V34 ULTIMATE</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V35 ENTERPRISE</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
@@ -91,7 +82,7 @@
             <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al (Undo)</button>
             <button class="btn-action btn-save" onclick="saveProject()">💾 Kaydet</button>
             <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 Yükle</button>
-            <button class="btn-action btn-new" onclick="resetProject()">✨ YENİ PROJE / SIFIRLA</button>
+            <button class="btn-action btn-new" onclick="resetProject()">✨ YENİ / SIFIRLA</button>
             <div class="active-project-name" id="projectNameLabel">Aktif Proje: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
@@ -112,10 +103,10 @@
             <div class="control-row"><span>Y</span> <input type="range" id="galY" min="0" max="100" value="70" oninput="updateGal('y', this.value)"></div>
         </div>
 
-        <div class="group-title">3. Görseller & Detaylar</div>
+        <div class="group-title">3. Görseller & Kadraj</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>AYAR</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)"></div>
@@ -133,62 +124,52 @@
             <div class="img-item" onclick="selectActiveImg('logo1')" id="item-logo1"><div style="flex:1"><label style="font-size:11px; font-weight:800;">Logo 1</label><span class="file-name-display" id="name-logo1">Seçilmedi</span></div><input type="file" id="file-logo1" style="display:none" onchange="loadImg(this, 'logo1')"><button class="btn-remove-img" onclick="removeImg('logo1', event)">✖</button></div>
         </div>
 
-        <div class="group-title">4. Pro Header (Üst Şerit)</div>
+        <div class="group-title">4. Header & Footer (V31 Mirası)</div>
         <div class="hf-settings">
-            <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlığı Aktif Et</label>
-            <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." oninput="draw()" style="margin-top:8px;">
-            <div class="control-row"><span>Boy</span> <input type="range" id="headerHeight" min="50" max="300" value="80" oninput="draw()"></div>
+            <label><input type="checkbox" id="showHeader" onchange="draw()"> Başlık Aktif</label>
+            <input type="text" id="headerText" class="hf-input" placeholder="İlan Başlığı..." oninput="draw()" style="margin-top:5px;">
             <div class="hf-row">
                 <select id="headerFont" class="hf-input" onchange="draw()"><option value="'Montserrat'">Modern</option><option value="'Dancing Script'">El Yazısı</option><option value="'Bebas Neue'">Güçlü</option></select>
-                <input type="number" id="headerFontSize" class="hf-input" style="width:45px" value="40" oninput="draw()">
+                <input type="number" id="headerFontSize" class="hf-input" style="width:40px" value="40" oninput="draw()">
                 <label><input type="checkbox" id="headerItalic" onchange="draw()"> /</label>
             </div>
             <div class="hf-row"><span>BG</span> <input type="color" id="headerBg" value="#ffffff" onchange="draw()"> <span>Yazı</span> <input type="color" id="headerColor" value="#003399" onchange="draw()"></div>
-        </div>
-
-        <div class="group-title">5. Alt Şerit (Footer)</div>
-        <div class="hf-settings">
+            <hr style="opacity:0.2;">
             <label><input type="checkbox" id="showFooter" checked onchange="draw()"> Footer Aktif</label>
-            <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
+            <div style="display:flex; gap:5px; margin:5px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
             <div id="simpleFooterSettings"><input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()"></div>
             <div id="vitrinFooterSettings" style="display:none;">
-                <div class="control-row"><span>Boy</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
-                <button onclick="toggleFooterModal()" style="width:100%; padding:10px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ DANIŞMAN & ÖZELLİKLER</button>
+                <button onclick="toggleFooterModal()" style="width:100%; padding:8px; cursor:pointer; background:#e67e22; color:white; border:none; border-radius:4px; font-weight:bold;">✏️ DANIŞMAN & ÖZELLİKLER</button>
             </div>
-            <div class="hf-row" style="margin-top:8px;"><span>Zemin</span> <input type="color" id="footerColor" value="#000000" onchange="draw()"></div>
         </div>
 
-        <div class="group-title">6. Serbest Metin & Katmanlar</div>
-        <div class="text-box">
-            <input type="text" id="tTxt" class="hf-input" placeholder="Yazınızı buraya yazın...">
-            <div style="color:#000; font-size:10px; font-weight:bold;">HIZLI RENK & EFEKT:</div>
-            <div class="color-palette">
-                <div class="palette-circle" onclick="setTColor('#f1c40f')" style="background:#f1c40f;"></div>
-                <div class="palette-circle" onclick="setTColor('#003399')" style="background:#003399;"></div>
-                <div class="palette-circle" onclick="setTColor('#ffffff')" style="background:#ffffff;"></div>
-                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:24px; border:none; background:transparent;">
-                <select id="tEffect" class="hf-input" style="width:auto; margin:0;" onchange="draw()">
-                    <option value="none">Efekt: Yok</option>
+        <div class="group-title">5. Serbest Metin & Ultra Efektler</div>
+        <div class="hf-settings" style="background:#f8f9fa; color:#333; border:1px solid #ddd;">
+            <input type="text" id="tTxt" class="hf-input" placeholder="Metin yazın..." style="background:white; border:1px solid #ddd;">
+            <div style="display:flex; gap:8px; align-items:center; margin:8px 0;">
+                <div style="width:24px; height:24px; border-radius:50%; cursor:pointer; background:#f1c40f;" onclick="setTColor('#f1c40f')"></div>
+                <div style="width:24px; height:24px; border-radius:50%; cursor:pointer; background:#003399;" onclick="setTColor('#003399')"></div>
+                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; border:none; background:transparent;">
+                <select id="tEffect" class="hf-input" style="width:auto; font-size:10px;" onchange="draw()">
+                    <option value="none">Efekt Yok</option>
                     <option value="lightsaber">🌟 IŞIN KILICI</option>
-                    <option value="neon">💎 NEON</option>
+                    <option value="neon">💎 NEON IŞIMA</option>
                     <option value="stars">✨ YILDIZLAR</option>
                 </select>
             </div>
-            <div style="display:flex; gap:5px; align-items:center;">
-                <select id="tFont" class="hf-input" style="flex:2;"><option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option></select>
-                <input type="number" id="tSize" value="60" style="width:50px; border:1px solid #ddd; border-radius:4px; padding:6px;">
-                <label><input type="checkbox" id="tItalic"> /</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="tSize" value="60" style="width:50px; border:1px solid #ddd; padding:5px; border-radius:4px;">
+                <button id="btnAction" class="btn-action" style="background:#f39c12; flex:1;" onclick="handleTextAction()">➕ KATMAN EKLE / DÜZENLE</button>
             </div>
-            <button id="btnAction" class="btn-action" style="background:#f39c12; width:100%; padding:12px;" onclick="handleTextAction()">➕ KATMAN EKLE / GÜNCELLE</button>
-            <div id="textPosSettings" style="margin-top:10px; display:none; background:#eee; padding:10px; border-radius:6px;">
-                <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" style="width:100%"><br>
+            <div id="textPosSettings" style="display:none; margin-top:8px;">
+                <input type="range" id="txtX" min="0" max="100" oninput="moveText('x', this.value)" style="width:100%">
                 <input type="range" id="txtY" min="0" max="100" oninput="moveText('y', this.value)" style="width:100%">
             </div>
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <div class="group-title">7. Paylaşım & Çıktı</div>
-        <button class="btn-comm btn-wp" onclick="shareOnWhatsApp()">📲 WHATSAPP'TA PAYLAŞ</button>
+        <div class="group-title">6. Paylaşım & Baskı</div>
+        <button class="btn-comm btn-wp" onclick="shareOnWhatsApp()">📲 WHATSAPP'TA PAYLAŞ (Dosya)</button>
         <button class="btn-comm btn-print" onclick="printCanvas()">🖨️ YAZDIR (A4 OTOMATİK)</button>
         <button class="btn-comm btn-jpg" onclick="download()">💾 JPG OLARAK KAYDET</button>
         <div style="height:50px"></div>
@@ -204,16 +185,16 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
                 <div>
                     <label style="font-size:11px; font-weight:bold;">👤 DANIŞMAN</label>
-                    <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input">
-                    <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input">
-                    <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input">
+                    <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
+                    <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
+                    <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input" style="border:1px solid #ddd; margin-bottom:5px;">
                     <input type="file" onchange="loadAgentImg(this)" style="font-size:10px;">
                 </div>
                 <div>
                     <label style="font-size:11px; font-weight:bold;">📋 ÖZELLİKLER</label>
-                    <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input">
-                    <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input">
-                    <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input">
+                    <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
                 </div>
             </div>
             <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:15px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
@@ -276,12 +257,12 @@
             ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, hH/2);
         }
 
-        // Footer (Dinamik Ölçekli V30 Formülü)
-        const fH = document.getElementById('showFooter').checked ? (state.footer.mode==='simple' ? 100 : parseInt(document.getElementById('footerHeight').value)) : 0;
+        // Footer (Dinamik Oran - V30 Formülü)
+        const fH = document.getElementById('showFooter').checked ? (state.footer.mode==='simple' ? 120 : parseInt(document.getElementById('footerHeight').value)) : 0;
         if (fH > 0) {
             const fY = canvas.height - fH; ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, fH);
             if (state.footer.mode === 'simple') {
-                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font="bold 36px Montserrat"; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+fH*0.5);
+                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font="bold 42px Montserrat"; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+fH*0.5);
             } else {
                 const p=fH*0.1, is=fH*0.7;
                 if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); }
@@ -307,20 +288,22 @@
             subs.forEach((img, i)=>{ const cw = gw/subs.length - 10; drawCr(ctx, img, gx + i*(cw+10), gy, cw, gh); });
         }
 
-        // Metin Katmanları & Ultra Efektler
+        // --- ULTRA EFEKT MOTORU (V35) ---
         state.texts.forEach(t => {
             ctx.save();
             const tx = canvas.width * (t.x / 100); const ty = canvas.height * (t.y / 100);
-            ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font}`;
+            ctx.font = `${t.italic ? 'italic ' : ''}bold ${t.size}px ${t.font || 'Montserrat'}`;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
 
             if (t.effect === 'lightsaber') {
-                ctx.shadowColor = t.color; [30, 60, 90].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); });
-                ctx.lineWidth = 3; ctx.strokeStyle = "#fff"; ctx.strokeText(t.text, tx, ty);
+                // IŞIN KILICI: 3 Katmanlı Aura + Beyaz Kor
+                ctx.shadowColor = t.color;
+                [40, 60, 80].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); });
+                ctx.lineWidth = 3; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty);
             } else if (t.effect === 'neon') {
                 ctx.shadowColor = t.color; ctx.shadowBlur = 40; ctx.strokeStyle = t.color; ctx.lineWidth = 4; ctx.strokeText(t.text, tx, ty);
             } else if (t.effect === 'stars') {
-                ctx.fillStyle = "#fff"; for(let i=0; i<10; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*200, ty+(Math.random()-0.5)*100, 2, 0, Math.PI*2); ctx.fill(); }
+                ctx.fillStyle = "#ffffff"; for(let i=0; i<10; i++) { ctx.beginPath(); ctx.arc(tx+(Math.random()-0.5)*200, ty+(Math.random()-0.5)*100, 2, 0, Math.PI*2); ctx.fill(); }
             } else {
                 ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4;
             }
@@ -331,8 +314,8 @@
     }
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
-    
-    // Metin İşlemleri
+
+    // Metin İşlemleri (STABİLİZE EDİLDİ)
     function handleTextAction(){
         const v=document.getElementById('tTxt').value; if(!v) return;
         saveState();
@@ -352,31 +335,32 @@
     function renderLayerList(){ const l=document.getElementById('layerList'); l.innerHTML=''; state.texts.forEach(t=>{ const row=document.createElement('div'); row.className=`layer-row ${t.id===state.editingId?'selected':''}`; row.onclick=()=>loadTextToEdit(t.id); row.innerHTML=`<span style="flex:1">${t.text}</span><button style="background:red; color:white; border:none; border-radius:3px; cursor:pointer;" onclick="delTx(${t.id},event)">✖</button>`; l.appendChild(row); }); }
     function delTx(id,e){ e.stopPropagation(); saveState(); state.texts=state.texts.filter(x=>x.id!==id); if(state.editingId===id)cancelEdit(); renderLayerList(); draw(); }
 
-    // Görsel İşlemleri
-    function selectActiveImg(k){ state.activeImgKey=k; document.querySelectorAll('.img-item').forEach(e=>e.classList.remove('active')); document.getElementById('item-'+k).classList.add('active'); if(k==='logo1') { document.getElementById('masterX').value=state.imgs.logo1.x; } }
+    // Paylaşım & Çıktı (V35)
+    async function shareOnWhatsApp() {
+        try {
+            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
+            const file = new File([blob], state.projectName + '.jpg', { type: 'image/jpeg' });
+            if (navigator.share) {
+                await navigator.share({ files: [file], title: state.projectName, text: 'Yeni İlan Detayı' });
+            } else { alert("Bu tarayıcı sistem paylaşımını desteklemiyor."); }
+        } catch (e) { console.error('Paylaşım hatası:', e); }
+    }
+    function printCanvas(){ window.print(); }
+    function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
+
+    // Görsel & Format
+    function selectActiveImg(k){ state.activeImgKey=k; document.querySelectorAll('.img-item').forEach(e=>e.classList.remove('active')); document.getElementById('item-'+k).classList.add('active'); }
     function loadImg(inp,k){ if(inp.files[0]){ saveState(); const fName=inp.files[0].name; state.imgs[k].fileName=fName; document.getElementById('name-'+k).innerText=fName; const r=new FileReader(); r.onload=e=>{ const i=new Image(); i.src=e.target.result; i.onload=()=>{state.imgs[k].obj=i; state.imgs[k].src=e.target.result; draw();}; }; r.readAsDataURL(inp.files[0]); } }
     function removeImg(k,e){ e.stopPropagation(); saveState(); state.imgs[k].obj=null; state.imgs[k].src=null; state.imgs[k].fileName="Seçilmedi"; document.getElementById('name-'+k).innerText="Seçilmedi"; draw(); }
     function updateMasterPos(a,v){ state.imgs[state.activeImgKey][a]=v; draw(); }
     function updateGal(a,v){ state.gallery[a]=parseInt(v); draw(); }
-
-    // Paylaşım & Çıktı
-    async function shareOnWhatsApp() {
-        try {
-            const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.95));
-            const file = new File([blob], 'ilan.jpg', { type: 'image/jpeg' });
-            if (navigator.share) { await navigator.share({ files: [file], title: state.projectName }); }
-            else { alert("Tarayıcınız paylaşımı desteklemiyor."); }
-        } catch (e) { console.error(e); }
-    }
-    function printCanvas(){ window.print(); }
-    function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
-    function resetProject(){ if(confirm('Sıfırlansın mı?')) location.reload(); }
     function setFormat(f){ state.format=f; draw(); document.getElementById('btn-post').className=f==='post'?'btn-toggle active':'btn-toggle'; document.getElementById('btn-story').className=f==='story'?'btn-toggle active':'btn-toggle'; }
     function setLayout(m){ if(m==='bottom') state.gallery={w:95,h:25,x:50,y:70}; else state.gallery={w:25,h:80,x:85,y:50}; draw(); }
     function setFooterMode(m){ state.footer.mode=m; document.getElementById('fModeSimple').className=m==='simple'?'f-mode-btn active':'f-mode-btn'; document.getElementById('fModeVitrin').className=m==='vitrin'?'f-mode-btn active':'f-mode-btn'; document.getElementById('simpleFooterSettings').style.display=m==='simple'?'block':'none'; document.getElementById('vitrinFooterSettings').style.display=m==='vitrin'?'block':'none'; draw(); }
     function toggleFooterModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; }
     function closeAllModals(){ document.getElementById('modalOverlay').style.display='none'; }
     function loadAgentImg(i){ if(i.files[0]){ const r=new FileReader(); r.onload=e=>{ const img=new Image(); img.src=e.target.result; img.onload=()=>{state.footer.agentImg=img; state.footer.agentImgSrc=e.target.result; draw();}; }; r.readAsDataURL(i.files[0]); } }
+    function resetProject(){ if(confirm('Sıfırlansın mı?')) location.reload(); }
 
     function saveProject() {
         const data = { texts: state.texts, imgs: {}, gallery: state.gallery, format: state.format };
