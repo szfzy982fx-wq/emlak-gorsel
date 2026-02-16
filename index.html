@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V47 (Deep Sync & Integrity)</title>
+    <title>Emlak Stüdyosu V48 (Final Restore)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
@@ -50,7 +49,7 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V47 DEEP SYNC</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V48 FINAL RESTORE</span></div>
         </div>
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
@@ -155,7 +154,6 @@
     function saveState() { const snap = JSON.stringify({ texts: JSON.parse(JSON.stringify(state.texts)), imgs: Object.keys(state.imgs).reduce((acc, k) => { acc[k] = {...state.imgs[k], obj:null}; return acc; }, {}), gallery: {...state.gallery}, format: state.format }); history.push(snap); if(history.length > 20) history.shift(); }
     function undo() { if(history.length === 0) return; const last = JSON.parse(history.pop()); state.texts = last.texts; state.gallery = last.gallery; state.format = last.format; for(let k in state.imgs) { state.imgs[k].x = last.imgs[k].x; state.imgs[k].y = last.imgs[k].y; state.imgs[k].size = last.imgs[k].size; state.imgs[k].fileName = last.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = state.imgs[k].fileName; if(last.imgs[k].src !== state.imgs[k].src) { state.imgs[k].src = last.imgs[k].src; if(state.imgs[k].src) { const i=new Image(); i.src=state.imgs[k].src; i.onload=()=>{state.imgs[k].obj=i; draw();}; } else state.imgs[k].obj=null; } } renderLayerList(); draw(); }
 
-    // --- DEEP SYNC YEDEKLEME SİSTEMİ ---
     function saveProject() {
         const data = {
             format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName,
@@ -170,13 +168,13 @@
     function loadProject(input) {
         if(!input.files[0]) return;
         const reader = new FileReader(); reader.onload = (e) => {
+            resetProject(false); // Önce temizle ama onay sorma
             const d = JSON.parse(e.target.result); state.texts = d.texts || []; state.gallery = d.gallery || state.gallery; state.format = d.format || 'post';
             // Header Sync
             if(d.header){ document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text; document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerFont').value = d.header.f; document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c; document.getElementById('headerItalic').checked = d.header.i; }
             // Footer Sync
             if(d.footer){ document.getElementById('showFooter').checked = d.footer.show; setFooterMode(d.footer.mode); document.getElementById('footerHeight').value = d.footer.h; document.getElementById('footerTel').value = d.footer.tel || ""; document.getElementById('footerWeb').value = d.footer.web || ""; document.getElementById('agentName').value = d.footer.name || ""; document.getElementById('agentTitle').value = d.footer.title || ""; document.getElementById('agentExtra').value = d.footer.extra || ""; document.getElementById('footerColor').value = d.footer.c; if(d.footer.feats) d.footer.feats.forEach((v,i)=> { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = v; }); if(d.footer.agentImgSrc) { state.footer.agentImgSrc = d.footer.agentImgSrc; const i=new Image(); i.src=d.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } }
             // Images Deep Sync
-            for(let k in state.imgs) { state.imgs[k].obj = null; state.imgs[k].src = null; state.imgs[k].fileName = "Seçilmedi"; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = "Seçilmedi"; }
             for(let k in d.imgs){ state.imgs[k].x=d.imgs[k].x; state.imgs[k].y=d.imgs[k].y; state.imgs[k].size=d.imgs[k].size; state.imgs[k].fileName=d.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText=d.imgs[k].fileName; state.imgs[k].src=d.imgs[k].src; const img=new Image(); img.src=d.imgs[k].src; img.onload=()=>{state.imgs[k].obj=img; draw();}; }
             renderLayerList(); draw();
         }; reader.readAsText(input.files[0]);
@@ -229,10 +227,9 @@
         });
         ['logo1','logo2','logo3'].forEach(k=>{ if(state.imgs[k].obj){ const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height*0.05)*(state.imgs[k].y/5), lw, lw*(i.height/i.width)); } });
     }
-
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    async function copyToClipboard() { try { const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0)); await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); alert("📋 KOPYALA WP: İlan panoya alındı!"); } catch (err) { alert("Hata! JPG Kaydet kullanın."); } }
+    async function copyToClipboard() { try { const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0)); await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); alert("📋 KOPYALA WP: Panoya alındı!"); } catch (err) { alert("Hata! JPG Kaydet kullanın."); } }
     function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
 
     function handleTextAction(){
@@ -260,12 +257,15 @@
     function closeAllModals(){ document.getElementById('modalOverlay').style.display='none'; }
     function loadAgentImg(i){ if(i.files[0]){ const r=new FileReader(); r.onload=e=>{ const img=new Image(); img.src=e.target.result; img.onload=()=>{state.footer.agentImg=img; state.footer.agentImgSrc=e.target.result; draw();}; }; r.readAsDataURL(i.files[0]); } }
     
-    function resetProject(){
-        if(confirm('Tüm projeyi sıfırlamak istiyor musunuz?')){
+    function resetProject(ask = true){
+        if(!ask || confirm('Tüm projeyi sıfırlamak istiyor musunuz?')){
             state = { format: 'post', activeImgKey: 'main', projectName: "Yeni İlan", imgs: { main:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub1:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub2:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub3:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub4:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, logo1:{obj:null,src:null,x:10,y:5,size:15,fileName:"Seçilmedi"}, logo2:{obj:null,src:null,x:50,y:5,size:15,fileName:"Seçilmedi"}, logo3:{obj:null,src:null,x:90,y:5,size:15,fileName:"Seçilmedi"} }, footer: { mode: 'simple', agentImg: null, agentImgSrc: null }, gallery: { w: 95, h: 25, x: 50, y: 70 }, texts: [], editingId: null };
             document.querySelectorAll('input[type="text"]').forEach(i=>i.value="");
             document.querySelectorAll('input[type="range"]').forEach(i=>i.value=i.defaultValue);
             document.querySelectorAll('.file-name-display').forEach(s=>s.innerText="Seçilmedi");
+            document.getElementById('footerColor').value = "#000000";
+            document.getElementById('headerBg').value = "#ffffff";
+            document.getElementById('headerColor').value = "#003399";
             document.getElementById('showHeader').checked = false;
             document.getElementById('showFooter').checked = true;
             setFooterMode('simple');
