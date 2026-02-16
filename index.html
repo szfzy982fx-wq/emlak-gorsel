@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V46 (Absolute Integrity)</title>
+    <title>Emlak Stüdyosu V47 (Deep Sync & Integrity)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #eef2f5; margin: 0; height: 100vh; overflow: hidden; color: #333; }
@@ -49,14 +50,14 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V46 INTEGRITY</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V47 DEEP SYNC</span></div>
         </div>
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
             <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al</button>
             <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET</button>
             <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 PROJE YÜKLE</button>
-            <button class="btn-action btn-new" onclick="resetProject()">✨ SIFIRLA</button>
+            <button class="btn-action btn-new" onclick="resetProject()">✨ SIFIRLA / YENİ</button>
             <div id="projectNameLabel" style="font-size:10px; color:#27ae60; text-align:center; grid-column:span 2;">Aktif: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
@@ -130,11 +131,11 @@
 
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-box" id="footerModal" style="display:none;">
-        <div style="background:#2c3e50; color:white; padding:15px; font-weight:bold; display:flex; justify-content:space-between;"><span>🏢 Kurumsal Giriş</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
+        <div style="background:#2c3e50; color:white; padding:15px; font-weight:bold; display:flex; justify-content:space-between;"><span>🏢 Kurumsal Bilgi Girişi</span><span onclick="closeAllModals()" style="cursor:pointer">✖</span></div>
         <div style="padding:20px;">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
                 <div><label style="font-size:11px; font-weight:bold;">👤 DANIŞMAN</label><input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input"><input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input"><input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input"><input type="file" onchange="loadAgentImg(this)" style="font-size:10px;"></div>
-                <div><label style="font-size:11px; font-weight:bold;">📋 ÖZELLİKLER</label><input type="text" id="feat1" placeholder="Öz 1" class="hf-input"><input type="text" id="feat2" placeholder="Öz 2" class="hf-input"><input type="text" id="feat3" placeholder="Öz 3" class="hf-input"><input type="text" id="feat4" placeholder="Öz 4" class="hf-input"><input type="text" id="feat5" placeholder="Öz 5" class="hf-input"><input type="text" id="feat6" placeholder="Öz 6" class="hf-input"></div>
+                <div><label style="font-size:11px; font-weight:bold;">📋 ÖZELLİKLER</label><input type="text" id="feat1" placeholder="Özellik 1" class="hf-input"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input"><input type="text" id="feat3" placeholder="Özellik 3" class="hf-input"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input"><input type="text" id="feat5" placeholder="Özellik 5" class="hf-input"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input"></div>
             </div>
             <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:15px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
         </div>
@@ -150,20 +151,31 @@
         footer: { mode: 'simple', agentImg: null, agentImgSrc: null }, gallery: { w: 95, h: 25, x: 50, y: 70 }, texts: [], editingId: null
     };
     let history = [];
+
     function saveState() { const snap = JSON.stringify({ texts: JSON.parse(JSON.stringify(state.texts)), imgs: Object.keys(state.imgs).reduce((acc, k) => { acc[k] = {...state.imgs[k], obj:null}; return acc; }, {}), gallery: {...state.gallery}, format: state.format }); history.push(snap); if(history.length > 20) history.shift(); }
     function undo() { if(history.length === 0) return; const last = JSON.parse(history.pop()); state.texts = last.texts; state.gallery = last.gallery; state.format = last.format; for(let k in state.imgs) { state.imgs[k].x = last.imgs[k].x; state.imgs[k].y = last.imgs[k].y; state.imgs[k].size = last.imgs[k].size; state.imgs[k].fileName = last.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = state.imgs[k].fileName; if(last.imgs[k].src !== state.imgs[k].src) { state.imgs[k].src = last.imgs[k].src; if(state.imgs[k].src) { const i=new Image(); i.src=state.imgs[k].src; i.onload=()=>{state.imgs[k].obj=i; draw();}; } else state.imgs[k].obj=null; } } renderLayerList(); draw(); }
 
+    // --- DEEP SYNC YEDEKLEME SİSTEMİ ---
     function saveProject() {
-        const data = { format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName, header: { show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, h: document.getElementById('headerHeight').value, fs: document.getElementById('headerFontSize').value, bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value, f: document.getElementById('headerFont').value }, footer: { show: document.getElementById('showFooter').checked, mode: state.footer.mode, h: document.getElementById('footerHeight').value, tel: document.getElementById('footerTel').value, web: document.getElementById('footerWeb').value, name: document.getElementById('agentName').value, title: document.getElementById('agentTitle').value, extra: document.getElementById('agentExtra').value, feats: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value), agentImgSrc: state.footer.agentImgSrc, c: document.getElementById('footerColor').value }, imgs: {} };
+        const data = {
+            format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName,
+            header: { show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, h: document.getElementById('headerHeight').value, fs: document.getElementById('headerFontSize').value, i: document.getElementById('headerItalic').checked, bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value, f: document.getElementById('headerFont').value },
+            footer: { show: document.getElementById('showFooter').checked, mode: state.footer.mode, h: document.getElementById('footerHeight').value, tel: document.getElementById('footerTel').value, web: document.getElementById('footerWeb').value, name: document.getElementById('agentName').value, title: document.getElementById('agentTitle').value, extra: document.getElementById('agentExtra').value, feats: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value), agentImgSrc: state.footer.agentImgSrc, c: document.getElementById('footerColor').value },
+            imgs: {}
+        };
         for(let k in state.imgs) if(state.imgs[k].src) data.imgs[k] = { src: state.imgs[k].src, x: state.imgs[k].x, y: state.imgs[k].y, size: state.imgs[k].size, fileName: state.imgs[k].fileName };
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], {type:'application/json'})); a.download = state.projectName + '.json'; a.click();
     }
+
     function loadProject(input) {
         if(!input.files[0]) return;
         const reader = new FileReader(); reader.onload = (e) => {
             const d = JSON.parse(e.target.result); state.texts = d.texts || []; state.gallery = d.gallery || state.gallery; state.format = d.format || 'post';
-            if(d.header){ document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text; document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerFont').value = d.header.f; document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c; }
+            // Header Sync
+            if(d.header){ document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text; document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerFont').value = d.header.f; document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c; document.getElementById('headerItalic').checked = d.header.i; }
+            // Footer Sync
             if(d.footer){ document.getElementById('showFooter').checked = d.footer.show; setFooterMode(d.footer.mode); document.getElementById('footerHeight').value = d.footer.h; document.getElementById('footerTel').value = d.footer.tel || ""; document.getElementById('footerWeb').value = d.footer.web || ""; document.getElementById('agentName').value = d.footer.name || ""; document.getElementById('agentTitle').value = d.footer.title || ""; document.getElementById('agentExtra').value = d.footer.extra || ""; document.getElementById('footerColor').value = d.footer.c; if(d.footer.feats) d.footer.feats.forEach((v,i)=> { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = v; }); if(d.footer.agentImgSrc) { state.footer.agentImgSrc = d.footer.agentImgSrc; const i=new Image(); i.src=d.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } }
+            // Images Deep Sync
             for(let k in state.imgs) { state.imgs[k].obj = null; state.imgs[k].src = null; state.imgs[k].fileName = "Seçilmedi"; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText = "Seçilmedi"; }
             for(let k in d.imgs){ state.imgs[k].x=d.imgs[k].x; state.imgs[k].y=d.imgs[k].y; state.imgs[k].size=d.imgs[k].size; state.imgs[k].fileName=d.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText=d.imgs[k].fileName; state.imgs[k].src=d.imgs[k].src; const img=new Image(); img.src=d.imgs[k].src; img.onload=()=>{state.imgs[k].obj=img; draw();}; }
             renderLayerList(); draw();
@@ -173,14 +185,31 @@
     function draw() {
         canvas.width = 1080; canvas.height = state.format === 'post' ? 1080 : 1920; ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (state.imgs.main.obj) drawCr(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
+        
         const hH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
-        if (hH > 0) { ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH); ctx.fillStyle = document.getElementById('headerColor').value; ctx.font = `bold ${document.getElementById('headerFontSize').value}px ${document.getElementById('headerFont').value}`; ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value || "", canvas.width/2, hH/2); }
+        if (hH > 0) {
+            ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH); ctx.fillStyle = document.getElementById('headerColor').value;
+            ctx.font = `${document.getElementById('headerItalic').checked?'italic ':''}bold ${document.getElementById('headerFontSize').value}px ${document.getElementById('headerFont').value}`;
+            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value || "", canvas.width/2, hH/2);
+        }
+
         const fH = document.getElementById('showFooter').checked ? parseInt(document.getElementById('footerHeight').value) : 0;
         if (fH > 0) {
             const fY = canvas.height - fH; ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, fH);
-            if (state.footer.mode === 'simple') { ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font=`bold ${fH*0.32}px Montserrat`; ctx.fillText(document.getElementById('footerTel').value || "", canvas.width/2, fY+fH*0.42); ctx.font=`${fH*0.18}px Montserrat`; ctx.fillText(document.getElementById('footerWeb').value || "", canvas.width/2, fY+fH*0.78); }
-            else { const p=fH*0.1, is=fH*0.7; if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); } ctx.fillStyle="#fff"; ctx.textAlign="left"; ctx.font=`bold ${fH*0.15}px Montserrat`; ctx.fillText(document.getElementById('agentName').value || "", p+is+20, fY + fH*0.35); ctx.font=`${fH*0.10}px Montserrat`; ctx.fillText((document.getElementById('agentTitle').value || "").toUpperCase(), p+is+20, fY + fH*0.55); ctx.font=`bold ${fH*0.10}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value || "", p+is+20, fY + fH*0.75); const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value || "").filter(v=>v); fs.forEach((f,i)=>{ const col=i%2, row=Math.floor(i/2), fx=canvas.width*0.58+(col*220), fy=fY+(fH*0.15)+(row*(fH*0.25)); ctx.fillStyle="#f1c40f"; ctx.font=`bold ${fH*0.12}px Arial`; ctx.fillText("✓", fx-30, fy+fH*0.1); ctx.fillStyle="#fff"; ctx.font=`bold ${fH*0.11}px Arial`; ctx.fillText(f, fx, fy+fH*0.1); }); }
+            if (state.footer.mode === 'simple') {
+                ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font=`bold ${fH*0.32}px Montserrat`; ctx.fillText(document.getElementById('footerTel').value || "", canvas.width/2, fY+fH*0.42);
+                ctx.font=`${fH*0.18}px Montserrat`; ctx.fillText(document.getElementById('footerWeb').value || "", canvas.width/2, fY+fH*0.78);
+            } else {
+                const p=fH*0.1, is=fH*0.7;
+                if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); }
+                ctx.fillStyle="#fff"; ctx.textAlign="left"; ctx.font=`bold ${fH*0.15}px Montserrat`; ctx.fillText(document.getElementById('agentName').value || "", p+is+20, fY + fH*0.35);
+                ctx.font=`${fH*0.10}px Montserrat`; ctx.fillText((document.getElementById('agentTitle').value || "").toUpperCase(), p+is+20, fY + fH*0.55);
+                ctx.font=`bold ${fH*0.10}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value || "", p+is+20, fY + fH*0.75);
+                const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value || "").filter(v=>v);
+                fs.forEach((f,i)=>{ const col=i%2, row=Math.floor(i/2), fx=canvas.width*0.58+(col*220), fy=fY+(fH*0.15)+(row*(fH*0.25)); ctx.fillStyle="#f1c40f"; ctx.font=`bold ${fH*0.12}px Arial`; ctx.fillText("✓", fx-30, fy+fH*0.1); ctx.fillStyle="#fff"; ctx.font=`bold ${fH*0.11}px Arial`; ctx.fillText(f, fx, fy+fH*0.1); });
+            }
         }
+
         const subs = [state.imgs.sub1, state.imgs.sub2, state.imgs.sub3, state.imgs.sub4].filter(i=>i.obj);
         if (subs.length > 0) {
             const gw = canvas.width * (state.gallery.w/100), gh = canvas.height * (state.gallery.h/100), gx = (canvas.width-gw)*(state.gallery.x/100), gy = (canvas.height-gh)*(state.gallery.y/100);
@@ -188,6 +217,7 @@
             const gap=15; let cols = gw > gh ? subs.length : 2; let rows = Math.ceil(subs.length/cols); const cw = (gw - (cols-1)*gap)/cols, ch = (gh - (rows-1)*gap)/rows;
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); drawCr(ctx, img, gx+c*(cw+gap), gy+r*(ch+gap), cw, ch); });
         }
+
         state.texts.forEach(t => {
             ctx.save(); const tx = canvas.width * (t.x / 100), ty = canvas.height * (t.y / 100); ctx.font = `bold ${t.size}px ${t.font || 'Montserrat'}`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
             if (t.effect === 'lightsaber') { ctx.shadowColor = t.color; [40, 60, 80].forEach(b => { ctx.shadowBlur = b; ctx.strokeText(t.text, tx, ty); }); ctx.lineWidth = 3; ctx.strokeStyle = "#ffffff"; ctx.strokeText(t.text, tx, ty); }
@@ -199,9 +229,10 @@
         });
         ['logo1','logo2','logo3'].forEach(k=>{ if(state.imgs[k].obj){ const i=state.imgs[k].obj, lw=canvas.width*(state.imgs[k].size/100); ctx.drawImage(i, (canvas.width-lw)*(state.imgs[k].x/100), (canvas.height*0.05)*(state.imgs[k].y/5), lw, lw*(i.height/i.width)); } });
     }
+
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    async function copyToClipboard() { try { const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0)); await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); alert("📋 KOPYALA WP: Panoya alındı!"); } catch (err) { alert("Hata! JPG Kaydet kullanın."); } }
+    async function copyToClipboard() { try { const blob = await new Promise(res => canvas.toBlob(res, 'image/png', 1.0)); await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); alert("📋 KOPYALA WP: İlan panoya alındı!"); } catch (err) { alert("Hata! JPG Kaydet kullanın."); } }
     function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
 
     function handleTextAction(){
@@ -228,7 +259,19 @@
     function toggleFooterModal(){ document.getElementById('modalOverlay').style.display='block'; document.getElementById('footerModal').style.display='block'; }
     function closeAllModals(){ document.getElementById('modalOverlay').style.display='none'; }
     function loadAgentImg(i){ if(i.files[0]){ const r=new FileReader(); r.onload=e=>{ const img=new Image(); img.src=e.target.result; img.onload=()=>{state.footer.agentImg=img; state.footer.agentImgSrc=e.target.result; draw();}; }; r.readAsDataURL(i.files[0]); } }
-    function resetProject(){ if(confirm('Sıfırlansın mı?')) location.reload(); }
+    
+    function resetProject(){
+        if(confirm('Tüm projeyi sıfırlamak istiyor musunuz?')){
+            state = { format: 'post', activeImgKey: 'main', projectName: "Yeni İlan", imgs: { main:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub1:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub2:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub3:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, sub4:{obj:null,src:null,x:50,y:50,fileName:"Seçilmedi"}, logo1:{obj:null,src:null,x:10,y:5,size:15,fileName:"Seçilmedi"}, logo2:{obj:null,src:null,x:50,y:5,size:15,fileName:"Seçilmedi"}, logo3:{obj:null,src:null,x:90,y:5,size:15,fileName:"Seçilmedi"} }, footer: { mode: 'simple', agentImg: null, agentImgSrc: null }, gallery: { w: 95, h: 25, x: 50, y: 70 }, texts: [], editingId: null };
+            document.querySelectorAll('input[type="text"]').forEach(i=>i.value="");
+            document.querySelectorAll('input[type="range"]').forEach(i=>i.value=i.defaultValue);
+            document.querySelectorAll('.file-name-display').forEach(s=>s.innerText="Seçilmedi");
+            document.getElementById('showHeader').checked = false;
+            document.getElementById('showFooter').checked = true;
+            setFooterMode('simple');
+            renderLayerList(); draw();
+        }
+    }
     draw();
 </script>
 </body>
