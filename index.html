@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emlak Stüdyosu V44 (WP Listing Master)</title>
+    <title>Emlak Stüdyosu V45 (Master Sync)</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -11,7 +11,6 @@
         .wrapper { display: grid; grid-template-columns: 380px 1fr; height: 100vh; }
         .sidebar { background: white; padding: 15px; border-right: 3px solid #2c3e50; overflow-y: auto; height: 100%; position: relative; }
         
-        /* Marka Başlık */
         .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
         .brand-logo-svg { width: 44px; height: 44px; }
         .brand-text h1 { margin: 0; font-size: 20px; font-family: 'Montserrat', sans-serif; font-weight: 900; color: #2c3e50; line-height: 1; }
@@ -43,7 +42,6 @@
         .hf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 5px; }
         .hf-input { width: 100%; padding: 6px; border: none; border-radius: 4px; font-size: 12px; box-sizing: border-box; }
 
-        /* Paylaşım & Kopyalama */
         .btn-comm { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
         .btn-copy { background: #3498db; color: white; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4); }
         .btn-print { background: #34495e; color: white; }
@@ -56,7 +54,6 @@
         .canvas-area { background: #5f6c7b; display: flex; align-items: center; justify-content: center; padding: 20px; }
         canvas { box-shadow: 0 25px 60px rgba(0,0,0,0.5); max-width: 100%; max-height: 95vh; background: white; border: 5px solid #fff; }
 
-        /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; backdrop-filter: blur(5px); }
         .modal-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 12px; width: 560px; z-index: 999; overflow: hidden; }
 
@@ -74,15 +71,15 @@
     <div class="sidebar">
         <div class="brand-header">
             <svg class="brand-logo-svg" viewBox="0 0 100 100"><path d="M10 30V10H30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M70 10H90V30" stroke="#2c3e50" stroke-width="8" stroke-linecap="round"/><path d="M50 35L30 50H40V70H60V50H70L50 35Z" fill="#2c3e50"/><circle cx="50" cy="52" r="6" fill="#f1c40f"/></svg>
-            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V44 INTEGRITY</span></div>
+            <div class="brand-text"><h1>EMLAK</h1><h1 style="color:#2c3e50">STÜDYOSU</h1><span>V45 MASTER SYNC</span></div>
         </div>
 
         <div class="group-title">1. Proje Yönetimi</div>
         <div class="project-actions">
-            <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al (Undo)</button>
-            <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET (JSON)</button>
-            <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 PROJE YÜKLE (JSON)</button>
-            <button class="btn-action btn-new" onclick="resetProject()">✨ YENİ PROJE / SIFIRLA</button>
+            <button class="btn-action btn-undo" onclick="undo()">↩ Geri Al</button>
+            <button class="btn-action btn-save" onclick="saveProject()">💾 PROJE KAYDET</button>
+            <button class="btn-action btn-load" onclick="document.getElementById('projectLoader').click()">📂 PROJE YÜKLE</button>
+            <button class="btn-action btn-new" onclick="resetProject()">✨ SIFIRLA</button>
             <div id="projectNameLabel" style="font-size:10px; color:#27ae60; text-align:center; grid-column:span 2;">Aktif: Yeni İlan</div>
             <input type="file" id="projectLoader" accept=".json" style="display:none" onchange="loadProject(this)">
         </div>
@@ -106,7 +103,7 @@
         <div class="group-title">3. Görseller & Detaylar</div>
         <div class="master-controls">
             <div style="font-size:10px; display:flex; justify-content:space-between; margin-bottom:5px;">
-                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ AYARI</span>
+                <span id="activeImgLabel" style="font-weight:900; color:#f1c40f;">Seçili: ANA VİTRİN</span><span>KADRAJ</span>
             </div>
             <div class="control-row"><span>X</span> <input type="range" id="masterX" min="0" max="100" value="50" oninput="updateMasterPos('x', this.value)"></div>
             <div class="control-row"><span>Y</span> <input type="range" id="masterY" min="0" max="100" value="50" oninput="updateMasterPos('y', this.value)"></div>
@@ -149,9 +146,7 @@
         <div class="hf-settings">
             <label><input type="checkbox" id="showFooter" checked onchange="draw()"> Footer Aktif</label>
             <div style="display:flex; gap:5px; margin:8px 0;"><button class="f-mode-btn active" id="fModeSimple" onclick="setFooterMode('simple')">Basit</button><button class="f-mode-btn" id="fModeVitrin" onclick="setFooterMode('vitrin')">Vitrin</button></div>
-            
-            <div class="control-row"><span>Boy (Slider)</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
-
+            <div class="control-row"><span>Boy</span> <input type="range" id="footerHeight" min="100" max="450" value="200" oninput="draw()"></div>
             <div id="simpleFooterSettings">
                 <input type="text" id="footerTel" class="hf-input" placeholder="Telefon..." oninput="draw()">
                 <input type="text" id="footerWeb" class="hf-input" placeholder="Web Adresi..." oninput="draw()">
@@ -166,23 +161,20 @@
         <div class="text-box" style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #ddd;">
             <input type="text" id="tTxt" class="hf-input" style="width:100%; color:#333; background:white; border:1px solid #ddd; padding:8px;" placeholder="Metin yazın...">
             <div class="color-palette" style="margin:10px 0;">
-                <div style="display:flex; gap:8px; align-items:center;">
-                    <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:24px; border:none; background:transparent;">
-                    <select id="tEffect" class="hf-input" style="width:auto; margin:0;" onchange="draw()">
-                        <option value="none">Efekt Yok</option>
-                        <option value="lightsaber">🌟 IŞIN KILICI (Ultra Glow)</option>
-                        <option value="stars">✨ YILDIZ YAĞMURU</option>
-                        <option value="gold">🟡 ALTIN YANSIMA</option>
-                        <option value="retro">💖 RETRO WAVE</option>
-                        <option value="neon">💎 NEON IŞIMA</option>
-                        <option value="ghost">🌫️ HAYALET GÖLGE</option>
-                    </select>
-                </div>
+                <input type="color" id="tColor" value="#ffffff" oninput="draw()" style="width:30px; height:24px; border:none; background:transparent;">
+                <select id="tEffect" class="hf-input" style="width:auto; margin:0;" onchange="draw()">
+                    <option value="none">Efekt Yok</option>
+                    <option value="lightsaber">🌟 IŞIN KILICI</option>
+                    <option value="stars">✨ YILDIZ YAĞMURU</option>
+                    <option value="gold">🟡 ALTIN YANSIMA</option>
+                    <option value="retro">💖 RETRO WAVE</option>
+                    <option value="neon">💎 NEON IŞIMA</option>
+                    <option value="ghost">🌫️ HAYALET GÖLGE</option>
+                </select>
             </div>
             <div style="display:flex; gap:5px; margin:8px 0; align-items:center;">
                 <select id="tFont" class="hf-input" style="background:white; border:1px solid #ddd; flex:2;"><option value="'Montserrat'">Modern</option><option value="'Bebas Neue'">Güçlü</option><option value="'Dancing Script'">El Yazısı</option></select>
                 <input type="number" id="tSize" value="60" style="width:50px; border:1px solid #ddd; padding:5px; border-radius:4px;">
-                <label><input type="checkbox" id="tItalic"> /</label>
             </div>
             <button id="btnAction" class="btn-new" style="background:#f39c12; width:100%;" onclick="handleTextAction()">➕ KATMAN EKLE / GÜNCELLE</button>
             <div id="textPosSettings" style="display:none; margin-top:12px; background:#eee; padding:10px; border-radius:6px;">
@@ -192,7 +184,7 @@
         </div>
         <div id="layerList" class="layer-list"></div>
 
-        <div class="group-title">7. Paylaşım & Çıktı Merkezi</div>
+        <div class="group-title">7. Paylaşım & Çıktı</div>
         <button class="btn-comm btn-copy" onclick="copyToClipboard()">📋 KOPYALA WP</button>
         <button class="btn-comm btn-print" onclick="printCanvas()">🖨️ YAZDIR (A4 OTOMATİK)</button>
         <button class="btn-comm btn-jpg" onclick="download()">💾 JPG OLARAK KAYDET</button>
@@ -212,13 +204,16 @@
                     <input type="text" id="agentName" placeholder="Ad Soyad" class="hf-input" style="border:1px solid #ddd;">
                     <input type="text" id="agentTitle" placeholder="Ünvan" class="hf-input" style="border:1px solid #ddd;">
                     <input type="text" id="agentExtra" placeholder="GSM / Ofis" class="hf-input" style="border:1px solid #ddd;">
-                    <input type="file" onchange="loadAgentImg(this)" style="font-size:10px;">
+                    <input type="file" id="agentImgFile" onchange="loadAgentImg(this)" style="font-size:10px;">
                 </div>
                 <div>
                     <label style="font-size:11px; font-weight:bold;">📋 ÖZELLİKLER</label>
-                    <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
-                    <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
-                    <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;"><input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat1" placeholder="Özellik 1" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat2" placeholder="Özellik 2" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat3" placeholder="Özellik 3" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat4" placeholder="Özellik 4" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat5" placeholder="Özellik 5" class="hf-input" style="border:1px solid #ddd;">
+                    <input type="text" id="feat6" placeholder="Özellik 6" class="hf-input" style="border:1px solid #ddd;">
                 </div>
             </div>
             <button onclick="closeAllModals(); draw();" style="width:100%; margin-top:15px; padding:12px; background:#27ae60; color:white; border:none; border-radius:6px; font-weight:bold; cursor:pointer;">UYGULA VE KAPAT</button>
@@ -267,11 +262,11 @@
         renderLayerList(); draw();
     }
 
-    // --- FULL SYNC SAVE / LOAD ---
+    // --- KESİN YEDEKLEME & YÜKLEME SİSTEMİ ---
     function saveProject() {
         const data = {
             format: state.format, gallery: state.gallery, texts: state.texts, projectName: state.projectName,
-            header: { show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, h: document.getElementById('headerHeight').value, fs: document.getElementById('headerFontSize').value, bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value },
+            header: { show: document.getElementById('showHeader').checked, text: document.getElementById('headerText').value, h: document.getElementById('headerHeight').value, fs: document.getElementById('headerFontSize').value, i: document.getElementById('headerItalic').checked, bg: document.getElementById('headerBg').value, c: document.getElementById('headerColor').value, f: document.getElementById('headerFont').value },
             footer: { show: document.getElementById('showFooter').checked, mode: state.footer.mode, h: document.getElementById('footerHeight').value, tel: document.getElementById('footerTel').value, web: document.getElementById('footerWeb').value, name: document.getElementById('agentName').value, title: document.getElementById('agentTitle').value, extra: document.getElementById('agentExtra').value, feats: [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value), agentImgSrc: state.footer.agentImgSrc, c: document.getElementById('footerColor').value },
             imgs: {}
         };
@@ -287,9 +282,27 @@
         reader.onload = function(e) {
             const d = JSON.parse(e.target.result);
             state.texts = d.texts || []; state.gallery = d.gallery || state.gallery; state.format = d.format || 'post';
-            if(d.header){ document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text; document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFontSize').value = d.header.fs; document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c; }
-            if(d.footer){ document.getElementById('showFooter').checked = d.footer.show; setFooterMode(d.footer.mode); document.getElementById('footerHeight').value = d.footer.h; document.getElementById('footerTel').value = d.footer.tel; document.getElementById('footerWeb').value = d.footer.web; document.getElementById('agentName').value = d.footer.name; document.getElementById('agentTitle').value = d.footer.title; document.getElementById('agentExtra').value = d.footer.extra; d.footer.feats.forEach((v,i)=>{ if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = v; }); if(d.footer.agentImgSrc){ state.footer.agentImgSrc = d.footer.agentImgSrc; const i=new Image(); i.src=d.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; } document.getElementById('footerColor').value = d.footer.c; }
-            for(let k in d.imgs){ state.imgs[k].x=d.imgs[k].x; state.imgs[k].y=d.imgs[k].y; state.imgs[k].size=d.imgs[k].size; state.imgs[k].fileName=d.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText=d.imgs[k].fileName; state.imgs[k].src=d.imgs[k].src; if(state.imgs[k].src){ const img=new Image(); img.src=state.imgs[k].src; img.onload=()=>{state.imgs[k].obj=img; draw();}; } }
+            // UI Populate
+            if(d.header){
+                document.getElementById('showHeader').checked = d.header.show; document.getElementById('headerText').value = d.header.text;
+                document.getElementById('headerHeight').value = d.header.h; document.getElementById('headerFontSize').value = d.header.fs;
+                document.getElementById('headerItalic').checked = d.header.i; document.getElementById('headerFont').value = d.header.f;
+                document.getElementById('headerBg').value = d.header.bg; document.getElementById('headerColor').value = d.header.c;
+            }
+            if(d.footer){
+                document.getElementById('showFooter').checked = d.footer.show; setFooterMode(d.footer.mode);
+                document.getElementById('footerHeight').value = d.footer.h; document.getElementById('footerTel').value = d.footer.tel || "";
+                document.getElementById('footerWeb').value = d.footer.web || ""; document.getElementById('agentName').value = d.footer.name || "";
+                document.getElementById('agentTitle').value = d.footer.title || ""; document.getElementById('agentExtra').value = d.footer.extra || "";
+                document.getElementById('footerColor').value = d.footer.c;
+                if(d.footer.feats) d.footer.feats.forEach((v,i)=> { if(document.getElementById('feat'+(i+1))) document.getElementById('feat'+(i+1)).value = v; });
+                if(d.footer.agentImgSrc) { state.footer.agentImgSrc = d.footer.agentImgSrc; const i=new Image(); i.src=d.footer.agentImgSrc; i.onload=()=>{state.footer.agentImg=i; draw();}; }
+            }
+            for(let k in d.imgs){
+                state.imgs[k].x=d.imgs[k].x; state.imgs[k].y=d.imgs[k].y; state.imgs[k].size=d.imgs[k].size;
+                state.imgs[k].fileName=d.imgs[k].fileName; if(document.getElementById('name-'+k)) document.getElementById('name-'+k).innerText=d.imgs[k].fileName;
+                state.imgs[k].src=d.imgs[k].src; if(state.imgs[k].src){ const img=new Image(); img.src=state.imgs[k].src; img.onload=()=>{state.imgs[k].obj=img; draw();}; }
+            }
             renderLayerList(); draw();
         };
         reader.readAsText(input.files[0]);
@@ -300,30 +313,30 @@
         ctx.fillStyle = "#ecf0f1"; ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (state.imgs.main.obj) drawCr(ctx, state.imgs.main, 0, 0, canvas.width, canvas.height);
 
-        // Header
+        // Pro Header
         const hH = document.getElementById('showHeader').checked ? parseInt(document.getElementById('headerHeight').value) : 0;
         if (hH > 0) {
             ctx.fillStyle = document.getElementById('headerBg').value; ctx.fillRect(0,0,canvas.width,hH); ctx.fillStyle = document.getElementById('headerColor').value;
             ctx.font = `${document.getElementById('headerItalic').checked?'italic ':''}bold ${document.getElementById('headerFontSize').value}px ${document.getElementById('headerFont').value}`;
-            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value, canvas.width/2, hH/2);
+            ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(document.getElementById('headerText').value || "", canvas.width/2, hH/2);
         }
 
-        // Footer (Dinamik Ölçekli)
+        // Footer (Dinamik - undefined Hatası Fixlendi)
         const fH = document.getElementById('showFooter').checked ? parseInt(document.getElementById('footerHeight').value) : 0;
         if (fH > 0) {
             const fY = canvas.height - fH; ctx.fillStyle = document.getElementById('footerColor').value; ctx.fillRect(0, fY, canvas.width, fH);
             if (state.footer.mode === 'simple') {
                 ctx.fillStyle="#fff"; ctx.textAlign="center"; 
-                ctx.font=`bold ${fH*0.32}px Montserrat`; ctx.fillText(document.getElementById('footerTel').value, canvas.width/2, fY+fH*0.42);
-                ctx.font=`${fH*0.18}px Montserrat`; ctx.fillText(document.getElementById('footerWeb').value, canvas.width/2, fY+fH*0.78);
+                ctx.font=`bold ${fH*0.32}px Montserrat`; ctx.fillText(document.getElementById('footerTel').value || "", canvas.width/2, fY+fH*0.42);
+                ctx.font=`${fH*0.18}px Montserrat`; ctx.fillText(document.getElementById('footerWeb').value || "", canvas.width/2, fY+fH*0.78);
             } else {
                 const p=fH*0.1, is=fH*0.7;
                 if(state.footer.agentImg) { ctx.save(); ctx.beginPath(); ctx.arc(p+is/2, fY+fH/2, is/2, 0, Math.PI*2); ctx.clip(); drawCr(ctx, {obj:state.footer.agentImg, x:50, y:50}, p, fY+(fH-is)/2, is, is); ctx.restore(); }
                 ctx.fillStyle="#fff"; ctx.textAlign="left"; 
-                ctx.font=`bold ${fH*0.15}px Montserrat`; ctx.fillText(document.getElementById('agentName').value, p+is+20, fY + fH*0.35);
-                ctx.font=`${fH*0.10}px Montserrat`; ctx.fillText(document.getElementById('agentTitle').value.toUpperCase(), p+is+20, fY + fH*0.55);
-                ctx.font=`bold ${fH*0.10}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value, p+is+20, fY + fH*0.75);
-                const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value).filter(v=>v);
+                ctx.font=`bold ${fH*0.15}px Montserrat`; ctx.fillText(document.getElementById('agentName').value || "", p+is+20, fY + fH*0.35);
+                ctx.font=`${fH*0.10}px Montserrat`; ctx.fillText((document.getElementById('agentTitle').value || "").toUpperCase(), p+is+20, fY + fH*0.55);
+                ctx.font=`bold ${fH*0.10}px Montserrat`; ctx.fillText(document.getElementById('agentExtra').value || "", p+is+20, fY + fH*0.75);
+                const fs = [1,2,3,4,5,6].map(n=>document.getElementById('feat'+n).value || "").filter(v=>v);
                 fs.forEach((f,i)=>{ const col=i%2, row=Math.floor(i/2), fx=canvas.width*0.58+(col*220), fy=fY+(fH*0.15)+(row*(fH*0.25)); ctx.fillStyle="#f1c40f"; ctx.font=`bold ${fH*0.12}px Arial`; ctx.fillText("✓", fx-30, fy+fH*0.1); ctx.fillStyle="#fff"; ctx.font=`bold ${fH*0.11}px Arial`; ctx.fillText(f, fx, fy+fH*0.1); });
             }
         }
@@ -338,7 +351,7 @@
             subs.forEach((img, i)=>{ const c=i%cols, r=Math.floor(i/cols); drawCr(ctx, img, gx+c*(cw+gap), gy+r*(ch+gap), cw, ch); });
         }
 
-        // --- ULTRA EFEKT ---
+        // Ultra Efektler
         state.texts.forEach(t => {
             ctx.save();
             const tx = canvas.width * (t.x / 100); const ty = canvas.height * (t.y / 100);
@@ -359,26 +372,19 @@
 
     function drawCr(c,d,x,y,w,h) { const i=d.obj, rB=w/h, rI=i.width/i.height; let sw,sh,sx,sy; if(rI>rB){sh=i.height; sw=sh*rB;} else {sw=i.width; sh=sw/rB;} sx=(i.width-sw)*(d.x/100); sy=(i.height-sh)*(d.y/100); c.drawImage(i,sx,sy,sw,sh,x,y,w,h); }
 
-    // --- 📋 KOPYALA WP (GÜÇLENDİRİLMİŞ MOTOR) ---
+    // --- 📋 KOPYALA WP (GÜÇLENDİRİLMİŞ PNG BLOĞU) ---
     async function copyToClipboard() {
         try {
-            // WhatsApp önizlemesi için en garantili yöntem PNG verisini ClipboardItem içinden göndermektir.
             const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
-            if (!blob) throw new Error("Blob oluşturulamadı.");
-            
             const data = [new ClipboardItem({ 'image/png': blob })];
             await navigator.clipboard.write(data);
-            alert("📋 KOPYALA WP: İlan WhatsApp için panoya alındı! Şimdi Ctrl+V yapabilirsiniz.");
-        } catch (err) {
-            console.error("Kopyalama Hatası:", err);
-            alert("Kopyalama başarısız. Tarayıcı izinlerini kontrol edin veya JPG Kaydet butonunu kullanın.");
-        }
+            alert("📋 KOPYALA WP: İlan WhatsApp için optimize edilerek panoya alındı!");
+        } catch (err) { alert("Kopyalama başarısız. JPG Kaydet butonunu kullanın."); }
     }
 
     function printCanvas(){ window.print(); }
     function download(){ const a=document.createElement('a'); a.download=state.projectName+'.jpg'; a.href=canvas.toDataURL('image/jpeg',0.95); a.click(); }
 
-    // Katman & Metin İşlemleri
     function handleTextAction(){
         const v=document.getElementById('tTxt').value; if(!v) return;
         saveState();
